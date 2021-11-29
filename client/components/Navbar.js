@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import { logout } from "../store";
 
 const Navbar = ({ handleClick, isLoggedIn }) => (
-  <div>
-    <h1>FS-App-Template</h1>
+  <div className="bg-green-200 flex justify-between h-50">
+    <h1>BooyaTravel</h1>
     <nav>
       {isLoggedIn ? (
         <div>
