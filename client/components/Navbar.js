@@ -4,9 +4,11 @@ import { Link } from "react-router-dom";
 import { logout } from "../store";
 
 const Navbar = ({ handleClick, isLoggedIn }) => (
-  <div className="bg-green-200 flex justify-between h-50">
-    <h1>BooyaTravel</h1>
-    <nav>
+  <div className="bg-green-400 text-white flex items-center justify-between h-16 p-2">
+    <div>
+      <h1>BooyaTravel</h1>
+    </div>
+    <div className="">
       {isLoggedIn ? (
         <div>
           {/* The navbar will show these links after you log in */}
@@ -18,12 +20,18 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
       ) : (
         <div>
           {/* The navbar will show these links before you log in */}
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
+          <Link className="p-2 border-2 rounded-md" to="/itinerary">
+            Itinerary
+          </Link>
+          <Link className="p-2" to="/login">
+            Login
+          </Link>
+          <Link className="p-2" to="/signup">
+            Sign Up
+          </Link>
         </div>
       )}
-    </nav>
-    <hr />
+    </div>
   </div>
 );
 
