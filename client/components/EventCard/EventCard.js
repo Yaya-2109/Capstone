@@ -1,27 +1,25 @@
-import React from 'react';
+import React from "react";
 
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
-const EventCard = () => {
-  let props = {
-    id: 221,
-    name: 'Visit Statue of Liberty',
-    location: 'Liberty Island, New York, NY',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    imageUrl:
-      'https://www.firstbenefits.org/wp-content/uploads/2017/10/placeholder.png',
-  };
-
+const EventCard = (props) => {
   return (
-    <div className='border-2 grid gap-1 grid-cols-6'>
-      <div className='col-span-1'>
-        <img width={'80px'} src={props.imageUrl} />
+    <div className="border-t-0 border-r-2 border-l-2 border-b-2 my-1 grid grid-cols-12 bg-white filter drop-shadow-md">
+      <div className="col-span-2">
+        <img src={props.imageUrl} className="h-full w-full object-cover" />
       </div>
-      <div className='col-span-5'>
-        <p>{props.name}</p>
-        <p>{props.location}</p>
-        <p>{props.description}</p>
+      <div className="col-span-10 mx-3 p-1">
+        <div className="flex space-between">
+          <p className="text-xs font-bold">{props.name}</p>
+          {/* <span>Remove</span> */}
+        </div>
+        <p className="text-xs">{props.location}</p>
+        <p className="text-xs">{props.description}</p>
+
+        <img
+          src={props.attendees}
+          className="mt-4 mb-2 flex rounded-full h-8 w-8"
+        ></img>
       </div>
       <button></button>
     </div>
