@@ -1,13 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
-
+import io from "socket.io-client";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
-
 import Day from "../Day/Day";
 import EventCard from "../EventCard/EventCard";
-
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useState } from "react";
+
+let socket;
+const connection = "localhost:8080/"
+
+
+const sendMessage = () => {
+
+  let messageContent = {
+    content: {
+      author: userName,
+      message: message
+    }
+  }
+
+  socket.emit("send_message", messageContent);
+  setMessageList([...messageList, messageContent.content])
+  setMessage("");
+}
 
 const trips = [
   {
@@ -84,6 +100,19 @@ const unassignedTrips = [
 const Itinerary = () => {
   let [tripList, updateTripList] = useState(trips);
   let [unassigned, updateUnassigned] = useState(unassignedTrips);
+  const [message, setMessage] = useState("");
+  const [messageList, setMessageList] = useState([]);
+  const [userName, setUserName] = useState("Derrick");
+
+  useEffect(() => {
+    socket = io(connection);
+  }, [connection]);
+
+  useEffect(() => {
+    socket.on("receive_message", (data) => {
+      setMessageList([...messageList, data])
+    })
+  })
 
   const tripObj = {
     day1: tripList,
@@ -217,6 +246,17 @@ const Itinerary = () => {
           </div>
         </div>
       </DragDropContext>
+      <div className="message-container">
+      <div className="messages">
+            {messageList.map((val, key) => {
+              return (<h1>{val.author} {val.message}</h1>)
+            })}
+      </div>
+        <div className="messageInputs">
+          <input type="text" className="messageInput" onChange={(e) => setMessage(e.target.value)} />
+            <button onClick={sendMessage} className="send-button">Send</button>
+        </div>
+      </div>
     </>
   );
 };
