@@ -1,19 +1,19 @@
-const Sequelize = require("sequelize");
-const db = require("../db");
+const Sequelize = require('sequelize');
+const db = require('../db');
 
-const Itinerary = db.define("itinerary", {
+const Itinerary = db.define('itinerary', {
   name: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
   },
   startDate: {
     type: Sequelize.DATEONLY,
-    allowNull: false
+    allowNull: false,
   },
   endDate: {
     type: Sequelize.DATEONLY,
-    allowNull: false
+    allowNull: false,
   },
-})
+});
 
-module.exports = Itinerary
+module.exports = Itinerary;
