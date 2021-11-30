@@ -58,46 +58,24 @@ const trips = [
 
 const unassignedTrips = [
   {
-    id: 221,
-    name: "Visit Statue of Liberty",
-    location: "Liberty Island, New York, NY",
+    id: 225,
+    name: "Walk in Central Park",
+    location: "Central Park",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     imageUrl:
-      "https://a.cdn-hotels.com/gdcs/production6/d1738/3c1a71e7-0a73-4810-9935-5c4daea1954e.jpg?impolicy=fcrop&w=800&h=533&q=medium",
+      "https://assets.centralparknyc.org/media/images/_1650x767_crop_center-center_none/Bethesda-Terrace_20190515_002.jpg",
     attendees:
       "https://t3.ftcdn.net/jpg/02/22/85/16/360_F_222851624_jfoMGbJxwRi5AWGdPgXKSABMnzCQo9RN.jpg",
   },
   {
-    id: 222,
-    name: "Visit the Met Museum",
-    location: "5 Museum Mile, New York, NY",
+    id: 226,
+    name: "See Phantom of The Opera",
+    location: "Majestic Theatre",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     imageUrl:
-      "http://www.metmuseum.org/-/media/images/visit/met-fifth-avenue/fifthave_teaser.jpg?sc_lang=en",
-    attendees:
-      "https://t3.ftcdn.net/jpg/02/22/85/16/360_F_222851624_jfoMGbJxwRi5AWGdPgXKSABMnzCQo9RN.jpg",
-  },
-  {
-    id: 223,
-    name: "Visit Freedom Tower",
-    location: "Liberty Island, New York, NY",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    imageUrl:
-      "https://www.nydailynews.com/resizer/EsyO7of502AOt3lM9wrqf4NCYOk=/1200x0/top/arc-anglerfish-arc2-prod-tronc.s3.amazonaws.com/public/SUNBWE47ACEVH67NCDESD2RHJ4.jpg",
-    attendees:
-      "https://t3.ftcdn.net/jpg/02/22/85/16/360_F_222851624_jfoMGbJxwRi5AWGdPgXKSABMnzCQo9RN.jpg",
-  },
-  {
-    id: 224,
-    name: "Have Dinner at Lucalis",
-    location: "5 Evans Street, New York, NY",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    imageUrl:
-      "https://infatuation.imgix.net/media/images/reviews/lucali/TeddyWolff.Lucali.Interiors.16.jpg?auto=format&w=256",
+      "https://static.wikia.nocookie.net/sexypedia/images/f/f8/Phantom.jpg",
     attendees:
       "https://t3.ftcdn.net/jpg/02/22/85/16/360_F_222851624_jfoMGbJxwRi5AWGdPgXKSABMnzCQo9RN.jpg",
   },
