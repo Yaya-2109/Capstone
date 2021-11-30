@@ -2,7 +2,7 @@
 
 const {
   db,
-  models: { User, Events, Itinerary },
+  models: { User, Events, Itinerary, ItineraryEvents },
 } = require("../server/db");
 
 /**
@@ -105,10 +105,32 @@ async function seed() {
   const itinerary = await Promise.all([
     Itinerary.create({
       name: "Codys New York Trip",
-      startDate: "2021-11-30 20:38:11.812 +00:00",
-      endDate: "2021-12-20 20:38:11.812 +00:00",
+      startDate: "2021-11-30 15:39:11.635-05",
+      endDate: "2021-11-30 15:39:11.635-05",
     }),
   ]);
+
+  //Assign Itinerary Events
+  const makeTrip = async () => {
+    try {
+      let codysTrip = await Itinerary.findOne({
+        where: { name: "Codys New York Trip" },
+      });
+
+      await codysTrip.addEvent(1);
+      await codysTrip.addEvent(2);
+      await codysTrip.addEvent(3);
+      await codysTrip.addEvent(4);
+      await codysTrip.addEvent(5);
+      await codysTrip.addEvent(6);
+
+      await codysTrip.addUser(1);
+    } catch (err) {
+      return err;
+    }
+  };
+
+  return makeTrip();
 }
 
 /*
