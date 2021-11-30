@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
 const SALT_ROUNDS = 5;
-//Commented out until UI is updated -JW
+
 const User = db.define("user", {
   username: {
     type: Sequelize.STRING,
@@ -18,28 +18,28 @@ const User = db.define("user", {
       notEmpty: true,
     },
   },
-  // email: {
-  //   type: Sequelize.STRING,
-  //   unique: true,
-  //   allowNull: false,
-  //   validate: {
-  //     notEmpty: true,
-  //     isEmail: {
-  //       msg: "Must be a valid Email!",
-  //     },
-  //   },
-  // },
-  // avatar: {
-  //   type: Sequelize.STRING,
-  // },
-  // firstName: {
-  //   type: Sequelize.STRING,
-  //   allowNull: false,
-  // },
-  // lastName: {
-  //   type: Sequelize.STRING,
-  //   allowNull: false,
-  // },
+  email: {
+    type: Sequelize.STRING,
+    unique: true,
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+      isEmail: {
+        msg: "Must be a valid Email!",
+      },
+    },
+  },
+  avatar: {
+    type: Sequelize.STRING,
+  },
+  firstName: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  lastName: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
 });
 
 module.exports = User;

@@ -3,10 +3,10 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../store";
 
-const Navbar = ({ handleClick, isLoggedIn }) => (
+const Navbar = ({ handleClick, isLoggedIn, person }) => (
   <div className="bg-green-400 text-white flex items-center justify-between h-16 p-2">
     <div>
-      <h1>BooyaTravel</h1>
+      <h1>{person.username ? 'Welcome to BooyaTravel ' + person.username + '!' : 'Welcome to BooyaTravel!'}</h1>
     </div>
     <div className="">
       {isLoggedIn ? (
@@ -15,7 +15,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
           <Link className="p-2 border-2 rounded-md" to="/itinerary">
             Itinerary
           </Link>
-          <Link to="/home">Home</Link>
+          <Link to="/home"> Home </Link>
           <a href="#" onClick={handleClick}>
             Logout
           </a>
@@ -23,7 +23,6 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
       ) : (
         <div>
           {/* The navbar will show these links before you log in */}
-
           <Link className="p-2" to="/login">
             Login
           </Link>
@@ -42,6 +41,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
 const mapState = (state) => {
   return {
     isLoggedIn: !!state.auth.id,
+    person: state.auth,
   };
 };
 
