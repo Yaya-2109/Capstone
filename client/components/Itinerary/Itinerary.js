@@ -9,6 +9,8 @@ import EventCard from "../EventCard/EventCard";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useState } from "react";
 
+//Dummy Data
+
 const trips = [
   {
     id: 1,
