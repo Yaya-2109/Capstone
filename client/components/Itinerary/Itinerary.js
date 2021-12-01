@@ -1,91 +1,27 @@
 import React from "react";
 import { connect } from "react-redux";
-
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
-
 import Day from "../Day/Day";
 import EventCard from "../EventCard/EventCard";
-
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchItinerary } from "../../store/itinerary";
 
 //Dummy Data
-
-const trips = [
-  {
-    id: 1,
-    name: "Visit Statue of Liberty",
-    location: "Liberty Island, New York, NY",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    imageUrl:
-      "https://a.cdn-hotels.com/gdcs/production6/d1738/3c1a71e7-0a73-4810-9935-5c4daea1954e.jpg?impolicy=fcrop&w=800&h=533&q=medium",
-    attendees:
-      "https://t3.ftcdn.net/jpg/02/22/85/16/360_F_222851624_jfoMGbJxwRi5AWGdPgXKSABMnzCQo9RN.jpg",
-  },
-  {
-    id: 2,
-    name: "Visit the Met Museum",
-    location: "5 Museum Mile, New York, NY",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    imageUrl:
-      "http://www.metmuseum.org/-/media/images/visit/met-fifth-avenue/fifthave_teaser.jpg?sc_lang=en",
-    attendees:
-      "https://t3.ftcdn.net/jpg/02/22/85/16/360_F_222851624_jfoMGbJxwRi5AWGdPgXKSABMnzCQo9RN.jpg",
-  },
-  {
-    id: 3,
-    name: "Visit Freedom Tower",
-    location: "Liberty Island, New York, NY",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    imageUrl:
-      "https://www.nydailynews.com/resizer/EsyO7of502AOt3lM9wrqf4NCYOk=/1200x0/top/arc-anglerfish-arc2-prod-tronc.s3.amazonaws.com/public/SUNBWE47ACEVH67NCDESD2RHJ4.jpg",
-    attendees:
-      "https://t3.ftcdn.net/jpg/02/22/85/16/360_F_222851624_jfoMGbJxwRi5AWGdPgXKSABMnzCQo9RN.jpg",
-  },
-  {
-    id: 4,
-    name: "Have Dinner at Lucalis",
-    location: "5 Evans Street, New York, NY",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    imageUrl:
-      "https://infatuation.imgix.net/media/images/reviews/lucali/TeddyWolff.Lucali.Interiors.16.jpg?auto=format&w=256",
-    attendees:
-      "https://t3.ftcdn.net/jpg/02/22/85/16/360_F_222851624_jfoMGbJxwRi5AWGdPgXKSABMnzCQo9RN.jpg",
-  },
-];
-
-const unassignedTrips = [
-  {
-    id: 225,
-    name: "Walk in Central Park",
-    location: "Central Park",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    imageUrl:
-      "https://assets.centralparknyc.org/media/images/_1650x767_crop_center-center_none/Bethesda-Terrace_20190515_002.jpg",
-    attendees:
-      "https://t3.ftcdn.net/jpg/02/22/85/16/360_F_222851624_jfoMGbJxwRi5AWGdPgXKSABMnzCQo9RN.jpg",
-  },
-  {
-    id: 226,
-    name: "See Phantom of The Opera",
-    location: "Majestic Theatre",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    imageUrl:
-      "https://static.wikia.nocookie.net/sexypedia/images/f/f8/Phantom.jpg",
-    attendees:
-      "https://t3.ftcdn.net/jpg/02/22/85/16/360_F_222851624_jfoMGbJxwRi5AWGdPgXKSABMnzCQo9RN.jpg",
-  },
-];
-
+let trips = [];
+let unassignedTrips = [];
 const Itinerary = () => {
-  let [tripList, updateTripList] = useState(trips);
-  let [unassigned, updateUnassigned] = useState(unassignedTrips);
+  const user = useSelector((state) => state.auth);
+  const itinerary = useSelector((state) => state.itinerary);
+
+  let [tripList, updateTripList] = useState(itinerary);
+  let [unassigned, updateUnassigned] = useState([]);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchItinerary(user.id));
+  }, [tripList]);
 
   const tripObj = {
     day1: tripList,
@@ -133,7 +69,7 @@ const Itinerary = () => {
               <Droppable droppableId="day1">
                 {(provided) => (
                   <ul {...provided.droppableProps} ref={provided.innerRef}>
-                    {tripList.map((trip, index) => {
+                    {itinerary.map((trip, index) => {
                       return (
                         <Draggable
                           key={trip.id}
@@ -186,31 +122,32 @@ const Itinerary = () => {
                     ref={provided.innerRef}
                     className="flex flex-row space-even"
                   >
-                    {unassignedTrips.map((trip, index) => {
-                      return (
-                        <Draggable
-                          key={trip.id}
-                          draggableId={String(trip.id)}
-                          index={index}
-                        >
-                          {(provided) => (
-                            <div
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              ref={provided.innerRef}
-                              className="w-1/6 h-12"
-                            >
-                              <EventCard
-                                id={trip.id}
-                                name={trip.name}
-                                location={trip.location}
-                                imageUrl={trip.imageUrl}
-                              />
-                            </div>
-                          )}
-                        </Draggable>
-                      );
-                    })}
+                    {unassignedTrips &&
+                      unassignedTrips.map((trip, index) => {
+                        return (
+                          <Draggable
+                            key={trip.id}
+                            draggableId={String(trip.id)}
+                            index={index}
+                          >
+                            {(provided) => (
+                              <div
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                ref={provided.innerRef}
+                                className="w-1/6 h-12"
+                              >
+                                <EventCard
+                                  id={trip.id}
+                                  name={trip.name}
+                                  location={trip.location}
+                                  imageUrl={trip.imageUrl}
+                                />
+                              </div>
+                            )}
+                          </Draggable>
+                        );
+                      })}
                     {provided.placeholder}
                   </div>
                 )}
