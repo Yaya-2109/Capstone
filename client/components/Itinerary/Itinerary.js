@@ -19,7 +19,7 @@ const Itinerary = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchItinerary(user.id));
+    // dispatch(fetchItinerary(1, user.id));
   }, [tripList]);
 
   const tripObj = {
@@ -70,7 +70,7 @@ const Itinerary = () => {
               <Droppable droppableId="day1">
                 {(provided) => (
                   <ul {...provided.droppableProps} ref={provided.innerRef}>
-                    {itinerary.map((trip, index) => {
+                    {itinerary.events.map((trip, index) => {
                       return (
                         <Draggable
                           key={trip.id}
