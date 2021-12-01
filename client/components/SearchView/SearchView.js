@@ -1,15 +1,17 @@
 import React from 'react'
 import LocationList from '../LocationList/LocationList'
 import Map from '../Map/Map'
+import useStyles from './styles'
 
 const SearchView = () => {
 
+  const classes = useStyles()
+
   return (
-    <>
-    <div>SearchView here</div>
-    <LocationList />
-    <Map />
-    </>
+    <div className={classes.gridContainer}>
+      <LocationList />
+      <Map />
+    </div>
   )
 }
 
