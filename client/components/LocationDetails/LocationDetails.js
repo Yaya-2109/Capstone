@@ -7,7 +7,12 @@ const LocationDetails = ({place}) => {
       <li>
         <p>Name: {place.name}</p>
         <p>Rating: {place.rating}</p>
-        <p>Location: {place.address}</p>
+        {
+          place.address ?
+            <p>Location: {place.address}</p>
+            :
+            <p>Location: {place.location_string}</p>
+        }
       </li>
       <br></br>
     </>

@@ -5,13 +5,12 @@ import useStyles from './styles'
 
 import { setCoords, setBounds } from '../../store/map'
 
-const Map = () => {
+const Map = ({ places }) => {
 
   const classes = useStyles()
   const dispatch = useDispatch()
 
   const coords = useSelector((state) => state.map.coords)
-  const places = useSelector((state) => state.locationList)
   const userCoords = useSelector((state) => state.map.userCoords)
 
   return (
@@ -27,7 +26,7 @@ const Map = () => {
           dispatch(setCoords({ lat: e.center.lat, lng: e.center.lng}))
           dispatch(setBounds({ ne: e.marginBounds.ne, sw: e.marginBounds.sw }))
         }}
-        onChildClick={() => 'hello'}
+        onChildClick={(child) => console.log(child)}
       >
         {places.map((place) => (
           <div

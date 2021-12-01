@@ -6,7 +6,7 @@ const axios = require('axios')
 router.get('/', async (req, res, next) => {
   try {
 
-    const { data: { data }} = await axios.get(
+    const { data: { data } } = await axios.get(
       `https://travel-advisor.p.rapidapi.com/${req.query.type}/list-in-boundary`, {
       params: {
         bl_latitude: JSON.parse(req.query.sw).lat,
@@ -21,7 +21,7 @@ router.get('/', async (req, res, next) => {
     })
 
     res.send(data)
-    
+
   } catch (error) {
     next(error)
   }

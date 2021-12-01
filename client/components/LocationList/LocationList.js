@@ -1,41 +1,17 @@
-import React, { useEffect, useState, createRef } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { getPlacesData } from '../../store/locationList'
+import React, { useState, createRef } from 'react'
 import LocationDetails from '../LocationDetails/LocationDetails'
-import { setCoords, setUserCoords } from '../../store/map'
 
-const LocationList = () => {
+const LocationList = ({ places, type, setType, rating, setRating}) => {
 
   const [isLoading, setIsLoading] = useState(false)
-  const [type, setType] = useState('restaurants')
-  const [rating, setRating] = useState(0)
   const [elRefs, setElRefs] = useState([])
 
-  const dispatch = useDispatch()
+  // code to implement later for auto scroll when a child is clicked on the map
+  // useEffect(() => {
+  //   const refs = Array(places.length).fill().map((_, i) => elRefs[i] || createRef())
 
-  const places = useSelector((state) => state.locationList)
-  const bounds = useSelector((state) => state.map.bounds)
-
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(({ coords: {latitude, longitude} }) => {
-      dispatch(setCoords({ lat: latitude, lng: longitude }))
-      dispatch(setUserCoords({ lat: latitude, lng: longitude }))
-    })
-  }, [])
-
-  useEffect(() => {
-    if(bounds) {
-      dispatch(getPlacesData(type, bounds.sw, bounds.ne ))
-    }
-      // setRating('');
-      // return () => {setBounds({})}
-  }, [bounds])
-
-  useEffect(() => {
-    const refs = Array(places?.length).fill().map((_, i) => elRefs[i] || createRef())
-
-    setElRefs(refs)
-  }, [places])
+  //   setElRefs(refs)
+  // }, [places])
 
   return (
     <div>
@@ -57,9 +33,12 @@ const LocationList = () => {
       </form>
 
       <ul>
-        {places.map((place, i) => (
+
+        {
+          places.map((place, i) => (
           <LocationDetails key={place.location_id} place={place} />
-        ))}
+          ))
+        }
       </ul>
     </div>
   )
