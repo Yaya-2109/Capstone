@@ -28,3 +28,18 @@ router.get("/:userId", async (req, res, next) => {
     next(error);
   }
 });
+
+router.delete("/:itineraryId/:eventId", async (req, res, next) => {
+  try {
+    let itinerary = await Itinerary.findByPk(req.params.itineraryId);
+    ItineraryEvents.destroy({
+      where: {
+        itineraryId: req.params.itineraryId,
+        eventId: req.params.itineraryId,
+      },
+    });
+    res.status(202).send();
+  } catch (error) {
+    next(error);
+  }
+});
