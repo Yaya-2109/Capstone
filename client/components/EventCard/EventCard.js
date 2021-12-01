@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { removeEvent } from "../../store/itinerary";
 
-const EventCard = (props, state) => {
+const EventCard = (props) => {
   return (
     <div className="border-t-0 border-r-2 border-l-2 border-b-2 my-1 grid grid-cols-12 bg-white filter drop-shadow-md">
       <div className="col-span-2">
@@ -12,7 +12,7 @@ const EventCard = (props, state) => {
       <div className="col-span-10 mx-3 p-1">
         <div className="flex justify-between">
           <p className="text-xs font-bold">{props.name}</p>
-          // removeEvent needs accurate arguments
+          {/* removeEvent needs accurate arguments */}
           <span onClick={() => removeEvent(itineraryId, eventId)}>X</span>
         </div>
         <p className="text-xs">{props.location}</p>
