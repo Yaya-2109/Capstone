@@ -13,6 +13,7 @@ app.use(express.json());
 // auth and api routes
 app.use("/auth", require("./auth"));
 app.use("/api", require("./api"));
+
 app.get("/", (req, res) =>
   res.sendFile(path.join(__dirname, "..", "public/index.html"))
 );
