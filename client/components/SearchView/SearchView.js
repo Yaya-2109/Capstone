@@ -11,7 +11,6 @@ const SearchView = () => {
   const classes = useStyles()
   const [type, setType] = useState('restaurants')
   const [rating, setRating] = useState(0)
-  const [filteredPlaces, setFilteredPlaces] = useState([])
 
   const dispatch = useDispatch()
 
@@ -26,17 +25,19 @@ const SearchView = () => {
   }, [])
 
   useEffect(() => {
-    const filteredPlaces = places.filter((place) => place.rating > rating)
-    setFilteredPlaces(filteredPlaces)
-  }, [rating])
-
-  useEffect(() => {
     if(bounds) {
       dispatch(getPlacesData(type, bounds.sw, bounds.ne))
-      setFilteredPlaces([])
-      setRating('')
+      setRating(0)
     }
   }, [bounds, type])
+
+  let filteredPlaces = []
+
+  useEffect(() => {
+    console.log(rating)
+    filteredPlaces = places.filter((place) => Number(place.rating) > rating)
+    console.log(filteredPlaces)
+  }, [rating])
 
   return (
     <div className={classes.gridContainer}>

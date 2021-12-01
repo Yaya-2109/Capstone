@@ -1,17 +1,7 @@
-import React, { useState, createRef } from 'react'
+import React from 'react'
 import LocationDetails from '../LocationDetails/LocationDetails'
 
 const LocationList = ({ places, type, setType, rating, setRating}) => {
-
-  const [isLoading, setIsLoading] = useState(false)
-  const [elRefs, setElRefs] = useState([])
-
-  // code to implement later for auto scroll when a child is clicked on the map
-  // useEffect(() => {
-  //   const refs = Array(places.length).fill().map((_, i) => elRefs[i] || createRef())
-
-  //   setElRefs(refs)
-  // }, [places])
 
   return (
     <div>
