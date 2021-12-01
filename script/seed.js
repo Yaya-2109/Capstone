@@ -101,12 +101,20 @@ async function seed() {
     }),
   ]);
 
-  //Create itinerary
-  const itinerary = await Promise.all([
+  //Create itineraries
+  const itinerary1 = await Promise.all([
     Itinerary.create({
       name: "Codys New York Trip",
       startDate: "2021-11-30 15:39:11.635-05",
       endDate: "2021-11-30 15:39:11.635-05",
+    }),
+  ]);
+
+  const itinerary2 = await Promise.all([
+    Itinerary.create({
+      name: "Codys Short New York Trip",
+      startDate: "2022-11-30 15:39:11.635-05",
+      endDate: "2022-11-30 15:39:11.635-05",
     }),
   ]);
 
@@ -125,6 +133,12 @@ async function seed() {
       await codysTrip.addEvent(6);
 
       await codysTrip.addUser(1);
+
+      let codysShortTrip = await Itinerary.findOne({
+        where: { name: "Codys Short New York Trip" },
+      });
+      await codysShortTrip.addUser(1);
+      await codysShortTrip.addEvent(6);
     } catch (err) {
       return err;
     }

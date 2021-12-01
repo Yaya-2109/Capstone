@@ -6,20 +6,24 @@ const {
 
 module.exports = router;
 
-//api/itinerary/userId => gets user's itinerary
+//api/itinerary/:itineraryId/userId => gets a user's single itinerary by their ids
+router.get("/:itineraryId/:userId", async (req, res, next) => {
+  try {
+    const itinerary = await Itinerary.findByPk(req.params.itineraryId, {
+      include: Events,
+    });
+    res.send(itinerary);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//get all a users itineraries
 router.get("/:userId", async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.userId);
-    const itinerary = await user.getItineraries();
-    const events = await ItineraryEvents.findAll({
-      where: { itineraryId: itinerary[0].id },
-    });
-    let eventArr = events.map((event) => event.eventId);
-    let eventObjs = [];
-    for (let i = 0; i < eventArr.length; i++) {
-      eventObjs.push(await Events.findByPk(eventArr[i]));
-    }
-    res.send(eventObjs);
+    const itineraries = await user.getItineraries();
+    res.send(itineraries);
   } catch (error) {
     next(error);
   }

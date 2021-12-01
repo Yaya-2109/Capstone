@@ -8,7 +8,6 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchItinerary } from "../../store/itinerary";
 
-//Dummy Data
 let trips = [];
 let unassignedTrips = [];
 const Itinerary = () => {
@@ -33,9 +32,11 @@ const Itinerary = () => {
   };
   function handleOnDragEnd(result) {
     console.log(result);
+    updateTripList(itinerary);
+    console.log(tripList);
     if (!result.destination) return;
 
-    const items = trips;
+    const items = itinerary;
     const [reorderedItem] = tripObj[result.source.droppableId].splice(
       result.source.index,
       1
