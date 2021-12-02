@@ -3,8 +3,7 @@ import React from 'react'
 const LocationDetails = ({place}) => {
 
   return (
-    <>
-      <li>
+    <div>
         <p>Name: {place.name}</p>
         <p>Rating: {place.rating}</p>
         {
@@ -13,9 +12,8 @@ const LocationDetails = ({place}) => {
             :
             <p>Location: {place.location_string}</p>
         }
-      </li>
       <br></br>
-    </>
+    </div>
   )
 }
 
