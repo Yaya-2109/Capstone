@@ -1,12 +1,34 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { Autocomplete } from '@react-google-maps/api'
 
 import LocationDetails from '../LocationDetails/LocationDetails'
+import { setCoords } from '../../store/map'
 
 const LocationList = ({ places, rating, setRating, type, setType }) => {
+
+  const dispatch = useDispatch()
+
+  const [autocomplete, setAutocomplete] = useState(null)
+
+  const onLoad = autocomplete => setAutocomplete(autocomplete)
+
+  const onPlaceChanged = () => {
+    const lat = autocomplete.getPlace().geometry.location.lat()
+    const lng = autocomplete.getPlace().geometry.location.lng()
+    dispatch(setCoords({ lat, lng }))
+  }
 
   return (
     <div>
       <h2>Location List</h2>
+
+      <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
+        <div>
+          <input type='text' placeholder="Search…" />
+        </div>
+      </Autocomplete>
+
       <form>
         <label>Type</label>
         <select name="type" value={type} onChange={(e) => setType(e.target.value)}>
