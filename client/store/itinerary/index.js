@@ -12,7 +12,7 @@ export const getItineraries = (userId) => {
 export const getItinerary = (itinerary) => {
   return { type: GET_ITINERARY, itinerary };
 };
-export const deleteEvent = (itineraryid, eventid) => {
+export const deleteEvent = (event) => {
   return { type: DELETE_EVENT, event };
 };
 
@@ -40,7 +40,10 @@ export const fetchItinerary = (itineraryId, userId) =>
 export const removeEvent = (itineraryId, eventId) =>
   async function (dispatch) {
     try {
-      let { data } = await axios.delete(`/api/${itineraryId}/${eventId}`);
+      let { data } = await axios.delete(
+        `/api/itinerary/delete/${itineraryId}/${eventId}`
+      );
+      console.log("DATA", data);
       dispatch(deleteEvent(data));
     } catch (err) {
       return err;
@@ -48,15 +51,18 @@ export const removeEvent = (itineraryId, eventId) =>
   };
 
 //reducer
-export default function (state = [], action) {
+let initialState = [];
+export default function (state = initialState, action) {
   switch (action.type) {
     case GET_ITINERARIES:
       return action.itineraries;
     case GET_ITINERARY:
       return action.itinerary;
     case DELETE_EVENT:
-      state = state.filter((event) => event.id !== action.eventId);
-      return state;
+      let newState = state.events.filter(
+        (event) => event.id !== action.eventId
+      );
+      return newState;
     default:
       return state;
   }

@@ -29,16 +29,17 @@ router.get("/:userId", async (req, res, next) => {
   }
 });
 
-router.delete("/:itineraryId/:eventId", async (req, res, next) => {
+// delete an event from itinerary in itinerary view when click X on card
+router.delete("/delete/:itineraryId/:eventId", async (req, res, next) => {
   try {
-    let itinerary = await Itinerary.findByPk(req.params.itineraryId);
-    ItineraryEvents.destroy({
+    await ItineraryEvents.destroy({
       where: {
         itineraryId: req.params.itineraryId,
-        eventId: req.params.itineraryId,
+        eventId: req.params.eventId,
       },
     });
-    res.status(202).send();
+    newItinerary = await ItineraryEvents.findAll();
+    res.status(202).send(newItinerary);
   } catch (error) {
     next(error);
   }

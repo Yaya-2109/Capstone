@@ -10,6 +10,7 @@ import { fetchItinerary } from "../../store/itinerary";
 
 let trips = [];
 let unassignedTrips = [];
+
 const Itinerary = () => {
   const user = useSelector((state) => state.auth);
   const itinerary = useSelector((state) => state.itinerary);
@@ -19,7 +20,7 @@ const Itinerary = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // dispatch(fetchItinerary(1, user.id));
+    dispatch(fetchItinerary(itinerary.id, user.id));
   }, [tripList]);
 
   const tripObj = {
@@ -86,6 +87,7 @@ const Itinerary = () => {
                             >
                               <EventCard
                                 id={trip.id}
+                                itinerary={itinerary}
                                 name={trip.name}
                                 location={trip.location}
                                 description={trip.description}
