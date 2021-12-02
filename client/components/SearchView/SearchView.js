@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+
+import { setCoords, setUserCoords } from '../../store/map'
+import { getPlacesData } from '../../store/locationList'
 import LocationList from '../LocationList/LocationList'
 import Map from '../Map/Map'
 import useStyles from './styles'
-import { setCoords, setUserCoords } from '../../store/map'
-import { getPlacesData } from '../../store/locationList'
 
 const SearchView = () => {
 
   const classes = useStyles()
-  const [type, setType] = useState('restaurants')
-  const [rating, setRating] = useState(0)
 
   const dispatch = useDispatch()
 
+  const [type, setType] = useState('restaurants')
+  const [rating, setRating] = useState(0)
+  const [places, setPlaces] = useState([])
+  const [filteredPlaces, setFilteredPlaces] = useState([])
+
   const bounds = useSelector((state) => state.map.bounds)
-  const places = useSelector((state) => state.locationList)
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(({ coords: {latitude, longitude} }) => {
@@ -25,31 +28,39 @@ const SearchView = () => {
   }, [])
 
   useEffect(() => {
-    if(bounds) {
-      dispatch(getPlacesData(type, bounds.sw, bounds.ne))
-      setRating(0)
-    }
-  }, [bounds, type])
-
-  let filteredPlaces = []
+    const filteredPlaces = places.filter((place) => {
+      return Number(place.rating) > rating}
+    )
+    setFilteredPlaces(filteredPlaces)
+  }, [rating])
 
   useEffect(() => {
-    console.log(rating)
-    filteredPlaces = places.filter((place) => Number(place.rating) > rating)
-    console.log(filteredPlaces)
-  }, [rating])
+    if(bounds) {
+      setPlaces([])
+      getPlacesData(type, bounds.sw, bounds.ne)
+        .then((data) => {
+          setPlaces(data.filter((place) => place.name && place.num_reviews > 0))
+          setFilteredPlaces([])
+          setRating(0)
+        })
+    }
+  }, [bounds, type])
 
   return (
     <div className={classes.gridContainer}>
       <LocationList
-        places={filteredPlaces.length ? filteredPlaces : places}
-        type={type}
-        setType={setType}
+        places={
+          filteredPlaces.length || rating !== 0 ? filteredPlaces : places
+          }
         rating={rating}
         setRating={setRating}
+        type={type}
+        setType={setType}
       />
       <Map
-        places={filteredPlaces.length ? filteredPlaces : places}
+        places={
+          filteredPlaces.length || rating !== 0 ? filteredPlaces : places
+        }
       />
     </div>
   )
