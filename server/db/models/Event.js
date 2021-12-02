@@ -4,38 +4,44 @@ const db = require("../db");
 const Event = db.define("event", {
   eventType: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
   },
   name: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
   },
   latitude: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
   },
   longitude: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
   },
   description: {
     type: Sequelize.STRING,
   },
   phoneNumber: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
   },
   address: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
   },
   website: {
     type: Sequelize.STRING,
     validate: {
-      isUrl: true
-    }
+      isUrl: true,
+    },
+  },
+  imageUrl: {
+    type: Sequelize.STRING,
+    validate: {
+      isUrl: true,
+    },
   },
   eventResponse: {
-    type: Sequelize.JSON
-  }
-})
+    type: Sequelize.JSON,
+  },
+});
 
 module.exports = Event;

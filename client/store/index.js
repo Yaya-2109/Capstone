@@ -4,9 +4,13 @@ import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import auth from './auth';
 import allItinerariesReducer from './createItinerary';
+import map from './map';
+import itinerary from './itinerary';
 
 const reducer = combineReducers({
   auth,
+  map,
+  itinerary,
   allItineraries: allItinerariesReducer,
 });
 const middleware = composeWithDevTools(
