@@ -24,9 +24,10 @@ export const createItinerary = (itinerary, userId) => {
   return async (dispatch) => {
     try {
       const { data: created } = await axios.post(
-        `/api/users/${userId}/itineraries`,
+        `/api/users/${userId}`,
         itinerary
       );
+      console.log('I AM ITINERARY: ', itinerary);
       dispatch(setItinerary(created));
     } catch (error) {
       console.error(error);

@@ -47,6 +47,15 @@ router.get('/:userId', async (req, res, next) => {
   }
 });
 
+// POST /users/userId
+router.post('/:userId', async (req, res, next) => {
+  try {
+    res.send(await Itinerary.create(req.body));
+  } catch (error) {
+    next(error);
+  }
+});
+
 // GET /users/userId/itineraries
 router.get('/:userId/itineraries', async (req, res, next) => {
   try {

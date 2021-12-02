@@ -12,9 +12,9 @@ class CreateItinerary extends React.Component {
   constructor() {
     super();
     this.state = {
-      name: 'Itinerary Name',
-      startDate: 'YYYY-MM-DD',
-      endDate: 'YYYY-MM-DD',
+      name: '',
+      startDate: '',
+      endDate: '',
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -42,9 +42,9 @@ class CreateItinerary extends React.Component {
       this.props.match.params.userId
     );
     this.setState({
-      name: 'Itinerary Name',
-      startDate: 'YYYY-MM-DD',
-      endDate: 'YYYY-MM-DD',
+      name: '',
+      startDate: '',
+      endDate: '',
     });
   }
 
@@ -52,6 +52,10 @@ class CreateItinerary extends React.Component {
     const { name, startDate, endDate } = this.state;
     const { handleSubmit, handleChange } = this;
     const itineraries = this.props.itineraries || [];
+    const capitalizeName = (name) => {
+      const capitalName = name[0].toUpperCase().concat(name.slice(1));
+      return capitalName;
+    };
 
     return (
       <div>
@@ -76,16 +80,31 @@ class CreateItinerary extends React.Component {
           )}
         </div>
         <div>
-          <h1>Welcome {this.props.user.name}</h1>
+          <h1>Welcome, {capitalizeName(this.props.user.username)}!</h1>
           <form onSubmit={handleSubmit}>
             <label htmlFor='name'>Itinerary Name:</label>
-            <input name='name' onChange={handleChange} value={name} />
+            <input
+              name='name'
+              onChange={handleChange}
+              value={name}
+              placeholder='Your Itinerary Name'
+            />
 
             <label htmlFor='startDate'>Start Date:</label>
-            <input name='startDate' onChange={handleChange} value={startDate} />
+            <input
+              name='startDate'
+              onChange={handleChange}
+              value={startDate}
+              placeholder='Your Itinerary Name'
+            />
 
             <label htmlFor='endDate'>End Date:</label>
-            <input name='endDate' onChange={handleChange} value={endDate} />
+            <input
+              name='endDate'
+              onChange={handleChange}
+              value={endDate}
+              placeholder='Your Itinerary Name'
+            />
 
             <button type='submit'>Submit</button>
           </form>
