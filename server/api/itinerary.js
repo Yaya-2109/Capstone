@@ -53,8 +53,9 @@ router.put("/edit/:itineraryId", async (req, res, next) => {
         itineraryId: req.params.itineraryId,
       },
     });
-
-    res.status(202).send(await itinerary.update(req.body));
+    console.log(itinerary);
+    await itinerary.update(req.body);
+    res.status(202).send(itinerary);
   } catch (error) {
     next(error);
   }
