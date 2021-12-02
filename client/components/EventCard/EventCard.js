@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { removeEvent } from "../../store/itinerary";
+import { removeEvent } from "../../store/itineraries";
 import { useDispatch } from "react-redux";
 
 const EventCard = (props) => {
