@@ -75,7 +75,7 @@ const Itinerary = () => {
               <Droppable droppableId="day1">
                 {(provided) => (
                   <ul {...provided.droppableProps} ref={provided.innerRef}>
-                    {itinerary.events.map((trip, index) => {
+                    {itinerary.events ? itinerary.events.map((trip, index) => {
                       return (
                         <Draggable
                           key={trip.id}
@@ -102,7 +102,7 @@ const Itinerary = () => {
                           )}
                         </Draggable>
                       );
-                    })}
+                    }) : "Add some events, your itinerary is looking boring"}
                     {provided.placeholder}
                   </ul>
                 )}
