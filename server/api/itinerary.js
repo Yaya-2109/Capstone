@@ -44,3 +44,18 @@ router.delete("/delete/:itineraryId/:eventId", async (req, res, next) => {
     next(error);
   }
 });
+
+// edit order of events, day 0 is unassigned // not functional yet
+router.put("/edit/:itineraryId", async (req, res, next) => {
+  try {
+    let itinerary = await ItineraryEvents.findOne({
+      where: {
+        itineraryId: req.params.itineraryId,
+      },
+    });
+
+    res.status(202).send(await itinerary.update(req.body));
+  } catch (error) {
+    next(error);
+  }
+});

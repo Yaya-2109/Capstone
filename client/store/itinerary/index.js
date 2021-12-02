@@ -4,7 +4,7 @@ import axios from "axios";
 const GET_ITINERARIES = "GET_ITINERARIES";
 const GET_ITINERARY = "GET_ITINERARY";
 const DELETE_EVENT = "DELETE_EVENT";
-
+const UPDATE_ITINERARY = "UPDATE_ITINERARY";
 //action creators
 export const getItineraries = (userId) => {
   return { type: GET_ITINERARIES, itineraries };
@@ -14,6 +14,10 @@ export const getItinerary = (itinerary) => {
 };
 export const deleteEvent = (event) => {
   return { type: DELETE_EVENT, event };
+};
+
+export const updateItinerary = (itinerary) => {
+  return { type: UPDATE_ITINERARY, itinerary };
 };
 
 //thunk creators
@@ -50,6 +54,22 @@ export const removeEvent = (itineraryId, eventId) =>
     }
   };
 
+//not functional
+export const reorderItinerary = (itinerary, newOrder) =>
+  async function (dispatch) {
+    try {
+      console.log(newOrder);
+      let { data } = await axios.put(
+        `api/itinerary/edit/${itinerary.id}`,
+        newOrder
+      );
+      console.log("DATA", data);
+      dispatch(updateItinerary(data));
+    } catch (err) {
+      return err;
+    }
+  };
+
 //reducer
 let initialState = [];
 export default function (state = initialState, action) {
@@ -63,6 +83,12 @@ export default function (state = initialState, action) {
         (event) => event.id !== action.eventId
       );
       return newState;
+    case UPDATE_ITINERARY:
+      // console.log("state", state);
+      let newOrder = [...state];
+      console.log("newOrder", newOrder);
+      newOrder.events = action.events;
+      return newOrder;
     default:
       return state;
   }

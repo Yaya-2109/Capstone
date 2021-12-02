@@ -6,7 +6,7 @@ import EventCard from "../EventCard/EventCard";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchItinerary } from "../../store/itinerary";
+import { fetchItinerary, reorderItinerary } from "../../store/itinerary";
 
 let trips = [];
 let unassignedTrips = [];
@@ -32,28 +32,32 @@ const Itinerary = () => {
     unassigned: updateUnassigned,
   };
   function handleOnDragEnd(result) {
-    console.log(result);
-    updateTripList(itinerary);
-    console.log(tripList);
+    // console.log(result);
+    // updateTripList(itinerary);
+    // console.log(
+    //   "tripObj[result.source.droppableId]",
+    //   tripObj[result.source.droppableId]
+    // );
+    // console.log("result.source.index", result.source.index);
     if (!result.destination) return;
 
-    const items = itinerary;
-    const [reorderedItem] = tripObj[result.source.droppableId].splice(
+    const [reorderedItem] = tripObj[result.source.droppableId].events.splice(
       result.source.index,
       1
     );
-    tripObj[result.destination.droppableId].splice(
-      result.destination.index,
-      0,
-      reorderedItem
-    );
-    // updateTripList(items);
-    tripObjMethods[result.source.droppableId](
-      tripObj[result.source.droppableId]
-    );
-    tripObjMethods[result.destination.droppableId](
-      tripObj[result.destination.droppableId]
-    );
+
+    let events = tripObj[result.destination.droppableId].events;
+
+    events.splice(result.destination.index, 0, reorderedItem);
+
+    dispatch(reorderItinerary(itinerary, events));
+    updateTripList(events);
+    // tripObjMethods[result.source.droppableId](
+    //   tripObj[result.source.droppableId]
+    // );
+    // tripObjMethods[result.destination.droppableId](
+    //   tripObj[result.destination.droppableId]
+    // );
   }
 
   return (
