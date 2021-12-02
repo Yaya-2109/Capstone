@@ -94,7 +94,7 @@ class CreateItinerary extends React.Component {
               name='startDate'
               onChange={handleChange}
               value={startDate}
-              placeholder='Your Itinerary Name'
+              placeholder='YYYY-MM-DD'
             />
 
             <label htmlFor='endDate'>End Date:</label>
@@ -102,7 +102,7 @@ class CreateItinerary extends React.Component {
               name='endDate'
               onChange={handleChange}
               value={endDate}
-              placeholder='Your Itinerary Name'
+              placeholder='YYYY-MM-DD'
             />
 
             <button type='submit'>Submit</button>

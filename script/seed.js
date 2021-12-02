@@ -13,24 +13,6 @@ async function seed() {
   await db.sync({ force: true }); // clears db and matches models to tables
   console.log('db synced!');
 
-  // Creating Users
-  // const users = await Promise.all([
-  //   await User.create({
-  //     username: 'cody',
-  //     password: '123',
-  //     email: 'cdog@gmail.com',
-  //     firstName: 'cody',
-  //     lastName: 'dog',
-  //   }),
-  //   await User.create({
-  //     username: 'murphy',
-  //     password: '123',
-  //     email: 'mdog@gmail.com',
-  //     firstName: 'murphy',
-  //     lastName: 'gomez',
-  //   }),
-  // ]);
-
   const cody = await User.create({
     username: 'cody',
     password: '123',
@@ -59,7 +41,6 @@ async function seed() {
 
   await itineraries[0].addUser(2);
   await itineraries[0].addUser(1);
-  console.log('PROTO', Object.keys(itineraries[0].__proto__));
 
   //Create EVents
   const events = await Promise.all([
