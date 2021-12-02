@@ -15,7 +15,7 @@ export const Home = (props) => {
   const dispatch = useDispatch();
   useEffect(() => {
     // dispatch(fetchItineraries(user.id));
-    dispatch(fetchItinerary(1, user.id));
+    dispatch(fetchItineraries(user.id));
   }, []);
   //
   return (
