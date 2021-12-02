@@ -31,7 +31,7 @@ router.get('/', async (req, res, next) => {
 // GET /users/userId
 router.get('/:userId', async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.params.userId);
+    let user = await User.findByPk(req.params.userId);
     let safeUserData = {
       id: user.dataValues.id,
       username: user.dataValues.username,
@@ -40,8 +40,16 @@ router.get('/:userId', async (req, res, next) => {
       lastName: user.dataValues.lastName,
       avatar: user.dataValues.avatar,
     };
-    console.log('SAFEUSERDATA: ', safeUserData);
-    res.send(safeUserData);
+
+    // const itineraries = await user.getItineraries();
+
+    // user = {
+    //   ...safeUserData,
+    //   itineraries: itineraries,
+    // };
+
+    console.log('USER INFO: ', user);
+    res.send(user);
   } catch (error) {
     next(error);
   }

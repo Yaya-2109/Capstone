@@ -38,7 +38,7 @@ export const createItinerary = (itinerary, userId) => {
 export const fetchAllItineraries = (userId) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(`/api/users/${userId}/itineraries`);
+      const { data } = await axios.get(`/api/users/${userId}`);
       dispatch(setAllItineraries(data));
     } catch (error) {
       console.error(error);
@@ -52,7 +52,11 @@ const initialState = [];
 export default function allItinerariesReducer(state = initialState, action) {
   switch (action.type) {
     case CREATE_ITINERARY:
-      return [...state, action.itinerary];
+      console.log('CREATE ITINERARY STATE: ', state);
+      return {
+        ...state,
+        itineraries: [...state.itineraries, action.itinerary],
+      };
     case GET_ALL_ITINERARIES:
       return action.itineraries;
     default:

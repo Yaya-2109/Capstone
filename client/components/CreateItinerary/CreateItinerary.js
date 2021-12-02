@@ -64,7 +64,9 @@ class CreateItinerary extends React.Component {
             itineraries.map((itinerary) => {
               return (
                 <div key={itinerary.id}>
-                  <Link to={`/itineraries/${itinerary.id}`}>
+                  <Link
+                    to={`/users/${this.props.user.id}/itineraries/${itinerary.id}`}
+                  >
                     <h1>{itinerary.name}</h1>
                     <h3>Start Date: {itinerary.startDate}</h3>
                     <h3>End Date: {itinerary.endDate}</h3>
@@ -115,7 +117,7 @@ class CreateItinerary extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  itineraries: state.allItineraries,
+  itineraries: state.allItineraries.itineraries,
   userId: state.auth.id,
   user: state.auth,
 });

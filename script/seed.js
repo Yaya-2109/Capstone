@@ -2,7 +2,7 @@
 
 const {
   db,
-  models: { User, Events, Itinerary },
+  models: { User, Event, Itinerary },
 } = require('../server/db');
 
 /**
@@ -14,26 +14,56 @@ async function seed() {
   console.log('db synced!');
 
   // Creating Users
-  const users = await Promise.all([
-    User.create({
-      username: 'cody',
-      password: '123',
-      email: 'cdog@gmail.com',
-      firstName: 'cody',
-      lastName: 'dog',
-    }),
-    User.create({
-      username: 'murphy',
-      password: '123',
-      email: 'mdog@gmail.com',
-      firstName: 'murphy',
-      lastName: 'gomez',
+  // const users = await Promise.all([
+  //   await User.create({
+  //     username: 'cody',
+  //     password: '123',
+  //     email: 'cdog@gmail.com',
+  //     firstName: 'cody',
+  //     lastName: 'dog',
+  //   }),
+  //   await User.create({
+  //     username: 'murphy',
+  //     password: '123',
+  //     email: 'mdog@gmail.com',
+  //     firstName: 'murphy',
+  //     lastName: 'gomez',
+  //   }),
+  // ]);
+
+  const cody = await User.create({
+    username: 'cody',
+    password: '123',
+    email: 'cdog@gmail.com',
+    firstName: 'cody',
+    lastName: 'dog',
+  });
+
+  const murphy = await User.create({
+    username: 'murphy',
+    password: '123',
+    email: 'mdog@gmail.com',
+    firstName: 'murphy',
+    lastName: 'gomez',
+  });
+
+  //Create itinerary
+  const itineraries = await Promise.all([
+    Itinerary.create({
+      name: 'Codys New York Trip',
+      startDate: '2021-11-30',
+      endDate: '2021-12-20',
+      userId: 2,
     }),
   ]);
 
+  await itineraries[0].addUser(2);
+  await itineraries[0].addUser(1);
+  console.log('PROTO', Object.keys(itineraries[0].__proto__));
+
   //Create EVents
   const events = await Promise.all([
-    Events.create({
+    Event.create({
       eventType: 'Attraction',
       name: 'Visit Statue of Liberty',
       latitude: '70',
@@ -43,8 +73,9 @@ async function seed() {
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       imageUrl:
         'https://a.cdn-hotels.com/gdcs/production6/d1738/3c1a71e7-0a73-4810-9935-5c4daea1954e.jpg?impolicy=fcrop&w=800&h=533&q=medium',
+      itineraryId: 1,
     }),
-    Events.create({
+    Event.create({
       eventType: 'Attraction',
       name: 'Visit the Met Museum',
       latitude: '70',
@@ -54,8 +85,9 @@ async function seed() {
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       imageUrl:
         'http://www.metmuseum.org/-/media/images/visit/met-fifth-avenue/fifthave_teaser.jpg?sc_lang=en',
+      itineraryId: 1,
     }),
-    Events.create({
+    Event.create({
       eventType: 'Attraction',
       name: 'Visit Freedom Tower',
       latitude: '70',
@@ -65,8 +97,9 @@ async function seed() {
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       imageUrl:
         'https://www.nydailynews.com/resizer/EsyO7of502AOt3lM9wrqf4NCYOk=/1200x0/top/arc-anglerfish-arc2-prod-tronc.s3.amazonaws.com/public/SUNBWE47ACEVH67NCDESD2RHJ4.jpg',
+      itineraryId: 1,
     }),
-    Events.create({
+    Event.create({
       eventType: 'Attraction',
       name: 'Have Dinner at Lucalis',
       latitude: '70',
@@ -76,8 +109,9 @@ async function seed() {
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       imageUrl:
         'https://infatuation.imgix.net/media/images/reviews/lucali/TeddyWolff.Lucali.Interiors.16.jpg?auto=format&w=256',
+      itineraryId: 1,
     }),
-    Events.create({
+    Event.create({
       eventType: 'Attraction',
       name: 'Walk in Central Park',
       latitude: '70',
@@ -87,8 +121,9 @@ async function seed() {
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       imageUrl:
         'https://assets.centralparknyc.org/media/images/_1650x767_crop_center-center_none/Bethesda-Terrace_20190515_002.jpg',
+      itineraryId: 1,
     }),
-    Events.create({
+    Event.create({
       eventType: 'Attraction',
       name: 'See Phantom of The Opera',
       latitude: '70',
@@ -98,17 +133,11 @@ async function seed() {
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       imageUrl:
         'https://static.wikia.nocookie.net/sexypedia/images/f/f8/Phantom.jpg',
+      itineraryId: 1,
     }),
   ]);
 
-  //Create itinerary
-  const itinerary = await Promise.all([
-    Itinerary.create({
-      name: 'Codys New York Trip',
-      startDate: '2021-11-30',
-      endDate: '2021-12-20',
-    }),
-  ]);
+  await itineraries[0].addEvents(events);
 }
 
 /*
