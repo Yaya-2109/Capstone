@@ -23,16 +23,11 @@ class Routes extends Component {
       <div>
         {isLoggedIn ? (
           <Switch>
-<<<<<<< HEAD
-            <Route exact path="/home" component={Home} />
-            <Route exact path="/itinerary" component={Itinerary} />
-=======
             <Route path="/home" component={Home} />
             {/* <Redirect to="/home" /> */}
             <Route path="/itinerary" component={Itinerary} />
             <Route path="/search" component={SearchView} />
             <Redirect to="/home" />
->>>>>>> main
           </Switch>
         ) : (
           <Switch>

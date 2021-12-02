@@ -1,7 +1,8 @@
 import React from 'react'
+
 import LocationDetails from '../LocationDetails/LocationDetails'
 
-const LocationList = ({ places, type, setType, rating, setRating}) => {
+const LocationList = ({ places, rating, setRating, type, setType }) => {
 
   return (
     <div>

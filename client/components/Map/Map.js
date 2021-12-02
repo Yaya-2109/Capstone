@@ -1,8 +1,8 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import GoogleMapReact from 'google-map-react'
-import useStyles from './styles'
 
+import useStyles from './styles'
 import { setCoords, setBounds } from '../../store/map'
 
 const Map = ({ places }) => {
@@ -28,11 +28,12 @@ const Map = ({ places }) => {
         }}
         onChildClick={(child) => console.log(child)}
       >
-        {places.map((place) => (
+        {
+          places.map((place, i) => (
           <div
             lat={Number(place.latitude)}
             lng={Number(place.longitude)}
-            key={Number(place.location_id)}
+            key={i}
           >
             📍
           </div>
