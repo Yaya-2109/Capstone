@@ -23,6 +23,7 @@ export const setAllItineraries = (itineraries) => {
 export const createItinerary = (itinerary, userId) => {
   return async (dispatch) => {
     try {
+      console.log(userId);
       const { data: created } = await axios.post(
         `/api/users/${userId}`,
         itinerary

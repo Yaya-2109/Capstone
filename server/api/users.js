@@ -31,7 +31,10 @@ router.get('/', async (req, res, next) => {
 // GET /users/userId
 router.get('/:userId', async (req, res, next) => {
   try {
-    let user = await User.findByPk(req.params.userId);
+    let user = await User.findByPk(req.params.userId, {
+      include: Itinerary,
+    });
+
     let safeUserData = {
       id: user.dataValues.id,
       username: user.dataValues.username,
@@ -48,7 +51,7 @@ router.get('/:userId', async (req, res, next) => {
     //   itineraries: itineraries,
     // };
 
-    console.log('USER INFO: ', user);
+    // console.log('USER INFO: ', user);
     res.send(user);
   } catch (error) {
     next(error);
@@ -58,7 +61,12 @@ router.get('/:userId', async (req, res, next) => {
 // POST /users/userId
 router.post('/:userId', async (req, res, next) => {
   try {
-    res.send(await Itinerary.create(req.body));
+    const createdItinerary = await Itinerary.create({
+      ...req.body,
+      userId: req.params.userId,
+    });
+    await createdItinerary.addUser(req.params.userId);
+    res.send(createdItinerary);
   } catch (error) {
     next(error);
   }

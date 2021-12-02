@@ -23,7 +23,7 @@ class CreateItinerary extends React.Component {
 
   componentDidMount() {
     try {
-      this.props.getAllItineraries(this.props.match.params.userId);
+      this.props.getAllItineraries(this.props.userId);
     } catch (error) {
       console.error(error);
     }
@@ -37,10 +37,7 @@ class CreateItinerary extends React.Component {
 
   handleSubmit(evt) {
     evt.preventDefault();
-    this.props.createItinerary(
-      { ...this.state },
-      this.props.match.params.userId
-    );
+    this.props.createItinerary({ ...this.state }, this.props.userId);
     this.setState({
       name: '',
       startDate: '',
@@ -65,7 +62,7 @@ class CreateItinerary extends React.Component {
               return (
                 <div key={itinerary.id}>
                   <Link
-                    to={`/users/${this.props.user.id}/itineraries/${itinerary.id}`}
+                    to={`/users/${this.props.userId}/itineraries/${itinerary.id}`}
                   >
                     <h1>{itinerary.name}</h1>
                     <h3>Start Date: {itinerary.startDate}</h3>

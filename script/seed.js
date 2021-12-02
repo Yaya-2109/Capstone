@@ -53,7 +53,7 @@ async function seed() {
       name: 'Codys New York Trip',
       startDate: '2021-11-30',
       endDate: '2021-12-20',
-      userId: 2,
+      userId: 1,
     }),
   ]);
 
