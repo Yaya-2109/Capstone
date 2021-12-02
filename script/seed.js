@@ -1,9 +1,9 @@
-"use strict";
+'use strict';
 
 const {
   db,
-  models: { User, Events, Itinerary, ItineraryEvents },
-} = require("../server/db");
+  models: { User, Event, Itinerary },
+} = require('../server/db');
 
 /**
  * seed - this function clears the database, updates tables to
@@ -11,140 +11,133 @@ const {
  */
 async function seed() {
   await db.sync({ force: true }); // clears db and matches models to tables
-  console.log("db synced!");
+  console.log('db synced!');
 
   // Creating Users
-  const users = await Promise.all([
-    User.create({
-      username: "cody",
-      password: "123",
-      email: "cdog@gmail.com",
-      firstName: "cody",
-      lastName: "dog",
-    }),
-    User.create({
-      username: "murphy",
-      password: "123",
-      email: "mdog@gmail.com",
-      firstName: "murphy",
-      lastName: "gomez",
+  // const users = await Promise.all([
+  //   await User.create({
+  //     username: 'cody',
+  //     password: '123',
+  //     email: 'cdog@gmail.com',
+  //     firstName: 'cody',
+  //     lastName: 'dog',
+  //   }),
+  //   await User.create({
+  //     username: 'murphy',
+  //     password: '123',
+  //     email: 'mdog@gmail.com',
+  //     firstName: 'murphy',
+  //     lastName: 'gomez',
+  //   }),
+  // ]);
+
+  const cody = await User.create({
+    username: 'cody',
+    password: '123',
+    email: 'cdog@gmail.com',
+    firstName: 'cody',
+    lastName: 'dog',
+  });
+
+  const murphy = await User.create({
+    username: 'murphy',
+    password: '123',
+    email: 'mdog@gmail.com',
+    firstName: 'murphy',
+    lastName: 'gomez',
+  });
+
+  //Create itinerary
+  const itineraries = await Promise.all([
+    Itinerary.create({
+      name: 'Codys New York Trip',
+      startDate: '2021-11-30',
+      endDate: '2021-12-20',
+      userId: 1,
     }),
   ]);
+
+  await itineraries[0].addUser(2);
+  await itineraries[0].addUser(1);
+  console.log('PROTO', Object.keys(itineraries[0].__proto__));
 
   //Create EVents
   const events = await Promise.all([
-    Events.create({
-      eventType: "Attraction",
-      name: "Visit Statue of Liberty",
-      latitude: "70",
-      longitude: "-40",
-      location: "Liberty Island, New York, NY",
+    Event.create({
+      eventType: 'Attraction',
+      name: 'Visit Statue of Liberty',
+      latitude: '70',
+      longitude: '-40',
+      location: 'Liberty Island, New York, NY',
       description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       imageUrl:
-        "https://a.cdn-hotels.com/gdcs/production6/d1738/3c1a71e7-0a73-4810-9935-5c4daea1954e.jpg?impolicy=fcrop&w=800&h=533&q=medium",
+        'https://a.cdn-hotels.com/gdcs/production6/d1738/3c1a71e7-0a73-4810-9935-5c4daea1954e.jpg?impolicy=fcrop&w=800&h=533&q=medium',
+      itineraryId: 1,
     }),
-    Events.create({
-      eventType: "Attraction",
-      name: "Visit the Met Museum",
-      latitude: "70",
-      longitude: "-40",
-      location: "5 Museum Mile, New York, NY",
+    Event.create({
+      eventType: 'Attraction',
+      name: 'Visit the Met Museum',
+      latitude: '70',
+      longitude: '-40',
+      location: '5 Museum Mile, New York, NY',
       description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       imageUrl:
-        "http://www.metmuseum.org/-/media/images/visit/met-fifth-avenue/fifthave_teaser.jpg?sc_lang=en",
+        'http://www.metmuseum.org/-/media/images/visit/met-fifth-avenue/fifthave_teaser.jpg?sc_lang=en',
+      itineraryId: 1,
     }),
-    Events.create({
-      eventType: "Attraction",
-      name: "Visit Freedom Tower",
-      latitude: "70",
-      longitude: "-40",
-      location: "Liberty Island, New York, NY",
+    Event.create({
+      eventType: 'Attraction',
+      name: 'Visit Freedom Tower',
+      latitude: '70',
+      longitude: '-40',
+      location: 'Liberty Island, New York, NY',
       description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       imageUrl:
-        "https://www.nydailynews.com/resizer/EsyO7of502AOt3lM9wrqf4NCYOk=/1200x0/top/arc-anglerfish-arc2-prod-tronc.s3.amazonaws.com/public/SUNBWE47ACEVH67NCDESD2RHJ4.jpg",
+        'https://www.nydailynews.com/resizer/EsyO7of502AOt3lM9wrqf4NCYOk=/1200x0/top/arc-anglerfish-arc2-prod-tronc.s3.amazonaws.com/public/SUNBWE47ACEVH67NCDESD2RHJ4.jpg',
+      itineraryId: 1,
     }),
-    Events.create({
-      eventType: "Attraction",
-      name: "Have Dinner at Lucalis",
-      latitude: "70",
-      longitude: "-40",
-      location: "5 Evans Street, New York, NY",
+    Event.create({
+      eventType: 'Attraction',
+      name: 'Have Dinner at Lucalis',
+      latitude: '70',
+      longitude: '-40',
+      location: '5 Evans Street, New York, NY',
       description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       imageUrl:
-        "https://infatuation.imgix.net/media/images/reviews/lucali/TeddyWolff.Lucali.Interiors.16.jpg?auto=format&w=256",
+        'https://infatuation.imgix.net/media/images/reviews/lucali/TeddyWolff.Lucali.Interiors.16.jpg?auto=format&w=256',
+      itineraryId: 1,
     }),
-    Events.create({
-      eventType: "Attraction",
-      name: "Walk in Central Park",
-      latitude: "70",
-      longitude: "-40",
-      location: "Central Park",
+    Event.create({
+      eventType: 'Attraction',
+      name: 'Walk in Central Park',
+      latitude: '70',
+      longitude: '-40',
+      location: 'Central Park',
       description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       imageUrl:
-        "https://assets.centralparknyc.org/media/images/_1650x767_crop_center-center_none/Bethesda-Terrace_20190515_002.jpg",
+        'https://assets.centralparknyc.org/media/images/_1650x767_crop_center-center_none/Bethesda-Terrace_20190515_002.jpg',
+      itineraryId: 1,
     }),
-    Events.create({
-      eventType: "Attraction",
-      name: "See Phantom of The Opera",
-      latitude: "70",
-      longitude: "-40",
-      location: "Majestic Theatre",
+    Event.create({
+      eventType: 'Attraction',
+      name: 'See Phantom of The Opera',
+      latitude: '70',
+      longitude: '-40',
+      location: 'Majestic Theatre',
       description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       imageUrl:
-        "https://static.wikia.nocookie.net/sexypedia/images/f/f8/Phantom.jpg",
+        'https://static.wikia.nocookie.net/sexypedia/images/f/f8/Phantom.jpg',
+      itineraryId: 1,
     }),
   ]);
 
-  //Create itineraries
-  const itinerary1 = await Promise.all([
-    Itinerary.create({
-      name: "Codys New York Trip",
-      startDate: "2021-11-30 15:39:11.635-05",
-      endDate: "2021-11-30 15:39:11.635-05",
-    }),
-  ]);
-
-  const itinerary2 = await Promise.all([
-    Itinerary.create({
-      name: "Codys Short New York Trip",
-      startDate: "2022-11-30 15:39:11.635-05",
-      endDate: "2022-11-30 15:39:11.635-05",
-    }),
-  ]);
-
-  //Assign Itinerary Events
-  const makeTrip = async () => {
-    try {
-      let codysTrip = await Itinerary.findOne({
-        where: { name: "Codys New York Trip" },
-      });
-
-      await codysTrip.addEvent(1);
-      await codysTrip.addEvent(2);
-      await codysTrip.addEvent(3);
-      await codysTrip.addEvent(4);
-      await codysTrip.addEvent(5);
-      await codysTrip.addEvent(6);
-
-      await codysTrip.addUser(1);
-
-      let codysShortTrip = await Itinerary.findOne({
-        where: { name: "Codys Short New York Trip" },
-      });
-      await codysShortTrip.addUser(1);
-      await codysShortTrip.addEvent(6);
-    } catch (err) {
-      return err;
-    }
-  };
-
-  return makeTrip();
+  await itineraries[0].addEvents(events);
 }
 
 /*
@@ -153,16 +146,16 @@ async function seed() {
  The `seed` function is concerned only with modifying the database.
 */
 async function runSeed() {
-  console.log("seeding...");
+  console.log('seeding...');
   try {
     await seed();
   } catch (err) {
     console.error(err);
     process.exitCode = 1;
   } finally {
-    console.log("closing db connection");
+    console.log('closing db connection');
     await db.close();
-    console.log("db connection closed");
+    console.log('db connection closed');
   }
 }
 

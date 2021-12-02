@@ -1,25 +1,26 @@
 //this is the access point for all things database related!
-const Itinerary = require("./models/Itinerary");
-const User = require("./models/User");
-const Events = require("./models/Events");
-const ItineraryEvents = require("./models/ItineraryEvents");
+const Itinerary = require('./models/Itinerary');
+const User = require('./models/User');
+const Event = require('./models/Event');
+const ItineraryEvent = require('./models/ItineraryEvent');
 
-const db = require('./db')
-
+const db = require('./db');
 
 //associations could go here!
-User.belongsToMany(Itinerary, {through: "userItineraries"})
-Itinerary.belongsToMany(User, {through: "userItineraries"})
+User.belongsToMany(Itinerary, { through: 'userItineraries' });
+Itinerary.belongsToMany(User, { through: 'userItineraries' });
+User.hasMany(Itinerary);
 
-Itinerary.belongsToMany(Events, {through: ItineraryEvents})
-Events.belongsToMany(Itinerary, {through: ItineraryEvents})
+Itinerary.belongsToMany(Event, { through: ItineraryEvent });
+Event.belongsToMany(Itinerary, { through: ItineraryEvent });
+Itinerary.hasMany(Event);
 
 module.exports = {
   db,
   models: {
     User,
     Itinerary,
-    Events,
-    ItineraryEvents
+    Event,
+    ItineraryEvent,
   },
-}
+};
