@@ -12,7 +12,15 @@ router.get("/:itineraryId/:userId", async (req, res, next) => {
     const itinerary = await Itinerary.findByPk(req.params.itineraryId, {
       include: Events,
     });
-    res.send(itinerary);
+
+    const events = await itinerary.getEvents()
+
+    const massagedRes = {
+      ...itinerary.dataValues,
+      events
+    }
+
+    res.send(massagedRes);
   } catch (error) {
     next(error);
   }

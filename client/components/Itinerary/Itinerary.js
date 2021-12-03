@@ -11,7 +11,7 @@ import { fetchItinerary, reorderItinerary } from "../../store/itinerary";
 let trips = [];
 let unassignedTrips = [];
 
-const Itinerary = () => {
+const Itinerary = (props) => {
   const user = useSelector((state) => state.auth);
   const itinerary = useSelector((state) => state.itinerary);
 
@@ -20,8 +20,7 @@ const Itinerary = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("ITIENARARY", itinerary);
-    dispatch(fetchItinerary(itinerary.id, user.id));
+    dispatch(fetchItinerary(props.match.params.itineraryId, user.id));
   }, [tripList]);
 
   const tripObj = {
