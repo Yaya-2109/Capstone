@@ -42,28 +42,16 @@ export const fetchItinerary = (itineraryId, userId) =>
     }
   };
 
-<<<<<<< HEAD
-export const removeEvent = (itineraryId, tripId) =>
-  async function (dispatch) {
-    try {
-      let { data } = await axios.delete(
-        `/api/itinerary/delete/${itineraryId}/${tripId}`
-=======
 export const removeEvent = (trip, user) =>
-async function (dispatch) {
-    const { itineraryId, id } = trip
+  async function (dispatch) {
+    const { itineraryId, id } = trip;
 
     try {
       let { data } = await axios.delete(
         `/api/itinerary/delete/${itineraryId}/${id}`
->>>>>>> db11703ffae6872cced84ce9ae872947b1fad0ce
       );
       dispatch(deleteEvent(data));
-<<<<<<< HEAD
-      // dispatch(getItinerary(trip.itinerary));
-=======
-      dispatch(fetchItinerary(itineraryId, user.id))
->>>>>>> db11703ffae6872cced84ce9ae872947b1fad0ce
+      dispatch(fetchItinerary(itineraryId, user.id));
     } catch (err) {
       return err;
     }

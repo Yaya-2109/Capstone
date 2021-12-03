@@ -1,13 +1,7 @@
-<<<<<<< HEAD
 import React from "react";
 import { connect } from "react-redux";
 import { fetchItineraries } from "../../store/itineraries";
 import { Itinerary } from "../Itinerary/Itinerary";
-=======
-import React from 'react';
-import { connect } from 'react-redux';
-import { fetchItineraries } from '../../store/itineraries';
->>>>>>> db11703ffae6872cced84ce9ae872947b1fad0ce
 
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 
