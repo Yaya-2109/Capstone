@@ -5,11 +5,13 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import auth from './auth';
 import allItinerariesReducer from './createItinerary';
 import map from './map';
+import itineraries from "./itineraries";
 import itinerary from './itinerary';
 
 const reducer = combineReducers({
   auth,
   map,
+  itineraries,
   itinerary,
   allItineraries: allItinerariesReducer,
 });

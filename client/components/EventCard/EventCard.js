@@ -1,9 +1,13 @@
 import React from "react";
-
 import { Link } from "react-router-dom";
 import { removeEvent } from "../../store/itinerary";
+import { useDispatch, useSelector } from "react-redux";
 
 const EventCard = (props) => {
+  const dispatch = useDispatch();
+
+  const user = useSelector((state) => state.auth)
+
   return (
     <div className="border-t-0 border-r-2 border-l-2 border-b-2 my-1 grid grid-cols-12 bg-white filter drop-shadow-md">
       <div className="col-span-2">
@@ -12,8 +16,11 @@ const EventCard = (props) => {
       <div className="col-span-10 mx-3 p-1">
         <div className="flex justify-between">
           <p className="text-xs font-bold">{props.name}</p>
-          {/* removeEvent needs accurate arguments */}
-          <span onClick={() => removeEvent(itineraryId, eventId)}>X</span>
+          <span
+            onClick={() => dispatch(removeEvent(props.trip, user))}
+          >
+            X
+          </span>
         </div>
         <p className="text-xs">{props.location}</p>
         <p className="text-xs">{props.description}</p>

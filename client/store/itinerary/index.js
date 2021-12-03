@@ -4,16 +4,21 @@ import axios from "axios";
 const GET_ITINERARIES = "GET_ITINERARIES";
 const GET_ITINERARY = "GET_ITINERARY";
 const DELETE_EVENT = "DELETE_EVENT";
+const UPDATE_ITINERARY = "UPDATE_ITINERARY";
 
 //action creators
-export const getItineraries = (userId) => {
+export const getItineraries = (itineraries) => {
   return { type: GET_ITINERARIES, itineraries };
 };
 export const getItinerary = (itinerary) => {
   return { type: GET_ITINERARY, itinerary };
 };
-export const deleteEvent = (itineraryid, eventid) => {
+export const deleteEvent = (event) => {
   return { type: DELETE_EVENT, event };
+};
+
+export const updateItinerary = (itinerary) => {
+  return { type: UPDATE_ITINERARY, itinerary };
 };
 
 //thunk creators
@@ -37,26 +42,57 @@ export const fetchItinerary = (itineraryId, userId) =>
     }
   };
 
-export const removeEvent = (itineraryId, eventId) =>
+export const removeEvent = (trip, user) =>
+async function (dispatch) {
+    const { itineraryId, id } = trip
+
+    try {
+      let { data } = await axios.delete(
+        `/api/itinerary/delete/${itineraryId}/${id}`
+      );
+      dispatch(deleteEvent(data));
+      dispatch(fetchItinerary(itineraryId, user.id))
+    } catch (err) {
+      return err;
+    }
+  };
+
+//not functional
+export const reorderItinerary = (itinerary, newOrder) =>
   async function (dispatch) {
     try {
-      let { data } = await axios.delete(`/api/${itineraryId}/${eventId}`);
-      dispatch(deleteEvent(data));
+      console.log(newOrder);
+      let { data } = await axios.put(
+        `/api/itinerary/edit/${itinerary.id}`,
+        newOrder
+      );
+      console.log("DATA", data);
+      dispatch(updateItinerary(data));
     } catch (err) {
       return err;
     }
   };
 
 //reducer
-export default function (state = [], action) {
+let initialState = {};
+
+export default function (state = initialState, action) {
   switch (action.type) {
-    case GET_ITINERARIES:
-      return action.itineraries;
     case GET_ITINERARY:
       return action.itinerary;
-    case DELETE_EVENT:
-      state = state.filter((event) => event.id !== action.eventId);
-      return state;
+    case DELETE_EVENT: {
+      let newState = state.events.filter(
+        (event) => event.id !== action.event.id
+      );
+      return newState;
+    }
+    case UPDATE_ITINERARY: {
+      console.log("action: ", action);
+      let newOrder = [...state];
+      console.log("newOrder", newOrder);
+      newOrder.events = action.events;
+      return newOrder;
+    }
     default:
       return state;
   }
