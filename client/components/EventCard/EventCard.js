@@ -14,7 +14,9 @@ const EventCard = (props) => {
         <div className="flex justify-between">
           <p className="text-xs font-bold">{props.name}</p>
           <span
-            onClick={() => dispatch(removeEvent(props.itinerary.id, props.id))}
+            onClick={() =>
+              dispatch(removeEvent(props.itinerary.id, props.trip.id))
+            }
           >
             X
           </span>

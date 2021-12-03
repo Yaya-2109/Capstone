@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const Sequelize = require("sequelize");
 const {
-  models: { Itinerary, User, ItineraryEvents, Events },
+  models: { Itinerary, User, ItineraryEvent, Event },
 } = require("../db");
 
 module.exports = router;
@@ -10,15 +10,15 @@ module.exports = router;
 router.get("/:itineraryId/:userId", async (req, res, next) => {
   try {
     const itinerary = await Itinerary.findByPk(req.params.itineraryId, {
-      include: Events,
+      include: Event,
     });
 
-    const events = await itinerary.getEvents()
+    const events = await itinerary.getEvents();
 
     const massagedRes = {
       ...itinerary.dataValues,
-      events
-    }
+      events,
+    };
 
     res.send(massagedRes);
   } catch (error) {
@@ -40,13 +40,15 @@ router.get("/:userId", async (req, res, next) => {
 // delete an event from itinerary in itinerary view when click X on card
 router.delete("/delete/:itineraryId/:eventId", async (req, res, next) => {
   try {
-    await ItineraryEvents.destroy({
+    await ItineraryEvent.destroy({
       where: {
         itineraryId: req.params.itineraryId,
         eventId: req.params.eventId,
       },
     });
-    newItinerary = await ItineraryEvents.findAll();
+    newItinerary = await ItineraryEvent.findAll({
+      where: { itineraryId: req.params.itineraryId },
+    });
     res.status(202).send(newItinerary);
   } catch (error) {
     next(error);
@@ -56,7 +58,7 @@ router.delete("/delete/:itineraryId/:eventId", async (req, res, next) => {
 // edit order of events, day 0 is unassigned // not functional yet
 router.put("/edit/:itineraryId", async (req, res, next) => {
   try {
-    let itinerary = await ItineraryEvents.findOne({
+    let itinerary = await ItineraryEvent.findOne({
       where: {
         itineraryId: req.params.itineraryId,
       },

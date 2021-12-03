@@ -92,6 +92,7 @@ const Itinerary = (props) => {
                                 >
                                   <EventCard
                                     id={trip.id}
+                                    trip={trip}
                                     itinerary={itinerary}
                                     name={trip.name}
                                     location={trip.location}
