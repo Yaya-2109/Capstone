@@ -1,22 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchItineraries } from '../../store/itineraries';
-import { Itinerary } from '../Itinerary/Itinerary'
 
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 import {
   createItinerary,
   fetchAllItineraries,
-} from '../../store/createItinerary';
+} from "../../store/createItinerary";
 
 class CreateItinerary extends React.Component {
   constructor() {
     super();
     this.state = {
-      name: '',
-      startDate: '',
-      endDate: '',
+      name: "",
+      startDate: "",
+      endDate: "",
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -42,9 +41,9 @@ class CreateItinerary extends React.Component {
     evt.preventDefault();
     this.props.createItinerary({ ...this.state }, this.props.userId);
     this.setState({
-      name: '',
-      startDate: '',
-      endDate: '',
+      name: "",
+      startDate: "",
+      endDate: "",
     });
   }
 
@@ -84,31 +83,31 @@ class CreateItinerary extends React.Component {
         <div>
           <h1>Welcome, {capitalizeName(this.props.user.username)}!</h1>
           <form onSubmit={handleSubmit}>
-            <label htmlFor='name'>Itinerary Name:</label>
+            <label htmlFor="name">Itinerary Name:</label>
             <input
-              name='name'
+              name="name"
               onChange={handleChange}
               value={name}
-              placeholder='Your Itinerary Name'
+              placeholder="Your Itinerary Name"
             />
 
-            <label htmlFor='startDate'>Start Date:</label>
+            <label htmlFor="startDate">Start Date:</label>
             <input
-              name='startDate'
+              name="startDate"
               onChange={handleChange}
               value={startDate}
-              placeholder='YYYY-MM-DD'
+              placeholder="YYYY-MM-DD"
             />
 
-            <label htmlFor='endDate'>End Date:</label>
+            <label htmlFor="endDate">End Date:</label>
             <input
-              name='endDate'
+              name="endDate"
               onChange={handleChange}
               value={endDate}
-              placeholder='YYYY-MM-DD'
+              placeholder="YYYY-MM-DD"
             />
 
-            <button type='submit'>Submit</button>
+            <button type="submit">Submit</button>
           </form>
         </div>
       </div>

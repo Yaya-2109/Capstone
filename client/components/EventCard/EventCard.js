@@ -1,10 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { removeEvent } from "../../store/itineraries";
-import { useDispatch } from "react-redux";
+import { removeEvent } from "../../store/itinerary";
+import { useDispatch, useSelector } from "react-redux";
 
 const EventCard = (props) => {
   const dispatch = useDispatch();
+
+  const user = useSelector((state) => state.auth)
+
   return (
     <div className="border-t-0 border-r-2 border-l-2 border-b-2 my-1 grid grid-cols-12 bg-white filter drop-shadow-md">
       <div className="col-span-2">
@@ -14,7 +17,7 @@ const EventCard = (props) => {
         <div className="flex justify-between">
           <p className="text-xs font-bold">{props.name}</p>
           <span
-            onClick={() => dispatch(removeEvent(props.itinerary.id, props.id))}
+            onClick={() => dispatch(removeEvent(props.trip, user))}
           >
             X
           </span>

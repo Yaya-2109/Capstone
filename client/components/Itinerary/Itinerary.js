@@ -75,34 +75,37 @@ const Itinerary = (props) => {
               <Droppable droppableId="day1">
                 {(provided) => (
                   <ul {...provided.droppableProps} ref={provided.innerRef}>
-                    {itinerary.events ? itinerary.events.map((trip, index) => {
-                      return (
-                        <Draggable
-                          key={trip.id}
-                          draggableId={String(trip.id)}
-                          index={index}
-                        >
-                          {(provided) => (
-                            <li
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              ref={provided.innerRef}
-                              className="inline-block"
+                    {itinerary.events
+                      ? itinerary.events.map((trip, index) => {
+                          return (
+                            <Draggable
+                              key={trip.id}
+                              draggableId={String(trip.id)}
+                              index={index}
                             >
-                              <EventCard
-                                id={trip.id}
-                                itinerary={itinerary}
-                                name={trip.name}
-                                location={trip.location}
-                                description={trip.description}
-                                imageUrl={trip.imageUrl}
-                                attendees={trip.attendees}
-                              />
-                            </li>
-                          )}
-                        </Draggable>
-                      );
-                    }) : "Add some events, your itinerary is looking boring"}
+                              {(provided) => (
+                                <li
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                  ref={provided.innerRef}
+                                  className="inline-block"
+                                >
+                                  <EventCard
+                                    id={trip.id}
+                                    trip={trip}
+                                    itinerary={itinerary}
+                                    name={trip.name}
+                                    location={trip.location}
+                                    description={trip.description}
+                                    imageUrl={trip.imageUrl}
+                                    attendees={trip.attendees}
+                                  />
+                                </li>
+                              )}
+                            </Draggable>
+                          );
+                        })
+                      : "Add some events, your itinerary is looking boring"}
                     {provided.placeholder}
                   </ul>
                 )}
