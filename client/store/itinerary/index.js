@@ -5,6 +5,7 @@ const GET_ITINERARIES = "GET_ITINERARIES";
 const GET_ITINERARY = "GET_ITINERARY";
 const DELETE_EVENT = "DELETE_EVENT";
 const UPDATE_ITINERARY = "UPDATE_ITINERARY";
+
 //action creators
 export const getItineraries = (itineraries) => {
   return { type: GET_ITINERARIES, itineraries };
@@ -41,15 +42,28 @@ export const fetchItinerary = (itineraryId, userId) =>
     }
   };
 
+<<<<<<< HEAD
 export const removeEvent = (itineraryId, tripId) =>
   async function (dispatch) {
     try {
       let { data } = await axios.delete(
         `/api/itinerary/delete/${itineraryId}/${tripId}`
+=======
+export const removeEvent = (trip, user) =>
+async function (dispatch) {
+    const { itineraryId, id } = trip
+
+    try {
+      let { data } = await axios.delete(
+        `/api/itinerary/delete/${itineraryId}/${id}`
+>>>>>>> db11703ffae6872cced84ce9ae872947b1fad0ce
       );
-      console.log("DATA", data);
       dispatch(deleteEvent(data));
+<<<<<<< HEAD
       // dispatch(getItinerary(trip.itinerary));
+=======
+      dispatch(fetchItinerary(itineraryId, user.id))
+>>>>>>> db11703ffae6872cced84ce9ae872947b1fad0ce
     } catch (err) {
       return err;
     }
@@ -72,24 +86,24 @@ export const reorderItinerary = (itinerary, newOrder) =>
   };
 
 //reducer
-let initialState = [];
+let initialState = {};
+
 export default function (state = initialState, action) {
   switch (action.type) {
-    case GET_ITINERARIES:
-      return action.itineraries;
     case GET_ITINERARY:
       return action.itinerary;
-    case DELETE_EVENT:
+    case DELETE_EVENT: {
       let newState = state.events.filter(
-        (event) => event.id !== action.eventId
+        (event) => event.id !== action.event.id
       );
       return newState;
-    case UPDATE_ITINERARY:
-      // console.log("state", state);
+    }
+    case UPDATE_ITINERARY: {
       let newOrder = [...state];
       console.log("newOrder", newOrder);
       newOrder.events = action.events;
       return newOrder;
+    }
     default:
       return state;
   }

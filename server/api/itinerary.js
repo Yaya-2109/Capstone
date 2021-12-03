@@ -6,7 +6,7 @@ const {
 
 module.exports = router;
 
-//api/itinerary/:itineraryId/userId => gets a user's single itinerary by their ids
+//api/itinerary/:itineraryId/userId => gets a user's single itinerary dby their ids
 router.get("/:itineraryId/:userId", async (req, res, next) => {
   try {
     const itinerary = await Itinerary.findByPk(req.params.itineraryId, {
@@ -40,16 +40,23 @@ router.get("/:userId", async (req, res, next) => {
 // delete an event from itinerary in itinerary view when click X on card
 router.delete("/delete/:itineraryId/:eventId", async (req, res, next) => {
   try {
-    await ItineraryEvent.destroy({
+    const itinerary = await Itinerary.findByPk(req.params.itineraryId);
+    const deletedEvent = await Event.findOne({
       where: {
         itineraryId: req.params.itineraryId,
-        eventId: req.params.eventId,
+        id: req.params.eventId,
       },
     });
-    newItinerary = await ItineraryEvent.findAll({
-      where: { itineraryId: req.params.itineraryId },
+    await itinerary.removeEvent(req.params.eventId);
+    await Event.destroy({
+      where: {
+        itineraryId: req.params.itineraryId,
+        id: req.params.eventId,
+      },
     });
-    res.status(202).send(newItinerary);
+
+    res.send(deletedEvent);
+    // res.status(202).send(updatedEvents);
   } catch (error) {
     next(error);
   }
