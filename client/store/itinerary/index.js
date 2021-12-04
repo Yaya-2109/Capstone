@@ -1,10 +1,10 @@
-import axios from "axios";
+import axios from 'axios';
 
 //action types
-const GET_ITINERARIES = "GET_ITINERARIES";
-const GET_ITINERARY = "GET_ITINERARY";
-const DELETE_EVENT = "DELETE_EVENT";
-const UPDATE_ITINERARY = "UPDATE_ITINERARY";
+const GET_ITINERARIES = 'GET_ITINERARIES';
+const GET_ITINERARY = 'GET_ITINERARY';
+const DELETE_EVENT = 'DELETE_EVENT';
+const UPDATE_ITINERARY = 'UPDATE_ITINERARY';
 
 //action creators
 export const getItineraries = (itineraries) => {
@@ -17,8 +17,8 @@ export const deleteEvent = (event) => {
   return { type: DELETE_EVENT, event };
 };
 
-export const updateEventPosition = (event) => {
-  return { type: UPDATE_ITINERARY, event };
+export const updateItinerary = (events) => {
+  return { type: UPDATE_ITINERARY, events };
 };
 
 //thunk creators
@@ -43,30 +43,30 @@ export const fetchItinerary = (itineraryId, userId) =>
   };
 
 export const removeEvent = (trip, user) =>
-async function (dispatch) {
-    const { itineraryId, id } = trip
+  async function (dispatch) {
+    const { itineraryId, id } = trip;
 
     try {
       let { data } = await axios.delete(
         `/api/itinerary/delete/${itineraryId}/${id}`
       );
       dispatch(deleteEvent(data));
-      dispatch(fetchItinerary(itineraryId, user.id))
+      dispatch(fetchItinerary(itineraryId, user.id));
     } catch (err) {
       return err;
     }
   };
 
 //not functional
-export const reorderItinerary = (event, position) =>
+export const reorderItinerary = (updatedItineraryEvents) =>
   async function (dispatch) {
     try {
       let { data } = await axios.put(
-        `/api/itinerary/edit/${event.itineraryId}/${event.id}`,
-        position
+        `/api/itinerary/edit/${updatedItineraryEvents[0].itineraryId}`,
+        updatedItineraryEvents
       );
-      console.log("DATA", data);
-      dispatch(updateItinerary(data));
+
+      dispatch(getItinerary(data));
     } catch (err) {
       return err;
     }
@@ -77,8 +77,13 @@ let initialState = {};
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case GET_ITINERARY:
-      return action.itinerary;
+    case GET_ITINERARY: {
+      console.log('ACTION: ', action);
+      const sorted = action.itinerary.events.sort((a, b) => {
+        return a.itineraryEvents.position - b.itineraryEvents.position;
+      });
+      return { ...state, ...action.itinerary, events: sorted };
+    }
     case DELETE_EVENT: {
       let newState = state.events.filter(
         (event) => event.id !== action.event.id
@@ -86,11 +91,11 @@ export default function (state = initialState, action) {
       return newState;
     }
     case UPDATE_ITINERARY: {
-      console.log("action: ", action);
-      let newOrder = [...state];
-      console.log("newOrder", newOrder);
-      newOrder.events = action.itinerary.events;
-      return newOrder;
+      const sorted = action.events.sort((a, b) => {
+        return a.itineraryEvents.position - b.itineraryEvents.position;
+      });
+      console.log(sorted);
+      return { ...state, events: sorted };
     }
     default:
       return state;

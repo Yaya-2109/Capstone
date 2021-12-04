@@ -126,6 +126,14 @@ const Itinerary = (props) => {
     // tripObjMethods[result.destination.droppableId](
     //   tripObj[result.destination.droppableId]
     // );
+    const updatedItineraryEvents =
+      tripObj.day1.events &&
+      tripObj.day1.events.map((event) => {
+        return event.itineraryEvents;
+      });
+    // console.log('UPDATED ITINERARY EVENTS: ', updatedItineraryEvents);
+
+    dispatch(reorderItinerary(updatedItineraryEvents));
   }
 
   return (
