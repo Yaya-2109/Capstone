@@ -1,19 +1,19 @@
-import React from "react";
-import { connect } from "react-redux";
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
-import Day from "../Day/Day";
-import EventCard from "../EventCard/EventCard";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchItinerary, reorderItinerary } from "../../store/itinerary";
+import React from 'react';
+import { connect } from 'react-redux';
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import Day from '../Day/Day';
+import EventCard from '../EventCard/EventCard';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchItinerary, reorderItinerary } from '../../store/itinerary';
 
 let trips = [];
 let unassignedTrips = [];
 
 const Itinerary = (props) => {
   const user = useSelector((state) => state.auth);
-  const itinerary = useSelector((state) => state.itinerary)
+  const itinerary = useSelector((state) => state.itinerary);
 
   let [tripList, updateTripList] = useState(itinerary);
   let [unassigned, updateUnassigned] = useState([]);
@@ -41,7 +41,7 @@ const Itinerary = (props) => {
     // console.log("result.source.index", result.source.index);
     if (!result.destination) return;
 
-    // result.source = obj {index, droppableId} 
+    // result.source = obj {index, droppableId}
     // index = grabbed event position in container
     // droppableId = name of container column
     //   if(event.position < req.body && event.position > UpdatingEvent.position) {
@@ -64,39 +64,56 @@ const Itinerary = (props) => {
     //     //   // await UpdatingEvent.update({positon: req.body})
     //     // }
     console.log(tripObj);
-    tripObj.day1.events.forEach(item => {
+    tripObj.day1.events.forEach((item) => {
       // Moving events position < updated position
-      if(tripObj.day1.events[result.source.index].itineraryEvents.position <= (result.destination.index + 1)) {
-         // item position < updated position and item position > starting position
-        if(item.itineraryEvents.position <= (result.destination.index + 1) && item.itineraryEvents.position > (result.source.index + 1)) {
+      if (
+        tripObj.day1.events[result.source.index].itineraryEvents.position <=
+        result.destination.index + 1
+      ) {
+        // item position < updated position and item position > starting position
+        if (
+          item.itineraryEvents.position <= result.destination.index + 1 &&
+          item.itineraryEvents.position > result.source.index + 1
+        ) {
           // Subtract one from the items position
           item.itineraryEvents.position = item.itineraryEvents.position - 1;
           // Update the moving events position to the updated position
-          tripObj.day1.events[result.source.index].itineraryEvents.position = result.destination.index + 1;
+          tripObj.day1.events[result.source.index].itineraryEvents.position =
+            result.destination.index + 1;
           // else if item position >= updated position
         }
         // else if moving events position == null
-        if (tripObj.day1.events[result.source.index].itineraryEvents.position === null) {
-           // if item position >= updated position
-          if(item.itineraryEvents.position >= result.destination.index + 1) {
+        if (
+          tripObj.day1.events[result.source.index].itineraryEvents.position ===
+          null
+        ) {
+          // if item position >= updated position
+          if (item.itineraryEvents.position >= result.destination.index + 1) {
             // item position = +1 its position
             item.itineraryEvents.position = item.itineraryEvents.position + 1;
             // Moving events position = updated position
-            tripObj.day1.events[result.source.index].itineraryEvents.position = result.destination.index + 1;
+            tripObj.day1.events[result.source.index].itineraryEvents.position =
+              result.destination.index + 1;
           }
           // Moving events position = updated position
-          tripObj.day1.events[result.source.index].itineraryEvents.position = result.destination.index + 1
+          tripObj.day1.events[result.source.index].itineraryEvents.position =
+            result.destination.index + 1;
         }
-      } else if(item.itineraryEvents.position < (result.source.index + 1) && item.itineraryEvents.position >= result.destination.index + 1) {
-        item.itineraryEvents.position = item.itineraryEvents.position + 1;
-        tripObj.day1.events[result.source.index].itineraryEvents.position = result.destination.index + 1;
       }
-    })
-    console.log(tripObj)
+      if (
+        item.itineraryEvents.position < result.source.index + 1 &&
+        item.itineraryEvents.position >= result.destination.index + 1
+      ) {
+        item.itineraryEvents.position = item.itineraryEvents.position + 1;
+        tripObj.day1.events[result.source.index].itineraryEvents.position =
+          result.destination.index + 1;
+      }
+    });
+    console.log(tripObj);
     // const changingEvent = tripObj.day1.events[result.source.index];
     // console.log("eventToUpdate:", changingEvent);
-    console.log("result.source: ",result.source)
-    console.log("result.destination: ",result.destination)
+    console.log('result.source: ', result.source);
+    console.log('result.destination: ', result.destination);
 
     // const updatedPosition = result.destination.index
     // console.log("updatedPosition: ", updatedPosition)
@@ -114,16 +131,16 @@ const Itinerary = (props) => {
   return (
     <>
       <DragDropContext onDragEnd={handleOnDragEnd}>
-        <div className="grid m-3 gap-6 grid-cols-12">
-          <div className="flex flex-col col-span-6 ">
-            <div className="my-2 flex space-around">
-              <button className="p-2 border-2 block rounded-md">Day 1</button>
-              <button className="p-2 border-2 block rounded-md">Day 2</button>
-              <button className="p-2 border-2 block rounded-md">Day 3</button>
+        <div className='grid m-3 gap-6 grid-cols-12'>
+          <div className='flex flex-col col-span-6 '>
+            <div className='my-2 flex space-around'>
+              <button className='p-2 border-2 block rounded-md'>Day 1</button>
+              <button className='p-2 border-2 block rounded-md'>Day 2</button>
+              <button className='p-2 border-2 block rounded-md'>Day 3</button>
             </div>
 
-            <div className="flex">
-              <Droppable droppableId="day1">
+            <div className='flex'>
+              <Droppable droppableId='day1'>
                 {(provided) => (
                   <ul {...provided.droppableProps} ref={provided.innerRef}>
                     {itinerary.events
@@ -139,7 +156,7 @@ const Itinerary = (props) => {
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
                                   ref={provided.innerRef}
-                                  className="inline-block"
+                                  className='inline-block'
                                 >
                                   <EventCard
                                     id={trip.id}
@@ -156,7 +173,7 @@ const Itinerary = (props) => {
                             </Draggable>
                           );
                         })
-                      : "Add some events, your itinerary is looking boring"}
+                      : 'Add some events, your itinerary is looking boring'}
                     {provided.placeholder}
                   </ul>
                 )}
@@ -164,24 +181,24 @@ const Itinerary = (props) => {
             </div>
           </div>
 
-          <div className="col-span-6 p-6 flex items-center">
+          <div className='col-span-6 p-6 flex items-center'>
             <img
-              src="https://www.tripsavvy.com/thmb/1OWt6nE-xYX5v9CkEkHSbL4cRCg=/882x766/filters:fill(auto,1)/Google-Maps-5--58e4125e5f9b58ef7e4c582d.png"
-              alt="New York"
+              src='https://www.tripsavvy.com/thmb/1OWt6nE-xYX5v9CkEkHSbL4cRCg=/882x766/filters:fill(auto,1)/Google-Maps-5--58e4125e5f9b58ef7e4c582d.png'
+              alt='New York'
             />
           </div>
         </div>
 
         <div>
-          <h2 className="font-semibold underline">Unassigned:</h2>
-          <div className="grid m-3 grid-cols-12">
-            <div className="flex col-span-12">
-              <Droppable droppableId="unassigned">
+          <h2 className='font-semibold underline'>Unassigned:</h2>
+          <div className='grid m-3 grid-cols-12'>
+            <div className='flex col-span-12'>
+              <Droppable droppableId='unassigned'>
                 {(provided) => (
                   <div
                     {...provided.droppableProps}
                     ref={provided.innerRef}
-                    className="flex flex-row space-even"
+                    className='flex flex-row space-even'
                   >
                     {unassignedTrips &&
                       unassignedTrips.map((trip, index) => {
@@ -196,7 +213,7 @@ const Itinerary = (props) => {
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
                                 ref={provided.innerRef}
-                                className="w-1/6 h-12"
+                                className='w-1/6 h-12'
                               >
                                 <EventCard
                                   id={trip.id}
