@@ -17,8 +17,8 @@ export const deleteEvent = (event) => {
   return { type: DELETE_EVENT, event };
 };
 
-export const updateItinerary = (itinerary) => {
-  return { type: UPDATE_ITINERARY, itinerary };
+export const updateEventPosition = (event) => {
+  return { type: UPDATE_ITINERARY, event };
 };
 
 //thunk creators
@@ -58,13 +58,12 @@ async function (dispatch) {
   };
 
 //not functional
-export const reorderItinerary = (itinerary, newOrder) =>
+export const reorderItinerary = (event, position) =>
   async function (dispatch) {
     try {
-      console.log(newOrder);
       let { data } = await axios.put(
-        `/api/itinerary/edit/${itinerary.id}`,
-        newOrder
+        `/api/itinerary/edit/${event.itineraryId}/${event.id}`,
+        position
       );
       console.log("DATA", data);
       dispatch(updateItinerary(data));
@@ -90,7 +89,7 @@ export default function (state = initialState, action) {
       console.log("action: ", action);
       let newOrder = [...state];
       console.log("newOrder", newOrder);
-      newOrder.events = action.events;
+      newOrder.events = action.itinerary.events;
       return newOrder;
     }
     default:

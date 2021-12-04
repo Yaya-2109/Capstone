@@ -3,6 +3,7 @@ const Sequelize = require("sequelize");
 const {
   models: { Itinerary, User, ItineraryEvent, Event },
 } = require("../db");
+const ItineraryEvents = require("../db/models/ItineraryEvent");
 
 module.exports = router;
 
@@ -64,24 +65,65 @@ router.delete("/delete/:itineraryId/:eventId", async (req, res, next) => {
 });
 
 // edit order of events, day 0 is unassigned // not functional yet
-router.put("/edit/:itineraryId", async (req, res, next) => {
+router.put("/edit/:itineraryId/:eventId", async (req, res, next) => {
   try {
-    let itinerary = await Itinerary.findOne({
+    let Events = await ItineraryEvent.findAll({
       where: {
-        id: req.params.itineraryId,
+        itineraryId: req.params.itineraryId,
       },
-      include: Event
     });
-    const neededEvent = await Event.findOne({
+    // console.log("itinerary:", Events);
+    let UpdatingEvent = await ItineraryEvent.findOne({
       where: {
-        id: 1
+        itineraryId : req.params.itineraryId,
+        eventId: req.params.eventId
       }
     })
-    console.log(neededEvent)
-    const updatedSet = await neededEvent.dataValues.set('id', 24, {raw: true}).changed(id, true)
-    console.log("Updated: ", updatedSet)
-    itinerary.events = req.body
-    res.status(202).send(itinerary);
+    let ourEvent = await ItineraryEvent.findOne({
+      where: {
+        itineraryId: req.params.itineraryId,
+        eventId: req.params.eventId
+      }
+    })
+
+    console.log("UpdatingEvent:", UpdatingEvent);
+    // Events.forEach( async event => {
+    //   if(event.position < req.body && event.position > UpdatingEvent.position) {
+    //     await event.update({position: event.position - 1})
+    //       await UpdatingEvent.update({positon: req.body})
+    //     }
+    //     // await UpdatingEvent.update({positon: req.body})
+    //      else if(UpdatingEvent.position === null) {
+    //     //  await UpdatingEvent.update({positon: req.body}) }
+    //      if(event.position >= req.body) {
+    //         await event.update({position: event.position + 1})
+    //           await UpdatingEvent.update({positon: req.body})
+    //         }
+    //         // await UpdatingEvent.update({positon: req.body})
+    //     } })
+    //     // if(event.position >= req.body) {
+    //     //   await event.update({position: event.position + 1}).then(async () => {
+    //     //     await UpdatingEvent.update({positon: req.body})
+    //     //   })
+    //     //   // await UpdatingEvent.update({positon: req.body})
+    //     // }
+    const eventsBelow = Events.map(event => {
+      console.log(event);
+      if(event.position < req.body && event.position > UpdatingEvent.position) {
+        return event.dataValues;
+      }
+    })
+    const eventsAbove = [];
+    Events.forEach(event => {
+      if(UpdatingEvent.position === null) {
+        if(event.position >= req.body) {
+          eventsAbove.push(event.dataValues);
+        }
+      }
+    })
+    console.log(eventsBelow)
+    console.log(eventsAbove)
+    res.status(202).send("hi");
   } catch (error) {
     next(error);
   }
