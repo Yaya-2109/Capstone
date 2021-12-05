@@ -17,6 +17,9 @@ router.get('/:itineraryId/:userId', async (req, res, next) => {
 
     const events = await itinerary.getEvents();
 
+    // events.forEach((event) => {
+    //   console.log(event.itineraryEvents)
+    // })
     const massagedRes = {
       ...itinerary.dataValues,
       events,
@@ -80,34 +83,32 @@ router.put('/edit/:itineraryId', async (req, res, next) => {
           itineraryId: event.itineraryId,
           eventId: event.eventId,
         },
+      })
+      .then((data) => {
+        const singleEvent = data.find((event) => {
+          return (
+            event.eventId === foundEvent.eventId &&
+            event.itineraryId === foundEvent.itineraryId
+          );
+        })
+      .then((foundedEvent) => await foundedEvent.update(singleEvent))
+      })
+    .then(() => {
+      const itinerary = await Itinerary.findByPk(req.params.itineraryId, {
+        include: Event,
       });
-
-      const singleEvent = allEvents.find((event) => {
-        return (
-          event.eventId === foundEvent.eventId &&
-          event.itineraryId === foundEvent.itineraryId
-        );
-      });
-
-      // console.log('SINGLE EVENT: ', singleEvent);
-
-      await foundEvent.update(singleEvent);
-    });
-
-    const itinerary = await Itinerary.findByPk(req.params.itineraryId, {
-      include: Event,
-    });
-
-    const events = await itinerary.getEvents();
-
-    // console.log(events);
-
-    const massagedRes = {
-      ...itinerary.dataValues,
-      events,
-    };
-
-    res.send(massagedRes);
+      const events = await itinerary.getEvents();
+    })
+    .then(() => {
+      const massagedRes = {
+        ...itinerary.dataValues,
+        events,
+      };
+      massagedRes.events.forEach((event) => {
+        console.log(event.itineraryEvents)
+      })
+    })
+    // res.send("hi")
   } catch (error) {
     next(error);
   }

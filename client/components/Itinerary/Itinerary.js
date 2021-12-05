@@ -44,42 +44,22 @@ const Itinerary = (props) => {
     // result.source = obj {index, droppableId}
     // index = grabbed event position in container
     // droppableId = name of container column
-    //   if(event.position < req.body && event.position > UpdatingEvent.position) {
-    //     await event.update({position: event.position - 1})
-    //       await UpdatingEvent.update({positon: req.body})
-    //     }
-    //     // await UpdatingEvent.update({positon: req.body})
-    //      else if(UpdatingEvent.position === null) {
-    //     //  await UpdatingEvent.update({positon: req.body}) }
-    //      if(event.position >= req.body) {
-    //         await event.update({position: event.position + 1})
-    //           await UpdatingEvent.update({positon: req.body})
-    //         }
-    //         // await UpdatingEvent.update({positon: req.body})
-    //     } })
-    //     // if(event.position >= req.body) {
-    //     //   await event.update({position: event.position + 1}).then(async () => {
-    //     //     await UpdatingEvent.update({positon: req.body})
-    //     //   })
-    //     //   // await UpdatingEvent.update({positon: req.body})
-    //     // }
     console.log(tripObj);
     tripObj.day1.events.forEach((item) => {
       // Moving events position < updated position
       if (
-        tripObj.day1.events[result.source.index].itineraryEvents.position <=
+        tripObj.day1.events[result.source.index].itineraryEvents.position <
         result.destination.index + 1
       ) {
         // item position < updated position and item position > starting position
         if (
+          // Case 1
           item.itineraryEvents.position <= result.destination.index + 1 &&
-          item.itineraryEvents.position > result.source.index + 1
+          item.itineraryEvents.position >= result.source.index + 1
         ) {
           // Subtract one from the items position
+          console.log("Case 1: ", item.name, " losing one and ", tripObj.day1.events[result.source.index], "gets position ", result.destination.index + 1)
           item.itineraryEvents.position = item.itineraryEvents.position - 1;
-          // Update the moving events position to the updated position
-          tripObj.day1.events[result.source.index].itineraryEvents.position =
-            result.destination.index + 1;
           // else if item position >= updated position
         }
         // else if moving events position == null
@@ -90,12 +70,14 @@ const Itinerary = (props) => {
           // if item position >= updated position
           if (item.itineraryEvents.position >= result.destination.index + 1) {
             // item position = +1 its position
+            console.log("If this is firing somethings wrong!, null case");
             item.itineraryEvents.position = item.itineraryEvents.position + 1;
             // Moving events position = updated position
             tripObj.day1.events[result.source.index].itineraryEvents.position =
               result.destination.index + 1;
           }
           // Moving events position = updated position
+          console.log("this shouldnt fire either, null case");
           tripObj.day1.events[result.source.index].itineraryEvents.position =
             result.destination.index + 1;
         }
@@ -109,6 +91,9 @@ const Itinerary = (props) => {
           result.destination.index + 1;
       }
     });
+    // Update the moving events position to the updated position
+    tripObj.day1.events[result.source.index].itineraryEvents.position =
+    result.destination.index + 1;
     console.log(tripObj);
     // const changingEvent = tripObj.day1.events[result.source.index];
     // console.log("eventToUpdate:", changingEvent);
@@ -131,8 +116,7 @@ const Itinerary = (props) => {
       tripObj.day1.events.map((event) => {
         return event.itineraryEvents;
       });
-    // console.log('UPDATED ITINERARY EVENTS: ', updatedItineraryEvents);
-
+   console.log('UPDATED ITINERARY EVENTS: ', updatedItineraryEvents);
     dispatch(reorderItinerary(updatedItineraryEvents));
   }
 
