@@ -65,7 +65,6 @@ export const reorderItinerary = (updatedItineraryEvents) =>
         `/api/itinerary/edit/${updatedItineraryEvents[0].itineraryId}`,
         updatedItineraryEvents
       )
-
       dispatch(fetchItinerary(data.id, data.userId))
     } catch (err) {
       return err;

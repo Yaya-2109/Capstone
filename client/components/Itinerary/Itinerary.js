@@ -8,7 +8,6 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchItinerary, reorderItinerary } from '../../store/itinerary';
 
-let trips = [];
 let unassignedTrips = [];
 
 const Itinerary = (props) => {
@@ -32,33 +31,23 @@ const Itinerary = (props) => {
     unassigned: updateUnassigned,
   };
   function handleOnDragEnd(result) {
-    // console.log(result);
-    // updateTripList(itinerary);
-    // console.log(
-    //   "tripObj[result.source.droppableId]",
-    //   tripObj[result.source.droppableId]
-    // );
-    // console.log("result.source.index", result.source.index);
     if (!result.destination) return;
-
     // result.source = obj {index, droppableId}
     // index = grabbed event position in container
     // droppableId = name of container column
     console.log(tripObj);
     tripObj.day1.events.forEach((item) => {
-      // Moving events position < updated position
+      // Moving events position < updated position (Case 1)
       if (
         tripObj.day1.events[result.source.index].itineraryEvents.position <
         result.destination.index + 1
       ) {
         // item position < updated position and item position > starting position
         if (
-          // Case 1
           item.itineraryEvents.position <= result.destination.index + 1 &&
           item.itineraryEvents.position >= result.source.index + 1
         ) {
           // Subtract one from the items position
-          console.log("Case 1: ", item.name, " losing one and ", tripObj.day1.events[result.source.index], "gets position ", result.destination.index + 1)
           item.itineraryEvents.position = item.itineraryEvents.position - 1;
           // else if item position >= updated position
         }
@@ -72,26 +61,23 @@ const Itinerary = (props) => {
             // item position = +1 its position
             console.log("If this is firing somethings wrong!, null case");
             item.itineraryEvents.position = item.itineraryEvents.position + 1;
-            // Moving events position = updated position
-            tripObj.day1.events[result.source.index].itineraryEvents.position =
-              result.destination.index + 1;
           }
           // Moving events position = updated position
           console.log("this shouldnt fire either, null case");
           tripObj.day1.events[result.source.index].itineraryEvents.position =
             result.destination.index + 1;
         }
-      }
-      if (
-        item.itineraryEvents.position < result.source.index + 1 &&
-        item.itineraryEvents.position >= result.destination.index + 1
-      ) {
-        item.itineraryEvents.position = item.itineraryEvents.position + 1;
-        tripObj.day1.events[result.source.index].itineraryEvents.position =
-          result.destination.index + 1;
-      }
+      // Moving events position < updated position (Case 2)
+      } else if(tripObj.day1.events[result.source.index].itineraryEvents.position >
+        result.destination.index + 1) {
+          // item position <= starting position and item position >= updated position
+          if (item.itineraryEvents.position <= result.source.index + 1 &&
+              item.itineraryEvents.position >= result.destination.index + 1) {
+                 item.itineraryEvents.position = item.itineraryEvents.position + 1;
+          }
+       }
     });
-    // Update the moving events position to the updated position
+    // Finally, update the moving events position to the updated position
     tripObj.day1.events[result.source.index].itineraryEvents.position =
     result.destination.index + 1;
     console.log(tripObj);
@@ -99,24 +85,13 @@ const Itinerary = (props) => {
     // console.log("eventToUpdate:", changingEvent);
     console.log('result.source: ', result.source);
     console.log('result.destination: ', result.destination);
-
-    // const updatedPosition = result.destination.index
-    // console.log("updatedPosition: ", updatedPosition)
-
-    // dispatch(reorderItinerary(changingEvent, updatedPosition));
-    // updateTripList(events);
-    // tripObjMethods[result.source.droppableId](
-    //   tripObj[result.source.droppableId]
-    // );
-    // tripObjMethods[result.destination.droppableId](
-    //   tripObj[result.destination.droppableId]
-    // );
+    // Map through the newly updated tripObj with all the events in their proper positions
     const updatedItineraryEvents =
       tripObj.day1.events &&
       tripObj.day1.events.map((event) => {
         return event.itineraryEvents;
       });
-    // console.log('UPDATED ITINERARY EVENTS: ', updatedItineraryEvents);
+    // Pass it to the backend for updating
     dispatch(reorderItinerary(updatedItineraryEvents));
   }
 
