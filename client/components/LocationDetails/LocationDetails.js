@@ -11,6 +11,12 @@ const LocationDetails = ({place}) => {
   const itineraries = useSelector(state => state.itineraries)
   const user = useSelector(state => state.auth)
 
+
+  const handleclick = () => {
+    dispatch(addEventToItinerary({itineraryId, user, place}))
+  }
+
+
   let itinerariesList = itineraries.length > 0 && itineraries.map((item, i) => {
     return (
       <option key={item.location_id} value={item.id}>
@@ -18,11 +24,7 @@ const LocationDetails = ({place}) => {
       </option>
     )
   })
-
-  const handleclick = () => {
-    dispatch(addEventToItinerary({itineraryId, user, place}))
-  }
-
+  
   return (
     <div>
         <p>Name: {place.name}</p>

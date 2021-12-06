@@ -42,8 +42,6 @@ router.get("/:userId", async (req, res, next) => {
 router.post("/addEvent/:itineraryId/:userId", async (req, res, next) => {
   try {
     const itinerary = await Itinerary.findByPk(req.params.itineraryId)
-    console.log(Object.keys(itinerary.__proto__))
-    console.log(req.body)
 
     await itinerary.createEvent({
       ...req.body,

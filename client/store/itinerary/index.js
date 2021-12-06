@@ -36,15 +36,15 @@ export const addEventToItinerary = ({itineraryId, user, place}) => async dispatc
   }
 }
 
-export const fetchItineraries = (userId) =>
-  async function (dispatch) {
-    try {
-      let { data } = await axios.get(`/api/itinerary/${userId}`);
-      dispatch(getItineraries(data));
-    } catch (err) {
-      return err;
-    }
-  };
+// export const fetchItineraries = (userId) =>
+//   async function (dispatch) {
+//     try {
+//       let { data } = await axios.get(`/api/itinerary/${userId}`);
+//       dispatch(getItineraries(data));
+//     } catch (err) {
+//       return err;
+//     }
+//   };
 
 export const fetchItinerary = (itineraryId, userId) =>
   async function (dispatch) {
