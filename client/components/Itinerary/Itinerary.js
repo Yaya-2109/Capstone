@@ -95,6 +95,15 @@ const Itinerary = (props) => {
     dispatch(reorderItinerary(updatedItineraryEvents));
   }
 
+  // let dayInMillisecs = Date.parse(itinerary.endDate) - Date.parse(itinerary.startDate);
+  // let diffDays = (dayInMillisecs/ (1000 * 60 * 60 * 24)); 
+  // console.log(dayInMillisecs);
+  // console.log(diffDays);
+  // let dayArray = [];
+  // dayArray.length = diffDays;
+  // for(let i = 0; i < dayArray.length; i++) {
+  //   dayArray[i] = i + 1;
+  // }
   return (
     <>
       <DragDropContext onDragEnd={handleOnDragEnd}>
