@@ -1,6 +1,7 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { fetchItineraries } from '../../store/itineraries';
+import React from "react";
+import { connect } from "react-redux";
+import { fetchItineraries } from "../../store/itineraries";
+import { Itinerary } from "../Itinerary/Itinerary";
 
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 
@@ -25,7 +26,7 @@ class CreateItinerary extends React.Component {
   componentDidMount() {
     try {
       this.props.getAllItineraries(this.props.userId);
-      this.props.fetchItineraries(this.props.userId)
+      this.props.fetchItineraries(this.props.userId);
     } catch (error) {
       console.error(error);
     }
@@ -125,7 +126,7 @@ const mapDispatchToProps = (dispatch) => ({
   createItinerary: (itinerary, userId) =>
     dispatch(createItinerary(itinerary, userId)),
   getAllItineraries: (userId) => dispatch(fetchAllItineraries(userId)),
-  fetchItineraries: (userId) =>dispatch(fetchItineraries(userId))
+  fetchItineraries: (userId) => dispatch(fetchItineraries(userId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateItinerary);

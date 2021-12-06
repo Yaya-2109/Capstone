@@ -13,7 +13,7 @@ let unassignedTrips = [];
 
 const Itinerary = (props) => {
   const user = useSelector((state) => state.auth);
-  const itinerary = useSelector((state) => state.itinerary)
+  const itinerary = useSelector((state) => state.itinerary);
 
   let [tripList, updateTripList] = useState(itinerary);
   let [unassigned, updateUnassigned] = useState([]);

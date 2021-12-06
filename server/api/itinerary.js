@@ -13,12 +13,12 @@ router.get("/:itineraryId/:userId", async (req, res, next) => {
       include: Event,
     });
 
-    const events = await itinerary.getEvents()
+    const events = await itinerary.getEvents();
 
     const massagedRes = {
       ...itinerary.dataValues,
-      events
-    }
+      events,
+    };
 
     res.send(massagedRes);
   } catch (error) {
@@ -58,23 +58,22 @@ router.post("/addEvent/:itineraryId/:userId", async (req, res, next) => {
 // delete an event from itinerary in itinerary view when click X on card
 router.delete("/delete/:itineraryId/:eventId", async (req, res, next) => {
   try {
-
-    const itinerary = await Itinerary.findByPk(req.params.itineraryId)
+    const itinerary = await Itinerary.findByPk(req.params.itineraryId);
     const deletedEvent = await Event.findOne({
       where: {
         itineraryId: req.params.itineraryId,
-        id: req.params.eventId
-      }
-    })
-    await itinerary.removeEvent(req.params.eventId)
+        id: req.params.eventId,
+      },
+    });
+    await itinerary.removeEvent(req.params.eventId);
     await Event.destroy({
       where: {
         itineraryId: req.params.itineraryId,
-        id: req.params.eventId
-      }
-    })
+        id: req.params.eventId,
+      },
+    });
 
-    res.send(deletedEvent)
+    res.send(deletedEvent);
     // res.status(202).send(updatedEvents);
   } catch (error) {
     next(error);
