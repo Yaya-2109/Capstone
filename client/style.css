@@ -2,10 +2,10 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-/* .bg {
+.bg {
   height: 100vh;
   width: auto;
   left: 0;
   top: 0;
   position: absolute;
-} */
+}
