@@ -8,7 +8,7 @@ const Navbar = ({ handleClick, isLoggedIn, person }) => (
     <div>
       <p className="text-lg">
         {person.username
-          ? "Welcome to BooyaTravel " + person.username + "!"
+          ? "Welcome to BooyaTravel, " + person.username + "!"
           : "BooyaTravel!"}
       </p>
     </div>
