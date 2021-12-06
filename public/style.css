@@ -32245,6 +32245,14 @@ video {
   content: none;
 }
 
+/* .bg {
+  height: 100vh;
+  width: auto;
+  left: 0;
+  top: 0;
+  position: absolute;
+} */
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;
