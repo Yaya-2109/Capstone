@@ -45,7 +45,6 @@ export const fetchItinerary = (itineraryId, userId) =>
 export const removeEvent = (trip, user) =>
   async function (dispatch) {
     const { itineraryId, id } = trip;
-
     try {
       let { data } = await axios.delete(
         `/api/itinerary/delete/${itineraryId}/${id}`
@@ -65,7 +64,10 @@ export const reorderItinerary = (updatedItineraryEvents) =>
         `/api/itinerary/edit/${updatedItineraryEvents[0].itineraryId}`,
         updatedItineraryEvents
       )
-      dispatch(fetchItinerary(data.id, data.userId))
+      dispatch(getItinerary(data));
+      // setTimeout(() => {
+      //   dispatch(fetchItinerary(data.id, data.userId))
+      // })
     } catch (err) {
       return err;
     }

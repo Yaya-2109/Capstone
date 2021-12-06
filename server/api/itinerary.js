@@ -8,13 +8,12 @@ const ItineraryEvents = require('../db/models/ItineraryEvent');
 
 module.exports = router;
 
-//api/itinerary/:itineraryId/userId => gets a user's single itinerary dby their ids
-router.get('/:itineraryId/:userId', async (req, res, next) => {
+async function getItinerarybyId(req, res, next) {
   try {
     const itinerary = await Itinerary.findByPk(req.params.itineraryId, {
       include: Event,
     });
-
+    
     const events = await itinerary.getEvents();
 
     const massagedRes = {
@@ -22,11 +21,14 @@ router.get('/:itineraryId/:userId', async (req, res, next) => {
       events,
     };
 
+    console.log(massagedRes);
     res.send(massagedRes);
   } catch (error) {
     next(error);
   }
-});
+}
+//api/itinerary/:itineraryId/userId => gets a user's single itinerary dby their ids
+router.get('/:itineraryId/:userId',  getItinerarybyId);
 
 //get all a users itineraries
 router.get('/:userId', async (req, res, next) => {
@@ -49,6 +51,12 @@ router.delete('/delete/:itineraryId/:eventId', async (req, res, next) => {
         id: req.params.eventId,
       },
     });
+    const deletedEventPosition = await ItineraryEvents.findOne({
+      where: {
+        itineraryId: req.params.itineraryId,
+        eventId: deletedEvent.id
+      }
+    })
     await itinerary.removeEvent(req.params.eventId);
     await Event.destroy({
       where: {
@@ -56,9 +64,18 @@ router.delete('/delete/:itineraryId/:eventId', async (req, res, next) => {
         id: req.params.eventId,
       },
     });
+    const events = await ItineraryEvents.findAll({
+      where: {
+        itineraryId: req.params.itineraryId
+      }
+    })
+    events.forEach( async event => {
+      if(event.position !== null && event.position > deletedEventPosition.position) {
+      await event.update({position: event.position - 1})
+      }
+    })
 
     res.send(deletedEvent);
-    // res.status(202).send(updatedEvents);
   } catch (error) {
     next(error);
   }
@@ -68,8 +85,7 @@ router.delete('/delete/:itineraryId/:eventId', async (req, res, next) => {
 router.put('/edit/:itineraryId', async (req, res, next) => {
   try {
     const allEvents = req.body;
-
-    const findAndUpdateEvents = () => allEvents.forEach(async (event) => {
+    await Promise.all(allEvents.map(async (event) => {
       await ItineraryEvent.findOne({
         where: {
           itineraryId: event.itineraryId,
@@ -85,37 +101,9 @@ router.put('/edit/:itineraryId', async (req, res, next) => {
         })
         foundEvent.update(singleEvent)
       })
-    })
-
-    findAndUpdateEvents()
-
-    const itineraryId = allEvents[0].itineraryId
-    const itinerary = await Itinerary.findByPk(itineraryId)
-
-    res.send(itinerary)
-
-    // const forEachPromise = new Promise((findAndUpdateEvents, rejectionFunc) => {
-    //   setTimeout(() => {
-    //     findAndUpdateEvents()
-    //   }, 300);
-    // })
-
-    // const values = Promise.all(
-    //   [
-    //     forEachPromise,
-    //     await Itinerary.findByPk(req.params.itineraryId, {
-    //       include: Event,
-    //     })
-    //   ]
-    // )
-    // .then(async (values) => {
-    //   // console.log(values[1])
-    //   const itinerary = values[1]
-    //   // console.log(itinerary.events)
-    //   const { id, name, startDate, endDate, userId } = itinerary
-    //   res.send({id, name, startDate, endDate, userId, events: await itinerary.getEvents()})
-    // })
+    }))
+    next();
   } catch (error) {
     next(error);
   }
-});
+}, getItinerarybyId);

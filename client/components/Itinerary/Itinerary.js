@@ -13,34 +13,35 @@ let unassignedTrips = [];
 const Itinerary = (props) => {
   const user = useSelector((state) => state.auth);
   const itinerary = useSelector((state) => state.itinerary);
-
   
-  let [tripList, updateTripList] = useState(itinerary);
+  // let [tripList, updateTripList] = useState(itinerary);
   let [unassigned, updateUnassigned] = useState([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchItinerary(props.match.params.itineraryId, user.id));
-  }, [tripList]);
+  }, []);
 
-  const assignedEvents = itinerary.events && itinerary.events.map((event) => {
-      if(event.itineraryEvents.day !== 0) {
-        return event
-      }
-  })
+  // useEffect(() => {
+  //   updateTripList(itinerary)
+  // }, [itinerary]);
+  // const assignedEvents = itinerary.events && itinerary.events.map((event) => {
+  //     if(event.itineraryEvents.day !== 0) {
+  //       return event
+  //     }
+  // })
 
   const tripObj = {
     day1: itinerary,
     unassigned: unassigned,
   };
+  console.log(tripObj.day1)
   const tripObjMethods = {
-    day1: updateTripList,
+    day1: itinerary,
     unassigned: updateUnassigned,
   };
   function handleOnDragEnd(result) {
     if (!result.destination) return;
-    // result.source = obj {index, droppableId}
-    // index = grabbed event position in container
     // droppableId = name of container column
     // console.log(tripObj);
     if (result.destination.droppableId === 'day1') {
@@ -103,6 +104,14 @@ const Itinerary = (props) => {
       });
     console.log("updateItinerary: ", updatedItineraryEvents)
     // Pass it to the backend for updating
+    updatedItineraryEvents.sort((a, b) => {
+      return a.position - b.position
+    })
+    tripObj.day1.events.sort((a,b) => {
+      return a.itineraryEvents.position - b.itineraryEvents.position
+    })
+    // updateTripList({...tripObj.day1});
+    // console.log("events: ", tripObj.day1.events)
     dispatch(reorderItinerary(updatedItineraryEvents));
   }
   let dayInMillisecs = Date.parse(itinerary.endDate) - Date.parse(itinerary.startDate);
@@ -120,9 +129,12 @@ const Itinerary = (props) => {
         <div className='grid m-3 gap-6 grid-cols-12'>
           <div className='flex flex-col col-span-6 '>
             <div className='my-2 flex space-around'>
-              <button className='p-2 border-2 block rounded-md'>Day 1</button>
-              <button className='p-2 border-2 block rounded-md'>Day 2</button>
-              <button className='p-2 border-2 block rounded-md'>Day 3</button>
+            <label >Days:  </label>
+              {dayArray.map((day) => {
+                return (
+              <button className="p-2 border-2 block rounded-md" >{day}</button>
+                )
+              })}
             </div>
 
             <div className='flex'>
@@ -131,6 +143,7 @@ const Itinerary = (props) => {
                   <ul {...provided.droppableProps} ref={provided.innerRef}>
                     {itinerary.events
                       ? itinerary.events.map((trip, index) => {
+                        console.log(trip.name, trip.itineraryEvents.position)
                           return (
                             <Draggable
                               key={trip.id}
