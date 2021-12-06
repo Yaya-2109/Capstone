@@ -16,7 +16,7 @@ const AuthForm = (props) => {
           src="https://img.wallpapersafari.com/desktop/1366/768/4/4/CO8lnY.jpg"
         />
       </div>
-      <div className="col-span-3 p-4 flex items-center">
+      <div className="col-span-3 p-5 flex items-center">
         <div className="">
           <p className="font-light text-3xl text-purple-400">
             Welcome to BooyaTravel.
@@ -27,13 +27,13 @@ const AuthForm = (props) => {
           <form onSubmit={handleSubmit} name={name}>
             <div>
               <label htmlFor="username">
-                <small>Username</small>
+                <p className="text-gray-600 text-light">Username</p>
               </label>
               <input className="m-3 border-2" name="username" type="text" />
             </div>
             <div>
               <label htmlFor="password">
-                <small>Password</small>
+                <p className="text-gray-600 text-light">Password</p>
               </label>
               <input className="m-3 border-2" name="password" type="password" />
             </div>
@@ -41,13 +41,13 @@ const AuthForm = (props) => {
               <div>
                 <div>
                   <label htmlFor="email">
-                    <small>Email</small>
+                    <p className="text-gray-600 text-light">Email</p>
                   </label>
                   <input className="m-3 border-2" name="email" type="text" />
                 </div>
                 <div>
                   <label htmlFor="firstName">
-                    <small>First Name</small>
+                    <p className="text-gray-600 text-light">First Name</p>
                   </label>
                   <input
                     className="m-3 border-2"
@@ -57,7 +57,7 @@ const AuthForm = (props) => {
                 </div>
                 <div>
                   <label htmlFor="lastName">
-                    <small>Last Name</small>
+                    <p className="text-gray-600 text-light">Last Name</p>
                   </label>
                   <input className="m-3 border-2" name="lastName" type="text" />
                 </div>
@@ -65,7 +65,7 @@ const AuthForm = (props) => {
             ) : null}
             <div>
               <button
-                className="text-white bg-purple-400 p-1 my-5"
+                className="text-white uppercase bg-purple-400 p-2 my-5"
                 type="submit"
               >
                 {displayName}
