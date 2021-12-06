@@ -17,9 +17,6 @@ router.get('/:itineraryId/:userId', async (req, res, next) => {
 
     const events = await itinerary.getEvents();
 
-    // events.forEach((event) => {
-    //   console.log(event.itineraryEvents)
-    // })
     const massagedRes = {
       ...itinerary.dataValues,
       events,
@@ -70,45 +67,54 @@ router.delete('/delete/:itineraryId/:eventId', async (req, res, next) => {
 // edit order of events, day 0 is unassigned // not functional yet
 router.put('/edit/:itineraryId', async (req, res, next) => {
   try {
-    // let Events = await ItineraryEvent.findAll({
-    //   where: {
-    //     itineraryId: req.params.itineraryId,
-    //   },
-    // });
     const allEvents = req.body;
 
-    allEvents.forEach(async (event, index) => {
-      const foundEvent = await ItineraryEvent.findOne({
+    const findAndUpdateEvents = () => allEvents.forEach(async (event) => {
+      await ItineraryEvent.findOne({
         where: {
           itineraryId: event.itineraryId,
           eventId: event.eventId,
-        },
+        }
       })
-      .then((data) => {
-        const singleEvent = data.find((event) => {
+      .then((foundEvent) => {
+        const singleEvent = allEvents.find((event) => {
           return (
             event.eventId === foundEvent.eventId &&
             event.itineraryId === foundEvent.itineraryId
           );
         })
-      .then((foundedEvent) => await foundedEvent.update(singleEvent))
-      })
-    .then(() => {
-      const itinerary = await Itinerary.findByPk(req.params.itineraryId, {
-        include: Event,
-      });
-      const events = await itinerary.getEvents();
-    })
-    .then(() => {
-      const massagedRes = {
-        ...itinerary.dataValues,
-        events,
-      };
-      massagedRes.events.forEach((event) => {
-        console.log(event.itineraryEvents)
+        foundEvent.update(singleEvent)
       })
     })
-    // res.send("hi")
+
+    findAndUpdateEvents()
+
+    const itineraryId = allEvents[0].itineraryId
+    const itinerary = await Itinerary.findByPk(itineraryId)
+
+    res.send(itinerary)
+
+    // const forEachPromise = new Promise((findAndUpdateEvents, rejectionFunc) => {
+    //   setTimeout(() => {
+    //     findAndUpdateEvents()
+    //   }, 300);
+    // })
+
+    // const values = Promise.all(
+    //   [
+    //     forEachPromise,
+    //     await Itinerary.findByPk(req.params.itineraryId, {
+    //       include: Event,
+    //     })
+    //   ]
+    // )
+    // .then(async (values) => {
+    //   // console.log(values[1])
+    //   const itinerary = values[1]
+    //   // console.log(itinerary.events)
+    //   const { id, name, startDate, endDate, userId } = itinerary
+    //   res.send({id, name, startDate, endDate, userId, events: await itinerary.getEvents()})
+    // })
   } catch (error) {
     next(error);
   }

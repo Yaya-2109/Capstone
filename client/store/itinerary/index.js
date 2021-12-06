@@ -61,11 +61,12 @@ export const removeEvent = (trip, user) =>
 export const reorderItinerary = (updatedItineraryEvents) =>
   async function (dispatch) {
     try {
-      let { data } = await axios.put(
+      const { data } = await axios.put(
         `/api/itinerary/edit/${updatedItineraryEvents[0].itineraryId}`,
         updatedItineraryEvents
-      );
-      dispatch(getItinerary(data));
+      )
+
+      dispatch(fetchItinerary(data.id, data.userId))
     } catch (err) {
       return err;
     }

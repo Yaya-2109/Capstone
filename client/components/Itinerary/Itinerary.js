@@ -116,7 +116,7 @@ const Itinerary = (props) => {
       tripObj.day1.events.map((event) => {
         return event.itineraryEvents;
       });
-   console.log('UPDATED ITINERARY EVENTS: ', updatedItineraryEvents);
+    // console.log('UPDATED ITINERARY EVENTS: ', updatedItineraryEvents);
     dispatch(reorderItinerary(updatedItineraryEvents));
   }
 
