@@ -5,6 +5,7 @@ const GET_ITINERARIES = "GET_ITINERARIES";
 const GET_ITINERARY = "GET_ITINERARY";
 const DELETE_EVENT = "DELETE_EVENT";
 const UPDATE_ITINERARY = "UPDATE_ITINERARY";
+const ADD_TO_ITINERARY = "ADD_TO_ITINERARY"
 
 //action creators
 export const getItineraries = (itineraries) => {
@@ -21,16 +22,29 @@ export const updateItinerary = (itinerary) => {
   return { type: UPDATE_ITINERARY, itinerary };
 };
 
+export const _addEventToItinerary = (itinerary) => {
+  return { type: ADD_TO_ITINERARY, itinerary}
+}
+
 //thunk creators
-export const fetchItineraries = (userId) =>
-  async function (dispatch) {
-    try {
-      let { data } = await axios.get(`/api/itinerary/${userId}`);
-      dispatch(getItineraries(data));
-    } catch (err) {
-      return err;
-    }
-  };
+
+export const addEventToItinerary = ({itineraryId, user, place}) => async dispatch => {
+  try {
+    await axios.post(`/api/itinerary/addEvent/${itineraryId}/${user.id}`, place)
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+// export const fetchItineraries = (userId) =>
+//   async function (dispatch) {
+//     try {
+//       let { data } = await axios.get(`/api/itinerary/${userId}`);
+//       dispatch(getItineraries(data));
+//     } catch (err) {
+//       return err;
+//     }
+//   };
 
 export const fetchItinerary = (itineraryId, userId) =>
   async function (dispatch) {

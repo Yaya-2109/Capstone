@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { fetchItineraries } from './itineraries';
 
 // ACTION TYPES
 const CREATE_ITINERARY = 'CREATE_ITINERARY';
@@ -23,13 +24,12 @@ export const setAllItineraries = (itineraries) => {
 export const createItinerary = (itinerary, userId) => {
   return async (dispatch) => {
     try {
-      console.log(userId);
       const { data: created } = await axios.post(
         `/api/users/${userId}`,
         itinerary
       );
-      console.log('I AM ITINERARY: ', itinerary);
       dispatch(setItinerary(created));
+      dispatch(fetchItineraries(userId))
     } catch (error) {
       console.error(error);
     }
