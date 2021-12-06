@@ -10,9 +10,9 @@ const AuthForm = (props) => {
 
   return (
     <div className="container h-screen grid grid-cols-12">
-      <div className="col-span-8 overflow-hidden overscroll-none">
+      <div className="relative col-span-8 overflow-hidden ">
         <img
-          className="w-screen h-full"
+          className="h-full object-cover object-left w-auto absolute"
           src="https://img.wallpapersafari.com/desktop/1366/768/4/4/CO8lnY.jpg"
         />
       </div>
