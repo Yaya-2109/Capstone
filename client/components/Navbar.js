@@ -6,7 +6,11 @@ import { logout } from "../store";
 const Navbar = ({ handleClick, isLoggedIn, person }) => (
   <div className="bg-green-400 text-white flex items-center justify-between h-16 p-2">
     <div>
-      <h1>{person.username ? 'Welcome to BooyaTravel ' + person.username + '!' : 'Welcome to BooyaTravel!'}</h1>
+      <p className="text-lg">
+        {person.username
+          ? "Welcome to BooyaTravel, " + person.username + "!"
+          : "BooyaTravel!"}
+      </p>
     </div>
     <div className="">
       {isLoggedIn ? (

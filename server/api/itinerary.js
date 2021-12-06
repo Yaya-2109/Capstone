@@ -41,6 +41,24 @@ router.get('/:userId', async (req, res, next) => {
   }
 });
 
+// find the itinerary based on itinerary id
+// itinerary create event
+router.post("/addEvent/:itineraryId/:userId", async (req, res, next) => {
+  try {
+    const itinerary = await Itinerary.findByPk(req.params.itineraryId)
+
+    await itinerary.createEvent({
+      ...req.body,
+      imageUrl: req.body.photo.images.large.url,
+      eventType: req.body.category.name,
+      itineraryId: req.params.itineraryId,
+      eventReponse: req.body
+    })
+  } catch(error) {
+    next(error)
+  }
+})
+
 // delete an event from itinerary in itinerary view when click X on card
 router.delete('/delete/:itineraryId/:eventId', async (req, res, next) => {
   try {
