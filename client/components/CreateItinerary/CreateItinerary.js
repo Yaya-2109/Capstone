@@ -59,7 +59,7 @@ class CreateItinerary extends React.Component {
 
     return (
       <div className="grid gap-4 p-4 grid-rows-12">
-        <div className="flex flex-row row-span-3">
+        <div className="flex flex-row row-span-3 filter mx-auto">
           <p className="text-purple-400 m-2">Make a New Itinerary: </p>
           <form onSubmit={handleSubmit}>
             <label htmlFor="name"></label>
