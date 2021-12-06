@@ -5,7 +5,7 @@ import { addEventToItinerary } from '../../store/itinerary'
 
 const LocationDetails = ({place}) => {
 
-  const [itineraryId, setItinerary] = useState({})
+  const [itineraryId, setItineraryId] = useState({})
   const dispatch = useDispatch()
 
   const itineraries = useSelector(state => state.itineraries)
@@ -24,7 +24,7 @@ const LocationDetails = ({place}) => {
       </option>
     )
   })
-  
+
   return (
     <div>
         <p>Name: {place.name}</p>
