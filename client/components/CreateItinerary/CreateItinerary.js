@@ -59,10 +59,11 @@ class CreateItinerary extends React.Component {
 
     return (
       <div className="grid gap-4 p-4 grid-rows-12">
-
         <div className="flex flex-row row-span-3 filter mx-auto">
           <form onSubmit={handleSubmit}>
-            <label htmlFor="name" className="text-purple-400">Make a New Itinerary</label>
+            <label htmlFor="name" className="text-purple-400">
+              Make a New Itinerary
+            </label>
             <input
               className="mx-3 p-1 border border-2 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
               name="name"
@@ -79,7 +80,7 @@ class CreateItinerary extends React.Component {
               name="startDate"
               onChange={handleChange}
               value={startDate}
-              placeholder="YYYY-MM-DD"
+              type="date"
             />
 
             <label className="text-gray-400" htmlFor="endDate">
@@ -90,7 +91,7 @@ class CreateItinerary extends React.Component {
               name="endDate"
               onChange={handleChange}
               value={endDate}
-              placeholder="YYYY-MM-DD"
+              type="date"
             />
 
             <button
