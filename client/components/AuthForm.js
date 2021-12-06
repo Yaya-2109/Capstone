@@ -9,16 +9,16 @@ const AuthForm = (props) => {
   const { name, displayName, handleSubmit, error } = props;
 
   return (
-    <div className="container h-screen grid grid-cols-12 ">
-      <div className="col-span-9 overflow-hidden overscroll-none">
+    <div className="container h-screen grid grid-cols-12">
+      <div className="col-span-8 overflow-hidden overscroll-none">
         <img
           className="w-screen h-full"
           src="https://img.wallpapersafari.com/desktop/1366/768/4/4/CO8lnY.jpg"
         />
       </div>
-      <div className="col-span-3 p-5 flex items-center">
+      <div className="col-span-4 p-5 flex items-center">
         <div className="">
-          <p className="font-light text-3xl text-purple-400">
+          <p className="font-light text-4xl text-purple-400">
             Welcome to BooyaTravel.
           </p>
           <p className="font-light text-2xl text-gray-400 mb-4">
@@ -29,21 +29,36 @@ const AuthForm = (props) => {
               <label htmlFor="username">
                 <p className="text-gray-600 text-light">Username</p>
               </label>
-              <input className="m-3 border-2" name="username" type="text" />
+              <input
+                className="m-3 border-2"
+                placeholder="Username"
+                name="username"
+                type="text"
+              />
             </div>
             <div>
               <label htmlFor="password">
                 <p className="text-gray-600 text-light">Password</p>
               </label>
-              <input className="m-3 border-2" name="password" type="password" />
+              <input
+                className="m-3 border-2"
+                placeholder="Password"
+                name="password"
+                type="password"
+              />
             </div>
             {displayName === `Sign Up` ? (
               <div>
                 <div>
                   <label htmlFor="email">
-                    <p className="text-gray-600 text-light">Email</p>
+                    <p className="text-gray-600 text-light">Email Address</p>
                   </label>
-                  <input className="m-3 border-2" name="email" type="text" />
+                  <input
+                    className="m-3 border-2"
+                    placeholder="Email"
+                    name="email"
+                    type="text"
+                  />
                 </div>
                 <div>
                   <label htmlFor="firstName">
@@ -51,6 +66,7 @@ const AuthForm = (props) => {
                   </label>
                   <input
                     className="m-3 border-2"
+                    placeholder="First Name"
                     name="firstName"
                     type="text"
                   />
@@ -59,7 +75,12 @@ const AuthForm = (props) => {
                   <label htmlFor="lastName">
                     <p className="text-gray-600 text-light">Last Name</p>
                   </label>
-                  <input className="m-3 border-2" name="lastName" type="text" />
+                  <input
+                    className="m-3 border-2"
+                    placeholder="Last Name"
+                    name="lastName"
+                    type="text"
+                  />
                 </div>
               </div>
             ) : null}
