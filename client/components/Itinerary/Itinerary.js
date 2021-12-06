@@ -24,7 +24,7 @@ const Itinerary = (props) => {
   }, [tripList]);
 
   const tripObj = {
-    day1: tripList,
+    day1: itinerary,
     unassigned: unassigned,
   };
   const tripObjMethods = {
@@ -41,12 +41,19 @@ const Itinerary = (props) => {
     // console.log("result.source.index", result.source.index);
     if (!result.destination) return;
 
+    // result.source = obj {index, droppableId} 
+    // index = grabbed event position in container
+    // droppableId = name of container column
+    console.log("tripObj: ", tripObj)
+    console.log("tripList: ", tripList)
     const [reorderedItem] = tripObj[result.source.droppableId].events.splice(
       result.source.index,
       1
     );
-
     let events = tripObj[result.destination.droppableId].events;
+    console.log("events: ", events)
+    console.log("result.source: ",result.source)
+    console.log("result.destination: ",result.destination)
 
     events.splice(result.destination.index, 0, reorderedItem);
 

@@ -65,15 +65,34 @@ router.delete("/delete/:itineraryId/:eventId", async (req, res, next) => {
 // edit order of events, day 0 is unassigned // not functional yet
 router.put("/edit/:itineraryId", async (req, res, next) => {
   try {
-    let itinerary = await ItineraryEvent.findOne({
+    let itinerary = await Itinerary.findOne({
       where: {
-        itineraryId: req.params.itineraryId,
+        id: req.params.itineraryId,
       },
+      include: Event
     });
-    console.log(itinerary);
-    await itinerary.update(req.body);
+    const neededEvent = await Event.findOne({
+      where: {
+        id: 1
+      }
+    })
+    console.log(neededEvent)
+    const updatedSet = await neededEvent.dataValues.set('id', 24, {raw: true}).changed(id, true)
+    console.log("Updated: ", updatedSet)
+    itinerary.events = req.body
     res.status(202).send(itinerary);
   } catch (error) {
     next(error);
   }
 });
+
+// route.put("/dummyEdit/:itineraryId", async (req, res, next) => {
+//   try {
+//     let itinerary = await Itinerary.findOne({
+//       where: {
+//         id: req.params.itineraryId,
+//       },
+//       include: Event
+//     });
+
+//   }

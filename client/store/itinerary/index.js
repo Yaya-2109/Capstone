@@ -63,7 +63,7 @@ export const reorderItinerary = (itinerary, newOrder) =>
     try {
       console.log(newOrder);
       let { data } = await axios.put(
-        `api/itinerary/edit/${itinerary.id}`,
+        `/api/itinerary/edit/${itinerary.id}`,
         newOrder
       );
       console.log("DATA", data);
@@ -87,6 +87,7 @@ export default function (state = initialState, action) {
       return newState;
     }
     case UPDATE_ITINERARY: {
+      console.log("action: ", action);
       let newOrder = [...state];
       console.log("newOrder", newOrder);
       newOrder.events = action.events;
