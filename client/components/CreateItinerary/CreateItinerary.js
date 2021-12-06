@@ -59,16 +59,16 @@ class CreateItinerary extends React.Component {
 
     return (
       <div className="grid gap-4 p-4 grid-rows-12">
+
         <div className="flex flex-row row-span-3 filter mx-auto">
-          <p className="text-purple-400 m-2">Make a New Itinerary: </p>
           <form onSubmit={handleSubmit}>
-            <label htmlFor="name"></label>
+            <label htmlFor="name" className="text-purple-400">Make a New Itinerary</label>
             <input
               className="mx-3 p-1 border border-2 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
               name="name"
               onChange={handleChange}
               value={name}
-              placeholder="Your Itinerary Name"
+              placeholder="Destination"
             />
 
             <label className="text-gray-400" htmlFor="startDate">
@@ -94,7 +94,7 @@ class CreateItinerary extends React.Component {
             />
 
             <button
-              className="mx-3 uppercase border border-2 border-purple-400 p-1 rounded-md text-purple-400 hover:bg-purple-500 hover:text-white"
+              className="mx-3 font-sm border border-2 border-purple-400 p-1 rounded-md text-purple-400 hover:bg-purple-500 hover:text-white"
               type="submit"
             >
               Submit
