@@ -23,6 +23,12 @@ const Itinerary = (props) => {
     dispatch(fetchItinerary(props.match.params.itineraryId, user.id));
   }, [tripList]);
 
+  const assignedEvents = itinerary.events && itinerary.events.map((event) => {
+      if(event.itineraryEvents.day !== 0) {
+        return event
+      }
+  })
+
   const tripObj = {
     day1: itinerary,
     unassigned: unassigned,
@@ -36,7 +42,8 @@ const Itinerary = (props) => {
     // result.source = obj {index, droppableId}
     // index = grabbed event position in container
     // droppableId = name of container column
-    console.log(tripObj);
+    // console.log(tripObj);
+    if (result.destination.droppableId === 'day1') {
     tripObj.day1.events.forEach((item) => {
       // Moving events position < updated position (Case 1)
       if (
@@ -74,24 +81,27 @@ const Itinerary = (props) => {
           // item position <= starting position and item position >= updated position
           if (item.itineraryEvents.position <= result.source.index + 1 &&
               item.itineraryEvents.position >= result.destination.index + 1) {
+          // item position = +1 its position
                  item.itineraryEvents.position = item.itineraryEvents.position + 1;
           }
        }
     });
+  }
     // Finally, update the moving events position to the updated position
     tripObj.day1.events[result.source.index].itineraryEvents.position =
     result.destination.index + 1;
-    console.log(tripObj);
+    // console.log(tripObj);
     // const changingEvent = tripObj.day1.events[result.source.index];
     // console.log("eventToUpdate:", changingEvent);
-    console.log('result.source: ', result.source);
-    console.log('result.destination: ', result.destination);
+    // console.log('result.source: ', result.source);
+    // console.log('result.destination: ', result.destination);
     // Map through the newly updated tripObj with all the events in their proper positions
     const updatedItineraryEvents =
       tripObj.day1.events &&
       tripObj.day1.events.map((event) => {
         return event.itineraryEvents;
       });
+    console.log("updateItinerary: ", updatedItineraryEvents)
     // Pass it to the backend for updating
     dispatch(reorderItinerary(updatedItineraryEvents));
   }
