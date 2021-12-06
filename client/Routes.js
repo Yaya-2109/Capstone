@@ -5,6 +5,7 @@ import { Login, Signup } from './components/AuthForm';
 import Home from './components/Home';
 import SearchView from './components/SearchView/SearchView';
 import CreateItinerary from './components/CreateItinerary/CreateItinerary';
+import EditItinerary from './components/EditItinerary/EditItinerary';
 import { me } from './store';
 
 import Itinerary from './components/Itinerary/Itinerary';
@@ -28,6 +29,11 @@ class Routes extends Component {
               exact
               path={`/users/${userId}`}
               component={CreateItinerary}
+            />
+            <Route
+              exact
+              path={`/users/${userId}/itineraries/:itineraryId/edit`}
+              component={EditItinerary}
             />
             {/* <Redirect to="/home" /> */}
             <Route

@@ -84,12 +84,22 @@ router.get('/:userId/itineraries', async (req, res, next) => {
   }
 });
 
-// GET /users/userId/itineraries/itineraryId
-router.get('/:userId/itineraries/:itineraryId', async (req, res, next) => {
+// GET /users/userId/itineraries/itineraryId/edit
+router.get('/:userId/itineraries/:itineraryId/edit', async (req, res, next) => {
   try {
-    const itinerary = await Itinerary.findByPk(req.params.itineraryId, {
-      include: Events,
-    });
+    const itinerary = await Itinerary.findByPk(req.params.itineraryId);
+    console.log(itinerary);
+    res.send(itinerary);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// PUT /users/userId/itineraries/itineraryId/edit
+router.put('/:userId/itineraries/:itineraryId/edit', async (req, res, next) => {
+  try {
+    const itinerary = await Itinerary.findByPk(req.params.itineraryId);
+    console.log(itinerary);
     res.send(itinerary);
   } catch (error) {
     next(error);

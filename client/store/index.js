@@ -5,8 +5,9 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import auth from './auth';
 import allItinerariesReducer from './createItinerary';
 import map from './map';
-import itineraries from "./itineraries";
+import itineraries from './itineraries';
 import itinerary from './itinerary';
+import updateItineraryReducer from './updateItinerary';
 
 const reducer = combineReducers({
   auth,
@@ -14,6 +15,7 @@ const reducer = combineReducers({
   itineraries,
   itinerary,
   allItineraries: allItinerariesReducer,
+  itineraryDetails: updateItineraryReducer,
 });
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
