@@ -12,7 +12,7 @@ const AuthForm = (props) => {
     <div className="container h-screen grid grid-cols-12">
       <div className="relative col-span-8 overflow-hidden ">
         <img
-          className="h-full object-cover object-left w-auto absolute"
+          className="h-full object-cover object-left w-auto absolute bg"
           src="https://img.wallpapersafari.com/desktop/1366/768/4/4/CO8lnY.jpg"
         />
       </div>
@@ -86,7 +86,7 @@ const AuthForm = (props) => {
             ) : null}
             <div>
               <button
-                className="text-white uppercase bg-purple-400 p-2 my-5"
+                className="text-white uppercase bg-purple-400 hover:bg-purple-500 p-2 px-3 my-5"
                 type="submit"
               >
                 {displayName}
