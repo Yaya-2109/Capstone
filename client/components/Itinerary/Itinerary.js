@@ -14,6 +14,7 @@ const Itinerary = (props) => {
   const user = useSelector((state) => state.auth);
   const itinerary = useSelector((state) => state.itinerary);
 
+  
   let [tripList, updateTripList] = useState(itinerary);
   let [unassigned, updateUnassigned] = useState([]);
   const dispatch = useDispatch();
@@ -94,16 +95,15 @@ const Itinerary = (props) => {
     // Pass it to the backend for updating
     dispatch(reorderItinerary(updatedItineraryEvents));
   }
-
-  // let dayInMillisecs = Date.parse(itinerary.endDate) - Date.parse(itinerary.startDate);
-  // let diffDays = (dayInMillisecs/ (1000 * 60 * 60 * 24)); 
-  // console.log(dayInMillisecs);
-  // console.log(diffDays);
-  // let dayArray = [];
-  // dayArray.length = diffDays;
-  // for(let i = 0; i < dayArray.length; i++) {
-  //   dayArray[i] = i + 1;
-  // }
+  let dayInMillisecs = Date.parse(itinerary.endDate) - Date.parse(itinerary.startDate);
+  let diffDays = (dayInMillisecs / (1000 * 60 * 60 * 24));
+  let dayArray = [];
+  if(diffDays) {
+    dayArray.length = diffDays;
+  }
+  for(let i = 0; i < dayArray.length; i++) {
+    dayArray[i] = i + 1;
+  }
   return (
     <>
       <DragDropContext onDragEnd={handleOnDragEnd}>
