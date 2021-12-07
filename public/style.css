@@ -21,7 +21,6 @@ Use a better box model (opinionated).
 Use a more readable tab size (opinionated).
 */
 
-
 html {
   -moz-tab-size: 4;
   -o-tab-size: 4;
