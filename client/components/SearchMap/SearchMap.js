@@ -21,7 +21,7 @@ const SearchMap = ({ places }) => {
         center={coords}
         defaultZoom={14}
         margin={[50, 50, 50, 50]}
-        options={{ zoomControl: true, }}
+        options={{ zoomControl: true }}
         onChange={(e) => {
           dispatch(setCoords({ lat: e.center.lat, lng: e.center.lng}))
           dispatch(setBounds({ ne: e.marginBounds.ne, sw: e.marginBounds.sw }))

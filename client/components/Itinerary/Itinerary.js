@@ -8,6 +8,8 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchItinerary, reorderItinerary } from "../../store/itinerary";
 
+import ItineraryMap from '../ItineraryMap/ItineraryMap'
+
 let trips = [];
 let unassignedTrips = [];
 
@@ -17,10 +19,14 @@ const Itinerary = (props) => {
 
   let [tripList, updateTripList] = useState(itinerary);
   let [unassigned, updateUnassigned] = useState([]);
+  const [isLoading, setIsloading] = useState(false)
+
   const dispatch = useDispatch();
 
   useEffect(() => {
+    setIsloading(true)
     dispatch(fetchItinerary(props.match.params.itineraryId, user.id));
+    setIsloading(false)
   }, [tripList]);
 
   const tripObj = {
@@ -41,7 +47,7 @@ const Itinerary = (props) => {
     // console.log("result.source.index", result.source.index);
     if (!result.destination) return;
 
-    // result.source = obj {index, droppableId} 
+    // result.source = obj {index, droppableId}
     // index = grabbed event position in container
     // droppableId = name of container column
     console.log("tripObj: ", tripObj)
@@ -120,12 +126,17 @@ const Itinerary = (props) => {
             </div>
           </div>
 
-          <div className="col-span-6 p-6 flex items-center">
-            <img
-              src="https://www.tripsavvy.com/thmb/1OWt6nE-xYX5v9CkEkHSbL4cRCg=/882x766/filters:fill(auto,1)/Google-Maps-5--58e4125e5f9b58ef7e4c582d.png"
-              alt="New York"
-            />
-          </div>
+          {
+            itinerary.events ?
+            <div className="col-span-6 p-6 flex items-center">
+              <ItineraryMap
+                places={itinerary.events}
+                isLoading={isLoading}
+              />
+            </div>
+            :
+            null
+          }
         </div>
 
         <div>
@@ -176,10 +187,5 @@ const Itinerary = (props) => {
     </>
   );
 };
-
-// const mapStateToProps = (state) => ({});
-// const mapDispatchToProps = (dispatch) => ({});
-
-// export default connect(mapStateToProps, mapDispatchToProps)(Itinerary);
 
 export default Itinerary;
