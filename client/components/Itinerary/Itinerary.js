@@ -7,13 +7,14 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchItinerary, reorderItinerary } from '../../store/itinerary';
+import ChatHome from '../ChatHome/ChatHome'
 
 let unassignedTrips = [];
 
 const Itinerary = (props) => {
   const user = useSelector((state) => state.auth);
   const itinerary = useSelector((state) => state.itinerary);
-  
+
   // let [tripList, updateTripList] = useState(itinerary);
   let [unassigned, updateUnassigned] = useState([]);
   const dispatch = useDispatch();
@@ -233,6 +234,8 @@ const Itinerary = (props) => {
           </div>
         </div>
       </DragDropContext>
+
+      <ChatHome />
     </>
   );
 };

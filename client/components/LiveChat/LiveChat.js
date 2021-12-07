@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 import useChat from "./useChat";
 
@@ -6,13 +7,14 @@ const LiveChat = (props) => {
   const { roomId } = props.match.params; // Gets roomId from URL
   const { messages, sendMessage } = useChat(roomId); // Creates a websocket and manages messaging
   const [newMessage, setNewMessage] = React.useState(""); // Message to be sent
+  const userFirstName = useSelector(state => state.auth.firstName)
 
   const handleNewMessageChange = (event) => {
-    setNewMessage(event.target.value); 
+    setNewMessage(event.target.value);
   };
 
   const handleSendMessage = () => {
-    sendMessage(newMessage);
+    sendMessage(newMessage, userFirstName);
     setNewMessage("");
   };
 
@@ -22,6 +24,8 @@ const LiveChat = (props) => {
       <div className="messages-container">
         <ol className="messages-list">
           {messages.map((message, i) => (
+            <>
+            {message.userFirstName}
             <li
               key={i}
               className={`message-item ${
@@ -30,6 +34,7 @@ const LiveChat = (props) => {
             >
               {message.body}
             </li>
+            </>
           ))}
         </ol>
       </div>
