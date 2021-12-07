@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { fetchItineraries } from "../../store/itineraries";
+import { inviteUser } from "../../store/itinerary";
 import { Itinerary } from "../Itinerary/Itinerary";
 
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
@@ -17,10 +18,12 @@ class CreateItinerary extends React.Component {
       name: "",
       startDate: "",
       endDate: "",
+      invite: "",
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.inviteHandler = this.inviteHandler.bind(this);
   }
 
   componentDidMount() {
@@ -33,6 +36,7 @@ class CreateItinerary extends React.Component {
   }
 
   handleChange(evt) {
+    console.log(this.state.invite);
     this.setState({
       [evt.target.name]: evt.target.value,
     });
@@ -48,9 +52,23 @@ class CreateItinerary extends React.Component {
     });
   }
 
+  inviteHandler(evt) {
+    evt.preventDefault();
+    console.log(
+      "this.state.invite, evt.target.id",
+      this.state.invite,
+      evt.target.id
+    );
+
+    this.props.inviteUser(this.state.invite, evt.target.id);
+    this.setState({
+      invite: "",
+    });
+  }
+
   render() {
-    const { name, startDate, endDate } = this.state;
-    const { handleSubmit, handleChange } = this;
+    const { name, startDate, endDate, invite } = this.state;
+    const { handleSubmit, handleChange, inviteHandler } = this;
     const itineraries = this.props.itineraries || [];
     const capitalizeName = (name) => {
       const capitalName = name[0].toUpperCase().concat(name.slice(1));
@@ -102,25 +120,61 @@ class CreateItinerary extends React.Component {
             </button>
           </form>
         </div>
-        <div className="flex row-span-9 ">
+        <div className="flex justify-center flex-wrap row-span-9 ">
           {itineraries.length > 0 ? (
             itineraries.map((itinerary) => {
               return (
                 <div
-                  className="flex justify-center text-center m-5 p-5 border border-2 rounded-md w-1/6 h-32 hover:border-purple-400"
+                  className="flex flex-col m-5 pb-5 px-5 pt-2 border border-2 rounded-md  hover:border-purple-400"
                   key={itinerary.id}
                 >
-                  <Link
-                    to={`/users/${this.props.userId}/itineraries/${itinerary.id}`}
-                  >
-                    <p className="text-lg text-purple-400">{itinerary.name}</p>
-                    <p className="text-sm text-gray-400">
-                      Start Date: {itinerary.startDate}
-                    </p>
-                    <p className="text-sm text-gray-400">
-                      End Date: {itinerary.endDate}
-                    </p>
-                  </Link>
+                  <header className="flex justify-between">
+                    <div className="text-purple-400 font-light font-l">
+                      {itinerary.name}
+                    </div>
+                    <div>x</div>
+                  </header>
+                  <div className="flex p-2">
+                    <Link
+                      to={`/users/${this.props.userId}/itineraries/${itinerary.id}`}
+                    >
+                      {/* <p className="text-lg text-purple-400">
+                        {itinerary.name}
+                      </p> */}
+                      <p className="text-sm text-gray-400">
+                        Start Date: {itinerary.startDate}
+                      </p>
+                      <p className="text-sm text-gray-400">
+                        End Date: {itinerary.endDate}
+                      </p>
+                    </Link>
+                  </div>
+                  <footer className="flex  text-gray-400">
+                    <form id={itinerary.id} onSubmit={inviteHandler}>
+                      <label
+                        htmlFor="invite"
+                        className="text-s p-2 text-gray-500"
+                      >
+                        Invite a friend:
+                      </label>
+                      <div className="flex justify-between space-x-1">
+                        <input
+                          className="p-1 border border-2 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                          type="text"
+                          name="invite"
+                          value={invite}
+                          placeholder="Username"
+                          onChange={handleChange}
+                        ></input>
+                        <button
+                          className="rounded-full h-8 w-8 bg-purple-400 text-white"
+                          type="submit"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </form>
+                  </footer>
                 </div>
               );
             })
@@ -147,6 +201,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(createItinerary(itinerary, userId)),
   getAllItineraries: (userId) => dispatch(fetchAllItineraries(userId)),
   fetchItineraries: (userId) => dispatch(fetchItineraries(userId)),
+  inviteUser: (userName, itineraryId) =>
+    dispatch(inviteUser(userName, itineraryId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateItinerary);
