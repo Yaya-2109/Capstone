@@ -3,9 +3,7 @@ import { connect } from "react-redux";
 import { fetchItineraries } from "../../store/itineraries";
 import { inviteUser } from "../../store/itinerary";
 import { Itinerary } from "../Itinerary/Itinerary";
-
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
-
 import {
   createItinerary,
   fetchAllItineraries,
@@ -20,10 +18,26 @@ class CreateItinerary extends React.Component {
       endDate: "",
       invite: "",
     };
+    //for date format helper function
+    this.months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.inviteHandler = this.inviteHandler.bind(this);
+    this.dateFormat = this.dateFormat.bind(this);
   }
 
   componentDidMount() {
@@ -36,7 +50,6 @@ class CreateItinerary extends React.Component {
   }
 
   handleChange(evt) {
-    console.log(this.state.invite);
     this.setState({
       [evt.target.name]: evt.target.value,
     });
@@ -54,11 +67,6 @@ class CreateItinerary extends React.Component {
 
   inviteHandler(evt) {
     evt.preventDefault();
-    console.log(
-      "this.state.invite, evt.target.id",
-      this.state.invite,
-      evt.target.id
-    );
 
     this.props.inviteUser(this.state.invite, evt.target.id);
     this.setState({
@@ -66,8 +74,25 @@ class CreateItinerary extends React.Component {
     });
   }
 
+  dateFormat(date) {
+    //takes in YYYY-MM-DD and outputs Jan 1, 2021
+
+    // let formattedDate = new Date(date).toLocaleFormat("%d-%b-%Y");
+    // let year = date.slice(0, 4);
+    // let month = date.slice(5, 6);
+    // let day = date.slice(8, 10);
+
+    // for (let i = 1; i < this.months.length; i++) {
+    //   if (month === i) {
+    //     console.log("is", i);
+    //     month = this.months[i];
+    //   }
+    // }
+    // return `${month} ${day}, ${year}`;
+    return formattedDate;
+  }
   render() {
-    const { name, startDate, endDate, invite } = this.state;
+    const { name, startDate, endDate, invite, dateFormat } = this.state;
     const { handleSubmit, handleChange, inviteHandler } = this;
     const itineraries = this.props.itineraries || [];
     const capitalizeName = (name) => {
@@ -125,14 +150,34 @@ class CreateItinerary extends React.Component {
             itineraries.map((itinerary) => {
               return (
                 <div
-                  className="flex flex-col m-5 pb-5 px-5 pt-2 border border-2 rounded-md  hover:border-purple-400"
+                  className="flex flex-col m-5 pb-5 px-5 pt-2 border border-2 w-2/6 rounded-md  hover:border-purple-400"
                   key={itinerary.id}
                 >
                   <header className="flex justify-between">
                     <div className="text-purple-400 font-light font-l">
                       {itinerary.name}
+                      <p className="font-xs">
+                        {this.dateFormat(itinerary.startDate)} -
+                        {this.dateFormat(itinerary.endDate)}
+                      </p>
                     </div>
-                    <div>x</div>
+
+                    <div>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="#CCC"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </div>
                   </header>
                   <div className="flex p-2">
                     <Link
@@ -141,12 +186,6 @@ class CreateItinerary extends React.Component {
                       {/* <p className="text-lg text-purple-400">
                         {itinerary.name}
                       </p> */}
-                      <p className="text-sm text-gray-400">
-                        Start Date: {itinerary.startDate}
-                      </p>
-                      <p className="text-sm text-gray-400">
-                        End Date: {itinerary.endDate}
-                      </p>
                     </Link>
                   </div>
                   <footer className="flex  text-gray-400">
@@ -157,7 +196,7 @@ class CreateItinerary extends React.Component {
                       >
                         Invite a friend:
                       </label>
-                      <div className="flex justify-between space-x-1">
+                      <div className="flex justify-between space-x-3">
                         <input
                           className="p-1 border border-2 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                           type="text"
@@ -166,11 +205,21 @@ class CreateItinerary extends React.Component {
                           placeholder="Username"
                           onChange={handleChange}
                         ></input>
-                        <button
-                          className="rounded-full h-8 w-8 bg-purple-400 text-white"
-                          type="submit"
-                        >
-                          +
+                        <button className="text-purple-400" type="submit">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-6 w-6"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M12 4v16m8-8H4"
+                            />
+                          </svg>
                         </button>
                       </div>
                     </form>
