@@ -18,7 +18,7 @@ const ChatHome = () => {
   })
 
   return (
-    <div className='w-1/6 flex flex-col'>
+    <div className='mt-60 w-1/6 flex flex-col'>
       {
         toggle ?
         <>

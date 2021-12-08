@@ -23,7 +23,6 @@ async function getItinerarybyId(req, res, next) {
       events,
     };
 
-    console.log(massagedRes);
     res.send(massagedRes);
   } catch (error) {
     next(error);

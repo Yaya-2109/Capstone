@@ -9,9 +9,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchItinerary, reorderItinerary } from '../../store/itinerary';
 import ChatHome from '../ChatHome/ChatHome'
 import ItineraryMap from '../ItineraryMap/ItineraryMap';
+import useStyles from './styles';
 
 
 const Itinerary = (props) => {
+
+  const classes = useStyles()
   const user = useSelector((state) => state.auth);
   const itinerary = useSelector((state) => state.itinerary);
 
@@ -44,7 +47,7 @@ const Itinerary = (props) => {
     dayMap[event.itineraryEvents.day].push(event);
   })
 
-  console.log(dayMap);
+  // console.log(dayMap);
   // useEffect(() => {
   //   updateTripList(itinerary)
   // }, [itinerary]);
@@ -118,9 +121,9 @@ const Itinerary = (props) => {
     // console.log(tripObj);
     // const changingEvent = tripObj.day1.events[result.source.index];
     // console.log("eventToUpdate:", changingEvent);
-    console.log(result);
-    console.log('result.source: ', result.source);
-    console.log('result.destination: ', result.destination);
+    // console.log(result);
+    // console.log('result.source: ', result.source);
+    // console.log('result.destination: ', result.destination);
     const updatedItineraryEvents =
     dayMap[currentDay] &&
     dayMap[currentDay].map((event) => {
@@ -149,20 +152,26 @@ const Itinerary = (props) => {
     dispatch(reorderItinerary(massgedData()));
   }
   return (
-    <>
-      <DragDropContext onDragEnd={handleOnDragEnd}>
-        <div className='grid m-3 gap-6 grid-cols-12'>
-          <div className='flex flex-col col-span-6 '>
-            <div className='my-2 flex space-around'>
-            <label >Days:  </label>
-              {dayArray.map((day) => {
-                return (
-              <button key={day} onClick={() => updateDay(day)} className="p-2 border-2 block rounded-md" >{day}</button>
-                )
-              })}
-            </div>
+    <div className={classes.viewContainer}>
+      <div className={classes.daysContainer}>
+        <label> Days: </label>
+          {dayArray.map((day) => {
+            return (
+          <button
+            key={day}
+            onClick={() => updateDay(day)}
+            className="p-2 border-2 block rounded-md"
+          >
+            {day}
+          </button>
+            )
+          })}
+      </div>
 
-            <div className='flex h-full'>
+      <DragDropContext onDragEnd={handleOnDragEnd}>
+        <div className={classes.itineraryAndMapColumns}>
+          <div className={classes.itineraryDnD}>
+
               <Droppable droppableId='assignedTasks'>
                 {(provided) => (
                   <ul {...provided.droppableProps} ref={provided.innerRef}>
@@ -203,12 +212,11 @@ const Itinerary = (props) => {
                   </ul>
                 )}
               </Droppable>
-            </div>
           </div>
 
           {
             itinerary.events ?
-            <div className="col-span-6 p-6 flex items-center">
+            <div className={classes.mapContainer}>
               <ItineraryMap
                 places={itinerary.events}
               />
@@ -218,10 +226,10 @@ const Itinerary = (props) => {
           }
         </div>
 
-        <div>
+
+        <div className='grid m-3 grid-cols-12'>
+          <div className='flex col-span-12'>
           <h2 className='font-semibold underline'>Unassigned:</h2>
-          <div className='grid m-3 grid-cols-12'>
-            <div className='flex col-span-12'>
               <Droppable droppableId='unassignedTasks'>
                 {(provided) => (
                   <div
@@ -255,19 +263,21 @@ const Itinerary = (props) => {
                               </div>
                             )}
                           </Draggable>
-                        );
-                      }) : "Place events here if you need to move them to another day!" }
+                        )
+                      })
+                      : "Place events here if you need to move them to another day!"
+                    }
                     {provided.placeholder}
                   </div>
                 )}
               </Droppable>
             </div>
           </div>
-        </div>
+
       </DragDropContext>
 
       <ChatHome />
-    </>
+    </div>
   );
 };
 

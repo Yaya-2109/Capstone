@@ -23,9 +23,6 @@ const Navbar = ({ handleClick, isLoggedIn, person }) => (
           <Link to="/search" className="px-2">
             Search
           </Link>
-          <Link to="/livechat" className="px-2">
-            Live Chat
-          </Link>
           <a href="#" className="px-2" onClick={handleClick}>
             Logout
           </a>

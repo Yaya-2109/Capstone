@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { setCoords, setUserCoords } from '../../store/map'
 import { getPlacesData } from '../../store/locationList'
 import LocationList from '../LocationList/LocationList'
-import Map from '../Map/Map'
+import SearchMap from '../SearchMap/SearchMap'
 import useStyles from './styles'
 
 const SearchView = () => {
@@ -57,7 +57,7 @@ const SearchView = () => {
         type={type}
         setType={setType}
       />
-      <Map
+      <SearchMap
         places={
           filteredPlaces.length || rating !== 0 ? filteredPlaces : places
         }

@@ -19,7 +19,7 @@ const LiveChat = (props) => {
   };
   // border border-gray-200 border-solid rounded h-1/4
   return (
-    <div className='flex flex-col m-4 w-1/6'>
+    <div className='flex flex-col m-4 w-full'>
       <h1 className='mt-0'>Room: {roomId}</h1>
       <div className='h-52 border border-gray-400 border-solid rounded overflow-auto mb-1'>
         <ol className='list-none p-0'>
