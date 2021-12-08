@@ -13,7 +13,7 @@ async function getItinerarybyId(req, res, next) {
     const itinerary = await Itinerary.findByPk(req.params.itineraryId, {
       include: Event,
     });
-    
+
     const events = await itinerary.getEvents();
 
     const massagedRes = {
@@ -21,7 +21,6 @@ async function getItinerarybyId(req, res, next) {
       events,
     };
 
-    console.log(massagedRes);
     res.send(massagedRes);
   } catch (error) {
     next(error);

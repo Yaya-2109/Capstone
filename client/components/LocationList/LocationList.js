@@ -5,8 +5,11 @@ import { Autocomplete } from '@react-google-maps/api'
 import LocationDetails from '../LocationDetails/LocationDetails'
 import { setCoords } from '../../store/map'
 
+import useStyles from './styles'
+
 const LocationList = ({ places, rating, setRating, type, setType }) => {
 
+  const classes = useStyles()
   const dispatch = useDispatch()
 
   const [autocomplete, setAutocomplete] = useState(null)
@@ -20,12 +23,22 @@ const LocationList = ({ places, rating, setRating, type, setType }) => {
   }
 
   return (
-    <div>
-      <h2>Location List</h2>
-
+    <div className={classes.locationListContainer}>
       <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
-        <div>
-          <input type='text' placeholder="Search…" />
+        <div className={classes.searchFieldContainer}>
+          <label
+            className={classes.searchFieldLabel}
+            for='location-search'
+          >
+            Search
+          </label>
+          <input
+          className={classes.searchField}
+          type='text'
+          placeholder='Example: Paris...'
+          id='location-search'
+          name='location-search'
+          />
         </div>
       </Autocomplete>
 

@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { addEventToItinerary } from '../../store/itinerary'
+import useStyles from './styles'
 
 const LocationDetails = ({place}) => {
+
+  const classes = useStyles()
 
   const [itineraryId, setItineraryId] = useState({})
   const dispatch = useDispatch()
@@ -25,10 +28,17 @@ const LocationDetails = ({place}) => {
     )
   })
 
+  console.log(place)
+
   return (
-    <div>
+    <div className={classes.cardContainer}>
+      <img
+        className={classes.img}
+        src={place.photo.images.large.url}
+        alt='restaurant image'
+      />
         <p>Name: {place.name}</p>
-        <p>Rating: {place.rating}</p>
+        <p>Rating: {place.rating} out of 5</p>
         {
           place.address ?
             <p>Location: {place.address}</p>
@@ -46,7 +56,11 @@ const LocationDetails = ({place}) => {
         <option hidden value="">Itinerary List</option>
         {itinerariesList}
       </select>
-      <button onClick={handleclick}>Add To Selected Itinerary</button>
+      <button
+        className={classes.button}
+        onClick={handleclick}>
+        Add To Selected Itinerary
+      </button>
     </div>
   )
 }
