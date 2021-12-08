@@ -266,9 +266,4 @@ const Itinerary = (props) => {
   );
 };
 
-// const mapStateToProps = (state) => ({});
-// const mapDispatchToProps = (dispatch) => ({});
-
-// export default connect(mapStateToProps, mapDispatchToProps)(Itinerary);
-
 export default Itinerary;
