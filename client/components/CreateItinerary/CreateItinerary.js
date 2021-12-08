@@ -1,6 +1,7 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { fetchItineraries } from '../../store/itineraries';
+import React from "react";
+import { connect } from "react-redux";
+import { fetchItineraries } from "../../store/itineraries";
+import { Itinerary } from "../Itinerary/Itinerary";
 
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 
@@ -25,7 +26,7 @@ class CreateItinerary extends React.Component {
   componentDidMount() {
     try {
       this.props.getAllItineraries(this.props.userId);
-      this.props.fetchItineraries(this.props.userId)
+      this.props.fetchItineraries(this.props.userId);
     } catch (error) {
       console.error(error);
     }
@@ -57,18 +58,68 @@ class CreateItinerary extends React.Component {
     };
 
     return (
-      <div>
-        <div>
+      <div className="grid gap-4 p-4 grid-rows-12">
+        <div className="flex flex-row row-span-3 filter mx-auto">
+          <form onSubmit={handleSubmit}>
+            <label htmlFor="name" className="text-purple-400">
+              Make a New Itinerary
+            </label>
+            <input
+              className="mx-3 p-1 border border-2 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+              name="name"
+              onChange={handleChange}
+              value={name}
+              placeholder="Destination"
+            />
+
+            <label className="text-gray-400" htmlFor="startDate">
+              Starts:
+            </label>
+            <input
+              className="mx-3 p-1 border border-2 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+              name="startDate"
+              onChange={handleChange}
+              value={startDate}
+              type="date"
+            />
+
+            <label className="text-gray-400" htmlFor="endDate">
+              Ends:
+            </label>
+            <input
+              className="mx-3 p-1 border border-2 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+              name="endDate"
+              onChange={handleChange}
+              value={endDate}
+              type="date"
+            />
+
+            <button
+              className="mx-3 font-sm border border-2 border-purple-400 p-1 rounded-md text-purple-400 hover:bg-purple-500 hover:text-white"
+              type="submit"
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+        <div className="flex row-span-9 ">
           {itineraries.length > 0 ? (
             itineraries.map((itinerary) => {
               return (
-                <div key={itinerary.id}>
+                <div
+                  className="flex justify-center text-center m-5 p-5 border border-2 rounded-md w-1/6 h-32 hover:border-purple-400"
+                  key={itinerary.id}
+                >
                   <Link
                     to={`/users/${this.props.userId}/itineraries/${itinerary.id}`}
                   >
-                    <h1>{itinerary.name}</h1>
-                    <h3>Start Date: {itinerary.startDate}</h3>
-                    <h3>End Date: {itinerary.endDate}</h3>
+                    <p className="text-lg text-purple-400">{itinerary.name}</p>
+                    <p className="text-sm text-gray-400">
+                      Start Date: {itinerary.startDate}
+                    </p>
+                    <p className="text-sm text-gray-400">
+                      End Date: {itinerary.endDate}
+                    </p>
                   </Link>
                 </div>
               );
@@ -80,43 +131,13 @@ class CreateItinerary extends React.Component {
             </h2>
           )}
         </div>
-        <div>
-          <h1>Welcome, {capitalizeName(this.props.user.username)}!</h1>
-          <form onSubmit={handleSubmit}>
-            <label htmlFor="name">Itinerary Name:</label>
-            <input
-              name="name"
-              onChange={handleChange}
-              value={name}
-              placeholder="Your Itinerary Name"
-            />
-
-            <label htmlFor="startDate">Start Date:</label>
-            <input
-              name="startDate"
-              onChange={handleChange}
-              value={startDate}
-              placeholder="YYYY-MM-DD"
-            />
-
-            <label htmlFor="endDate">End Date:</label>
-            <input
-              name="endDate"
-              onChange={handleChange}
-              value={endDate}
-              placeholder="YYYY-MM-DD"
-            />
-
-            <button type="submit">Submit</button>
-          </form>
-        </div>
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  itineraries: state.allItineraries.itineraries,
+  itineraries: state.itineraries,
   userId: state.auth.id,
   user: state.auth,
 });
@@ -125,7 +146,7 @@ const mapDispatchToProps = (dispatch) => ({
   createItinerary: (itinerary, userId) =>
     dispatch(createItinerary(itinerary, userId)),
   getAllItineraries: (userId) => dispatch(fetchAllItineraries(userId)),
-  fetchItineraries: (userId) =>dispatch(fetchItineraries(userId))
+  fetchItineraries: (userId) => dispatch(fetchItineraries(userId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateItinerary);
