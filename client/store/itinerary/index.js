@@ -1,11 +1,13 @@
-import axios from 'axios';
+import axios from "axios";
 
 //action types
 const GET_ITINERARIES = "GET_ITINERARIES";
 const GET_ITINERARY = "GET_ITINERARY";
 const DELETE_EVENT = "DELETE_EVENT";
 const UPDATE_ITINERARY = "UPDATE_ITINERARY";
-const ADD_TO_ITINERARY = "ADD_TO_ITINERARY"
+const ADD_TO_ITINERARY = "ADD_TO_ITINERARY";
+const ADD_USER = "ADD_USER";
+// const DELETE_ITINERARY = "DELETE_ITINERARY";
 
 //action creators
 export const getItineraries = (itineraries) => {
@@ -23,18 +25,31 @@ export const updateItinerary = (events) => {
 };
 
 export const _addEventToItinerary = (itinerary) => {
-  return { type: ADD_TO_ITINERARY, itinerary}
-}
+  return { type: ADD_TO_ITINERARY, itinerary };
+};
+
+export const addUser = (itinerary) => {
+  return { type: ADD_USER, itinerary };
+};
+
+// export const destroyItinerary = (itinerary) => {
+//   return { type: DELETE_ITINERARY, itinerary };
+// };
 
 //thunk creators
 
-export const addEventToItinerary = ({itineraryId, user, place}) => async dispatch => {
-  try {
-    await axios.post(`/api/itinerary/addEvent/${itineraryId}/${user.id}`, place)
-  } catch (err) {
-    console.log(err)
-  }
-}
+export const addEventToItinerary =
+  ({ itineraryId, user, place }) =>
+  async (dispatch) => {
+    try {
+      await axios.post(
+        `/api/itinerary/addEvent/${itineraryId}/${user.id}`,
+        place
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
 // export const fetchItineraries = (userId) =>
 //   async function (dispatch) {
@@ -77,7 +92,7 @@ export const reorderItinerary = (updatedItineraryEvents) =>
       const { data } = await axios.put(
         `/api/itinerary/edit/${updatedItineraryEvents[0].itineraryId}`,
         updatedItineraryEvents
-      )
+      );
       dispatch(getItinerary(data));
       // setTimeout(() => {
       //   dispatch(fetchItinerary(data.id, data.userId))
@@ -87,13 +102,36 @@ export const reorderItinerary = (updatedItineraryEvents) =>
     }
   };
 
+export const inviteUser = (userName, itineraryId) =>
+  async function (dispatch) {
+    try {
+      let userData = { userName: userName };
+      const { data } = await axios.put(
+        `/api/itinerary/invite/${itineraryId}`,
+        userData
+      );
+      dispatch(addUser(data));
+    } catch (err) {
+      return err;
+    }
+  };
+
+// export const deleteItinerary = (itineraryId) =>
+//   async function (dispatch) {
+//     try {
+//       const { data } = await axios.delete(`/api/itinerary/${itineraryId}`);
+//       dispatch(destroyItinerary(data));
+//     } catch (err) {
+//       return err;
+//     }
+//   };
+
 //reducer
 let initialState = {};
 
 export default function (state = initialState, action) {
   switch (action.type) {
     case GET_ITINERARY: {
-      console.log('ACTION: ', action);
       const sorted = action.itinerary.events.sort((a, b) => {
         return a.itineraryEvents.position - b.itineraryEvents.position;
       });
@@ -109,9 +147,12 @@ export default function (state = initialState, action) {
       const sorted = action.events.sort((a, b) => {
         return a.itineraryEvents.position - b.itineraryEvents.position;
       });
-      console.log(sorted);
       return { ...state, events: sorted };
     }
+    case ADD_USER: {
+      return action.itinerary;
+    }
+
     default:
       return state;
   }
