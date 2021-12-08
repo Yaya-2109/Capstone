@@ -1,15 +1,15 @@
-import React from "react";
-import { connect } from "react-redux";
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
-import Day from "../Day/Day";
-import EventCard from "../EventCard/EventCard";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchItinerary, reorderItinerary } from "../../store/itinerary";
-import ChatHome from "../ChatHome/ChatHome";
-import ItineraryMap from "../ItineraryMap/ItineraryMap";
-import useStyles from "./styles";
+import React from 'react';
+import { connect } from 'react-redux';
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import Day from '../Day/Day';
+import EventCard from '../EventCard/EventCard';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchItinerary, reorderItinerary } from '../../store/itinerary';
+import ChatHome from '../ChatHome/ChatHome';
+import ItineraryMap from '../ItineraryMap/ItineraryMap';
+import useStyles from './styles';
 
 const Itinerary = (props) => {
   const classes = useStyles();
@@ -17,6 +17,7 @@ const Itinerary = (props) => {
   const itinerary = useSelector((state) => state.itinerary);
 
   let [currentDay, updateDay] = useState(1);
+  const [toggle, setToggle] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -61,8 +62,8 @@ const Itinerary = (props) => {
     // droppableId = name of container column
     // console.log(tripObj);
     if (
-      result.destination.droppableId === "assignedTasks" &&
-      result.source.droppableId === "assignedTasks"
+      result.destination.droppableId === 'assignedTasks' &&
+      result.source.droppableId === 'assignedTasks'
     ) {
       dayMap[currentDay].forEach((item) => {
         // Moving events position < updated position (Case 1: Drag down)
@@ -100,14 +101,14 @@ const Itinerary = (props) => {
         result.destination.index;
     } // Moving objects to unassigned
     if (
-      result.source.droppableId === "unassignedTasks" &&
-      result.destination.droppableId === "unassignedTasks"
+      result.source.droppableId === 'unassignedTasks' &&
+      result.destination.droppableId === 'unassignedTasks'
     ) {
       return;
     }
     if (
-      result.source.droppableId === "unassignedTasks" &&
-      result.destination.droppableId === "assignedTasks"
+      result.source.droppableId === 'unassignedTasks' &&
+      result.destination.droppableId === 'assignedTasks'
     ) {
       Array.isArray(dayMap) &&
         dayMap[currentDay].forEach((item) => {
@@ -125,8 +126,8 @@ const Itinerary = (props) => {
       }
     }
     if (
-      result.destination.droppableId === "unassignedTasks" &&
-      result.source.droppableId === "assignedTasks"
+      result.destination.droppableId === 'unassignedTasks' &&
+      result.source.droppableId === 'assignedTasks'
     ) {
       // Loop through the objects
       Array.isArray(dayMap) &&
@@ -173,13 +174,13 @@ const Itinerary = (props) => {
   return (
     <div className={classes.viewContainer}>
       <div className={classes.daysContainer}>
-        <label className="m-1 text-gray-400">Day</label>
+        <label className='m-1 text-gray-400'>Day</label>
         {dayArray.map((day) => {
           return (
             <button
               key={day}
               onClick={() => updateDay(day)}
-              className="px-2 m-1 border-2 block rounded-md text-gray-400 hover:text-purple-400 hover:border-purple-400"
+              className='px-2 m-1 border-2 block rounded-md text-gray-400 hover:text-purple-400 hover:border-purple-400'
             >
               {day}
             </button>
@@ -189,9 +190,17 @@ const Itinerary = (props) => {
 
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <div className={classes.itineraryDnD}>
-          <Droppable droppableId="assignedTasks">
+          <Droppable droppableId='assignedTasks'>
             {(provided, snapshot) => (
-              <ul {...provided.droppableProps} ref={provided.innerRef} style={{background: snapshot.isDraggingOver ? 'lightgreen' : 'lightgrey'}}>
+              <ul
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                style={{
+                  background: snapshot.isDraggingOver
+                    ? 'lightgreen'
+                    : 'lightgrey',
+                }}
+              >
                 {dayMap[currentDay]
                   ? dayMap[currentDay].map((trip, index) => {
                       // console.log(trip.name, trip.itineraryEvents.position)
@@ -207,7 +216,7 @@ const Itinerary = (props) => {
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
                                 ref={provided.innerRef}
-                                className="inline-block"
+                                className='inline-block'
                               >
                                 <EventCard
                                   id={trip.id}
@@ -224,7 +233,7 @@ const Itinerary = (props) => {
                           </Draggable>
                         );
                     })
-                  : "No events for this day"}
+                  : 'No events for this day'}
                 {provided.placeholder}
               </ul>
             )}
@@ -238,17 +247,21 @@ const Itinerary = (props) => {
         ) : null}
 
         <div className={classes.unassigned}>
-          <p className="text-purple-400 my-2 font-light font-lg">
+          <p className='text-purple-400 my-2 font-light font-lg'>
             Unassigned <hr />
           </p>
-          <div className="">
-            <Droppable droppableId="unassignedTasks">
-              {(provided , snapshot) => (
+          <div className=''>
+            <Droppable droppableId='unassignedTasks'>
+              {(provided, snapshot) => (
                 <div
                   {...provided.droppableProps}
                   ref={provided.innerRef}
-                  className=""
-                  style={{background: snapshot.isDraggingOver ? 'lightgreen' : 'lightgrey'}}
+                  className=''
+                  style={{
+                    background: snapshot.isDraggingOver
+                      ? 'lightgreen'
+                      : 'lightgrey',
+                  }}
                 >
                   {dayMap[0]
                     ? dayMap[0].map((trip, index) => {
@@ -264,7 +277,7 @@ const Itinerary = (props) => {
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
                                   ref={provided.innerRef}
-                                  className=""
+                                  className=''
                                 >
                                   <EventCard
                                     id={trip.id}
@@ -278,16 +291,34 @@ const Itinerary = (props) => {
                             </Draggable>
                           );
                       })
-                    : "Place events here if you need to move them to another day!"}
+                    : 'Place events here if you need to move them to another day!'}
                   {provided.placeholder}
                 </div>
               )}
             </Droppable>
           </div>
         </div>
-
         <div className={classes.chat}>
-          <ChatHome />
+          {toggle ? (
+            <>
+              <ChatHome />
+            </>
+          ) : (
+            <div onClick={() => setToggle(!toggle)}>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                className='h-14 w-14 mr-10 mb-10 text-green-400 fixed bottom-0 right-0 z-10 cursor-pointer'
+                viewBox='0 0 20 20'
+                fill='currentColor'
+              >
+                <path
+                  fillRule='evenodd'
+                  d='M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z'
+                  clipRule='evenodd'
+                />
+              </svg>
+            </div>
+          )}
         </div>
       </DragDropContext>
     </div>
