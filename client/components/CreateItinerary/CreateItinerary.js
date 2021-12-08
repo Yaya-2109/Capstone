@@ -65,10 +65,7 @@ class CreateItinerary extends React.Component {
     const { name, startDate, endDate, invite } = this.state;
     const { handleSubmit, handleChange, inviteHandler } = this;
     const itineraries = this.props.itineraries || [];
-    // const capitalizeName = (name) => {
-    //   const capitalName = name[0].toUpperCase().concat(name.slice(1));
-    //   return capitalName;
-    // };
+
     let months = [
       "January",
       "February",

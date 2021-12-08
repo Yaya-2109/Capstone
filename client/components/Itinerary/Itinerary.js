@@ -174,13 +174,13 @@ const Itinerary = (props) => {
   return (
     <div className={classes.viewContainer}>
       <div className={classes.daysContainer}>
-        <label> Days: </label>
+        <label className='m-1 text-gray-400'>Day</label>
         {dayArray.map((day) => {
           return (
             <button
               key={day}
               onClick={() => updateDay(day)}
-              className='p-2 border-2 block rounded-md'
+              className='px-2 m-1 border-2 block rounded-md text-gray-400 hover:text-purple-400 hover:border-purple-400'
             >
               {day}
             </button>
@@ -189,66 +189,66 @@ const Itinerary = (props) => {
       </div>
 
       <DragDropContext onDragEnd={handleOnDragEnd}>
-        <div className={classes.itineraryAndMapColumns}>
-          <div className={classes.itineraryDnD}>
-            <Droppable droppableId='assignedTasks'>
-              {(provided) => (
-                <ul {...provided.droppableProps} ref={provided.innerRef}>
-                  {dayMap[currentDay]
-                    ? dayMap[currentDay].map((trip, index) => {
-                        // console.log(trip.name, trip.itineraryEvents.position)
-                        if (trip.itineraryEvents.position !== null)
-                          return (
-                            <Draggable
-                              key={trip.id}
-                              draggableId={String(trip.id)}
-                              index={trip.itineraryEvents.position}
-                            >
-                              {(provided) => (
-                                <li
-                                  {...provided.draggableProps}
-                                  {...provided.dragHandleProps}
-                                  ref={provided.innerRef}
-                                  className='inline-block'
-                                >
-                                  <EventCard
-                                    id={trip.id}
-                                    trip={trip}
-                                    itinerary={itinerary}
-                                    name={trip.name}
-                                    location={trip.location}
-                                    description={trip.description}
-                                    imageUrl={trip.imageUrl}
-                                    attendees={trip.attendees}
-                                  />
-                                </li>
-                              )}
-                            </Draggable>
-                          );
-                      })
-                    : 'Add some events to this day, your itinerary is looking boring'}
-                  {provided.placeholder}
-                </ul>
-              )}
-            </Droppable>
-          </div>
-
-          {itinerary.events ? (
-            <div className={classes.mapContainer}>
-              <ItineraryMap places={itinerary.events} />
-            </div>
-          ) : null}
+        <div className={classes.itineraryDnD}>
+          <Droppable droppableId='assignedTasks'>
+            {(provided) => (
+              <ul {...provided.droppableProps} ref={provided.innerRef}>
+                {dayMap[currentDay]
+                  ? dayMap[currentDay].map((trip, index) => {
+                      // console.log(trip.name, trip.itineraryEvents.position)
+                      if (trip.itineraryEvents.position !== null)
+                        return (
+                          <Draggable
+                            key={trip.id}
+                            draggableId={String(trip.id)}
+                            index={trip.itineraryEvents.position}
+                          >
+                            {(provided) => (
+                              <li
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                ref={provided.innerRef}
+                                className='inline-block'
+                              >
+                                <EventCard
+                                  id={trip.id}
+                                  trip={trip}
+                                  itinerary={itinerary}
+                                  name={trip.name}
+                                  location={trip.location}
+                                  description={trip.description}
+                                  imageUrl={trip.imageUrl}
+                                  attendees={trip.attendees}
+                                />
+                              </li>
+                            )}
+                          </Draggable>
+                        );
+                    })
+                  : 'No events for this day'}
+                {provided.placeholder}
+              </ul>
+            )}
+          </Droppable>
         </div>
 
-        <div className='grid m-3 grid-cols-12'>
-          <div className='flex col-span-12'>
-            <h2 className='font-semibold underline'>Unassigned:</h2>
+        {itinerary.events ? (
+          <div className={classes.mapContainer}>
+            <ItineraryMap places={itinerary.events} />
+          </div>
+        ) : null}
+
+        <div className={classes.unassigned}>
+          <p className='text-purple-400 my-2 font-light font-lg'>
+            Unassigned <hr />
+          </p>
+          <div className=''>
             <Droppable droppableId='unassignedTasks'>
               {(provided) => (
                 <div
                   {...provided.droppableProps}
                   ref={provided.innerRef}
-                  className='flex flex-row space-even'
+                  className=''
                 >
                   {dayMap[0]
                     ? dayMap[0].map((trip, index) => {
@@ -264,7 +264,7 @@ const Itinerary = (props) => {
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
                                   ref={provided.innerRef}
-                                  className='w-1/6 h-12'
+                                  className=''
                                 >
                                   <EventCard
                                     id={trip.id}
@@ -285,26 +285,13 @@ const Itinerary = (props) => {
             </Droppable>
           </div>
         </div>
+
+        <div className={classes.chat}>
+          <ChatHome />
+        </div>
       </DragDropContext>
+    </div>
   );
 };
 
 export default Itinerary;
-
-
-{toggle ? ( <div></div>) : (<ChatHome />)}
-
-<div onClick={() => setToggle(!toggle)>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              className='h-14 w-14 mr-10 mb-10 text-green-400 fixed bottom-0 right-0 z-10'
-              viewBox='0 0 20 20'
-              fill='currentColor'
-            >
-              <path
-                fillRule='evenodd'
-                d='M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z'
-                clipRule='evenodd'
-              />
-            </svg>
-</div>
