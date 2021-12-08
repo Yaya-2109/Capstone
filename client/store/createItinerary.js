@@ -1,9 +1,10 @@
-import axios from 'axios';
-import { fetchItineraries } from './itineraries';
+import axios from "axios";
+import { fetchItineraries } from "./itineraries";
 
 // ACTION TYPES
-const CREATE_ITINERARY = 'CREATE_ITINERARY';
-const GET_ALL_ITINERARIES = 'GET_ALL_ITINERARIES';
+const CREATE_ITINERARY = "CREATE_ITINERARY";
+const GET_ALL_ITINERARIES = "GET_ALL_ITINERARIES";
+const DELETE_ITINERARY = "DELETE_ITINERARY";
 
 // ACTION CREATORS
 export const setItinerary = (itinerary) => {
@@ -20,6 +21,10 @@ export const setAllItineraries = (itineraries) => {
   };
 };
 
+export const destroyItinerary = (itinerary) => {
+  return { type: DELETE_ITINERARY, itinerary };
+};
+
 // THUNK CREATORS
 export const createItinerary = (itinerary, userId) => {
   return async (dispatch) => {
@@ -29,7 +34,7 @@ export const createItinerary = (itinerary, userId) => {
         itinerary
       );
       dispatch(setItinerary(created));
-      dispatch(fetchItineraries(userId))
+      dispatch(fetchItineraries(userId));
     } catch (error) {
       console.error(error);
     }
@@ -47,19 +52,36 @@ export const fetchAllItineraries = (userId) => {
   };
 };
 
+export const deleteItinerary = (userId, itineraryId) =>
+  async function (dispatch) {
+    try {
+      const { data } = await axios.delete(`/api/itinerary/${itineraryId}`);
+      dispatch(destroyItinerary(data));
+    } catch (err) {
+      return err;
+    }
+  };
+
 const initialState = [];
 
 // REDUCER FUNCTION
 export default function allItinerariesReducer(state = initialState, action) {
   switch (action.type) {
     case CREATE_ITINERARY:
-      console.log('CREATE ITINERARY STATE: ', state);
       return {
         ...state,
         itineraries: [...state.itineraries, action.itinerary],
       };
     case GET_ALL_ITINERARIES:
       return action.itineraries;
+    case DELETE_ITINERARY: {
+      let newItinerary = state.itineraries.filter(
+        (itinerary) => itinerary.id !== action.itinerary.id
+      );
+
+      let newState = { ...state, itineraries: newItinerary };
+      return newState;
+    }
     default:
       return state;
   }

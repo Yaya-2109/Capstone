@@ -1,12 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchItineraries, deleteItinerary } from "../../store/itineraries";
+import { fetchItineraries } from "../../store/itineraries";
 import { inviteUser } from "../../store/itinerary";
 import { Itinerary } from "../Itinerary/Itinerary";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import {
   createItinerary,
   fetchAllItineraries,
+  deleteItinerary,
 } from "../../store/createItinerary";
 
 class CreateItinerary extends React.Component {
