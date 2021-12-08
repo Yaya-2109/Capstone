@@ -48,18 +48,9 @@ const Itinerary = (props) => {
       dayMap[event.itineraryEvents.day].push(event);
     });
 
-  // console.log(dayMap);
-  // useEffect(() => {
-  //   updateTripList(itinerary)
-  // }, [itinerary]);
-  // const assignedEvents = itinerary.events && itinerary.events.map((event) => {
-  //     if(event.itineraryEvents.day !== 0) {
-  //       return event
-  //     }
   function handleOnDragEnd(result) {
     if (!result.destination) return;
-    // droppableId = name of container column
-    // console.log(tripObj);
+
     if (
       result.destination.droppableId === "assignedTasks" &&
       result.source.droppableId === "assignedTasks"
@@ -173,7 +164,7 @@ const Itinerary = (props) => {
   return (
     <div className={classes.viewContainer}>
       <div className={classes.daysContainer}>
-        <label className="m-1 text-gray-400">Day</label>
+        <label className="my-1 text-gray-400">Day</label>
         {dayArray.map((day) => {
           return (
             <button
@@ -238,9 +229,20 @@ const Itinerary = (props) => {
         ) : null}
 
         <div className={classes.unassigned}>
-          <p className="text-purple-400 my-2 font-light font-lg">
-            Unassigned <hr />
-          </p>
+          <div className="flex w-full my-2 border-b border-purple-400 flex-row">
+            <div className="text-purple-400 font-light font-lg">Unassigned</div>
+            <div className="text-purple-400 mx-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path d="M5 12a1 1 0 102 0V6.414l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L5 6.414V12zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
+              </svg>
+            </div>
+          </div>
+
           <div className="">
             <Droppable droppableId="unassignedTasks">
               {(provided) => (
