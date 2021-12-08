@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchItinerary, reorderItinerary } from '../../store/itinerary';
 import ChatHome from '../ChatHome/ChatHome'
+import ItineraryMap from '../ItineraryMap/ItineraryMap';
 
 
 const Itinerary = (props) => {
@@ -205,12 +206,16 @@ const Itinerary = (props) => {
             </div>
           </div>
 
-          <div className='col-span-6 p-6 flex items-center'>
-            <img
-              src='https://www.tripsavvy.com/thmb/1OWt6nE-xYX5v9CkEkHSbL4cRCg=/882x766/filters:fill(auto,1)/Google-Maps-5--58e4125e5f9b58ef7e4c582d.png'
-              alt='New York'
-            />
-          </div>
+          {
+            itinerary.events ?
+            <div className="col-span-6 p-6 flex items-center">
+              <ItineraryMap
+                places={itinerary.events}
+              />
+            </div>
+            :
+            null
+          }
         </div>
 
         <div>
