@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import useChat from './useChat';
 
 const LiveChat = (props) => {
-  const { roomId } = props.match.params; // Gets roomId from URL
+  const { roomId } = props.roomId // Gets roomId from URL
   const { messages, sendMessage } = useChat(roomId); // Creates a websocket and manages messaging
   const [newMessage, setNewMessage] = React.useState(''); // Message to be sent
   const userFirstName = useSelector((state) => state.auth.firstName);
