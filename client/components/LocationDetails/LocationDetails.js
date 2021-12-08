@@ -28,13 +28,16 @@ const LocationDetails = ({place}) => {
     )
   })
 
-  console.log(place)
-
   return (
     <div className={classes.cardContainer}>
       <img
         className={classes.img}
-        src={place.photo.images.large.url}
+        src={
+          place.photo ?
+          place.photo.images.large.url
+          :
+          'https://www.foodserviceandhospitality.com/wp-content/uploads/2016/09/Restaurant-Placeholder-001.jpg'
+          }
         alt='restaurant image'
       />
         <p>Name: {place.name}</p>

@@ -7,7 +7,7 @@ import { setCoords } from '../../store/map'
 
 import useStyles from './styles'
 
-const LocationList = ({ places, rating, setRating, type, setType }) => {
+const LocationList = ({ places, rating, setRating, type, setType, isLoading }) => {
 
   const classes = useStyles()
   const dispatch = useDispatch()
@@ -28,7 +28,7 @@ const LocationList = ({ places, rating, setRating, type, setType }) => {
         <div className={classes.searchFieldContainer}>
           <label
             className={classes.searchFieldLabel}
-            for='location-search'
+            htmlFor='location-search'
           >
             Search
           </label>
@@ -59,8 +59,10 @@ const LocationList = ({ places, rating, setRating, type, setType }) => {
       </form>
 
       <ul>
-
         {
+          isLoading || places === undefined ?
+          <h1>loading spinner here</h1>
+          :
           places.map((place, i) => (
           <LocationDetails key={place.location_id} place={place} />
           ))

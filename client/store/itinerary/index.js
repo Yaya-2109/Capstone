@@ -141,7 +141,7 @@ export default function (state = initialState, action) {
       let newState = state.events.filter(
         (event) => event.id !== action.event.id
       );
-      return newState;
+      return {...state, events: newState }
     }
     case UPDATE_ITINERARY: {
       const sorted = action.events.sort((a, b) => {

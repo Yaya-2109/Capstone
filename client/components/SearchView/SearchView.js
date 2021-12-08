@@ -17,6 +17,7 @@ const SearchView = () => {
   const [rating, setRating] = useState(0)
   const [places, setPlaces] = useState([])
   const [filteredPlaces, setFilteredPlaces] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
 
   const bounds = useSelector((state) => state.map.bounds)
 
@@ -36,12 +37,18 @@ const SearchView = () => {
 
   useEffect(() => {
     if(bounds) {
+      setIsLoading(true)
       setPlaces([])
       getPlacesData(type, bounds.sw, bounds.ne)
         .then((data) => {
-          setPlaces(data.filter((place) => place.name && place.num_reviews > 0))
+          
+          setPlaces(data.filter((place) => {
+            return place.name && place.num_reviews > 0
+          }))
+
           setFilteredPlaces([])
           setRating(0)
+          setIsLoading(false)
         })
     }
   }, [bounds, type])
@@ -56,8 +63,10 @@ const SearchView = () => {
         setRating={setRating}
         type={type}
         setType={setType}
+        isLoading={isLoading}
       />
       <SearchMap
+        isLoading={isLoading}
         places={
           filteredPlaces.length || rating !== 0 ? filteredPlaces : places
         }
