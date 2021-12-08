@@ -25,7 +25,7 @@ const LiveChat = (props) => {
       <h1 className='font-semibold mt-0'>
         Room: <span className='font-semibold italic'>{itineraryName}</span>
       </h1>
-      <div className='h-72 border border-gray-400 border-solid rounded overflow-y-auto mb-1'>
+      <div className='h-72 border border-gray-400 border-solid rounded overflow-y-auto mb-1 bg-gray-50'>
         <ol className='list-none p-0'>
           {messages.map((message, i) => (
             <div
