@@ -1,7 +1,6 @@
 import axios from "axios";
 
 //action types
-const GET_ITINERARIES = "GET_ITINERARIES";
 const GET_ITINERARY = "GET_ITINERARY";
 const DELETE_EVENT = "DELETE_EVENT";
 const UPDATE_ITINERARY = "UPDATE_ITINERARY";
@@ -10,9 +9,6 @@ const ADD_USER = "ADD_USER";
 // const DELETE_ITINERARY = "DELETE_ITINERARY";
 
 //action creators
-export const getItineraries = (itineraries) => {
-  return { type: GET_ITINERARIES, itineraries };
-};
 export const getItinerary = (itinerary) => {
   return { type: GET_ITINERARY, itinerary };
 };
@@ -39,12 +35,12 @@ export const addUser = (itinerary) => {
 //thunk creators
 
 export const addEventToItinerary =
-  ({ itineraryId, user, place }) =>
+  ({ itineraryId, user, place, type }) =>
   async (dispatch) => {
     try {
       await axios.post(
         `/api/itinerary/addEvent/${itineraryId}/${user.id}`,
-        place
+        {...place, type}
       );
     } catch (err) {
       console.log(err);

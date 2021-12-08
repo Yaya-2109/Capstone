@@ -51,10 +51,11 @@ router.post("/addEvent/:itineraryId/:userId", async (req, res, next) => {
     await itinerary.createEvent({
       ...req.body,
       imageUrl: req.body.photo.images.large.url,
-      eventType: req.body.category.name,
+      eventType: req.body.type,
       itineraryId: req.params.itineraryId,
       eventReponse: req.body,
     });
+    res.status(200).send('ok')
   } catch (error) {
     next(error);
   }
@@ -116,14 +117,14 @@ router.put(
               itineraryId: event.itineraryId,
               eventId: event.eventId,
             },
-          }).then((foundEvent) => {
+          }).then(async (foundEvent) => {
             const singleEvent = allEvents.find((event) => {
               return (
                 event.eventId === foundEvent.eventId &&
                 event.itineraryId === foundEvent.itineraryId
               );
             });
-            foundEvent.update(singleEvent);
+            await foundEvent.update(singleEvent);
           });
         })
       );

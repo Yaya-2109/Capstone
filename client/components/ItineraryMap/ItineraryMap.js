@@ -27,7 +27,6 @@ const ItineraryMap = ({ places, isLoading }) => {
         defaultZoom={14}
         margin={[50, 50, 50, 50]}
         options={{ zoomControl: true }}
-        onChange={(e) => console.log(e)}
         onChildClick={(child) => console.log(child)}
       >
       {

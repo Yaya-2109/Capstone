@@ -18,6 +18,7 @@ const SearchView = () => {
   const [places, setPlaces] = useState([])
   const [filteredPlaces, setFilteredPlaces] = useState([])
   const [isLoading, setIsLoading] = useState(false)
+  const [childClicked, setChildClicked] = useState(null)
 
   const bounds = useSelector((state) => state.map.bounds)
 
@@ -41,7 +42,7 @@ const SearchView = () => {
       setPlaces([])
       getPlacesData(type, bounds.sw, bounds.ne)
         .then((data) => {
-          
+
           setPlaces(data.filter((place) => {
             return place.name && place.num_reviews > 0
           }))
@@ -64,12 +65,14 @@ const SearchView = () => {
         type={type}
         setType={setType}
         isLoading={isLoading}
+        childClicked={childClicked}
       />
       <SearchMap
         isLoading={isLoading}
         places={
           filteredPlaces.length || rating !== 0 ? filteredPlaces : places
         }
+        setChildClicked={setChildClicked}
       />
     </div>
   )

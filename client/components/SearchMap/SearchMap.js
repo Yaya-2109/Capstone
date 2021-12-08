@@ -5,7 +5,7 @@ import GoogleMapReact from 'google-map-react'
 import useStyles from './styles'
 import { setCoords, setBounds } from '../../store/map'
 
-const SearchMap = ({ places }) => {
+const SearchMap = ({ places, setChildClicked }) => {
 
   const classes = useStyles()
   const dispatch = useDispatch()
@@ -26,7 +26,7 @@ const SearchMap = ({ places }) => {
           dispatch(setCoords({ lat: e.center.lat, lng: e.center.lng}))
           dispatch(setBounds({ ne: e.marginBounds.ne, sw: e.marginBounds.sw }))
         }}
-        onChildClick={(child) => console.log(child)}
+        onChildClick={(child) => setChildClicked(child)}
       >
         {
           places.map((place, i) => (
