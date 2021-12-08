@@ -295,7 +295,7 @@ const Itinerary = (props) => {
           <div onClick={() => setToggle(!toggle)}>
             <svg
               xmlns='http://www.w3.org/2000/svg'
-              className='h-14 w-14 mr-10 mb-10 text-green-400 fixed bottom-0 right-0 z-10'
+              className='h-14 w-14 mr-10 mb-10 text-green-400 fixed bottom-0 right-0 z-10 cursor-pointer'
               viewBox='0 0 20 20'
               fill='currentColor'
             >
