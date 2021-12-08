@@ -5,6 +5,7 @@ const Sequelize = require("sequelize");
 const {
   models: { Itinerary, User, ItineraryEvent, Event },
 } = require("../db");
+
 const ItineraryEvents = require("../db/models/ItineraryEvent");
 
 module.exports = router;
@@ -142,7 +143,23 @@ router.put(`/invite/:itineraryId`, async (req, res, next) => {
     let user = await User.findOne({ where: { username: req.body.userName } });
     await itinerary.addUser(user.dataValues.id);
     itinerary.save();
+    // let users = await itinerary.getUsers();
+    // let userObjs = users.map((user) => user.dataValues);
+    // console.log("USERS", userObjs);
     res.send(itinerary);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// Delete an Itinerary
+router.delete(`/:itineraryId`, async (req, res, next) => {
+  try {
+    await Itinerary.destroy({
+      where: { id: req.params.itineraryId },
+    });
+    let itineraries = await Itinerary.findAll();
+    res.send(itineraries);
   } catch (err) {
     next(err);
   }

@@ -7,6 +7,8 @@ const DELETE_EVENT = "DELETE_EVENT";
 const UPDATE_ITINERARY = "UPDATE_ITINERARY";
 const ADD_TO_ITINERARY = "ADD_TO_ITINERARY";
 const ADD_USER = "ADD_USER";
+const DELETE_ITINERARY = "DELETE_ITINERARY";
+
 //action creators
 export const getItineraries = (itineraries) => {
   return { type: GET_ITINERARIES, itineraries };
@@ -28,6 +30,10 @@ export const _addEventToItinerary = (itinerary) => {
 
 export const addUser = (itinerary) => {
   return { type: ADD_USER, itinerary };
+};
+
+export const destroyItinerary = (itinerary) => {
+  return { type: DELETE_ITINERARY, itinerary };
 };
 
 //thunk creators
@@ -105,6 +111,16 @@ export const inviteUser = (userName, itineraryId) =>
         userData
       );
       dispatch(addUser(data));
+    } catch (err) {
+      return err;
+    }
+  };
+
+export const deleteItinerary = (itineraryId) =>
+  async function (dispatch) {
+    try {
+      const { data } = await axios.delete(`/api/itinerary/${itineraryId}`);
+      dispatch(getItineraries(data));
     } catch (err) {
       return err;
     }

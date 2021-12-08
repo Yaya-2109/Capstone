@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { fetchItineraries } from "../../store/itineraries";
-import { inviteUser } from "../../store/itinerary";
+import { inviteUser, deleteItinerary } from "../../store/itinerary";
 import { Itinerary } from "../Itinerary/Itinerary";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import {
@@ -23,7 +23,6 @@ class CreateItinerary extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.inviteHandler = this.inviteHandler.bind(this);
-    // this.dateFormat = this.dateFormat.bind(this);
   }
 
   componentDidMount() {
@@ -151,19 +150,26 @@ class CreateItinerary extends React.Component {
             itineraries.map((itinerary) => {
               return (
                 <div
-                  className="flex flex-col m-5 pb-5 px-5 pt-2 border border-2 w-2/6 rounded-md  hover:border-purple-400"
+                  className="flex flex-col m-5 pb-5 px-5 pt-2 border border-2 w-2/6 rounded-md hover:border-purple-400"
                   key={itinerary.id}
                 >
                   <header className="flex justify-between">
-                    <div className="text-purple-400 font-light font-l">
-                      {itinerary.name}
-                      <p className="font-xs">
-                        {dateFormat(itinerary.startDate)} -{" "}
-                        {dateFormat(itinerary.endDate)}
-                      </p>
-                    </div>
-
-                    <div>
+                    <Link
+                      to={`/users/${this.props.userId}/itineraries/${itinerary.id}`}
+                    >
+                      <div className="text-purple-400 font-light font-l">
+                        {itinerary.name}
+                        <p className="font-xs">
+                          {dateFormat(itinerary.startDate)} -{" "}
+                          {dateFormat(itinerary.endDate)}
+                        </p>
+                      </div>
+                    </Link>
+                    <div
+                      onClick={() => {
+                        this.deleteItinerary(itinerary.id);
+                      }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-6 w-6"
