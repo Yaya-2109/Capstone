@@ -36,8 +36,6 @@ class Routes extends Component {
               component={Itinerary}
             />
             <Route path='/search' component={SearchView} />
-            <Route path='/livechat' component={ChatHome} exact />
-            <Route path='/livechat/:chatId' component={LiveChat} />
             <Redirect exact to={`/users/${userId}`} />
           </Switch>
         ) : (
