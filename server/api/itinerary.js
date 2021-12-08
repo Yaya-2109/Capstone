@@ -32,15 +32,15 @@ async function getItinerarybyId(req, res, next) {
 router.get("/:itineraryId/:userId", getItinerarybyId);
 
 //get all a users itineraries
-// router.get("/:userId", async (req, res, next) => {
-//   try {
-//     const user = await User.findByPk(req.params.userId);
-//     const itineraries = await user.getItineraries();
-//     res.send(itineraries);
-//   } catch (error) {
-//     next(error);
-//   }
-// });
+router.get("/:userId", async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.params.userId);
+    const itineraries = await user.getItineraries();
+    res.send(itineraries);
+  } catch (error) {
+    next(error);
+  }
+});
 
 // find the itinerary based on itinerary id
 // itinerary create event

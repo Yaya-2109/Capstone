@@ -19,25 +19,11 @@ class CreateItinerary extends React.Component {
       invite: "",
     };
     //for date format helper function
-    this.months = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.inviteHandler = this.inviteHandler.bind(this);
-    this.dateFormat = this.dateFormat.bind(this);
+    // this.dateFormat = this.dateFormat.bind(this);
   }
 
   componentDidMount() {
@@ -69,37 +55,52 @@ class CreateItinerary extends React.Component {
     evt.preventDefault();
 
     this.props.inviteUser(this.state.invite, evt.target.id);
+    evt.target.value = "";
     this.setState({
       invite: "",
     });
   }
 
-  dateFormat(date) {
-    //takes in YYYY-MM-DD and outputs Jan 1, 2021
-
-    // let formattedDate = new Date(date).toLocaleFormat("%d-%b-%Y");
-    // let year = date.slice(0, 4);
-    // let month = date.slice(5, 6);
-    // let day = date.slice(8, 10);
-
-    // for (let i = 1; i < this.months.length; i++) {
-    //   if (month === i) {
-    //     console.log("is", i);
-    //     month = this.months[i];
-    //   }
-    // }
-    // return `${month} ${day}, ${year}`;
-    return formattedDate;
-  }
   render() {
-    const { name, startDate, endDate, invite, dateFormat } = this.state;
+    const { name, startDate, endDate, invite } = this.state;
     const { handleSubmit, handleChange, inviteHandler } = this;
     const itineraries = this.props.itineraries || [];
-    const capitalizeName = (name) => {
-      const capitalName = name[0].toUpperCase().concat(name.slice(1));
-      return capitalName;
-    };
+    // const capitalizeName = (name) => {
+    //   const capitalName = name[0].toUpperCase().concat(name.slice(1));
+    //   return capitalName;
+    // };
+    let months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    const dateFormat = (date) => {
+      //takes in YYYY-MM-DD and outputs Jan 1, 2021
 
+      // let formattedDate = new Date(date).toLocaleFormat("%d-%b-%Y");
+      let year = date.slice(0, 4);
+      let month = Number(date.slice(5, 7));
+      let day = date.slice(8, 10);
+
+      if (month[0] === 0) {
+        month = month[1];
+      }
+      for (let i = 0; i < months.length + 1; i++) {
+        if (month === i) {
+          month = months[i - 1];
+        }
+      }
+      return `${month} ${day}, ${year}`;
+    };
     return (
       <div className="grid gap-4 p-4 grid-rows-12">
         <div className="flex flex-row row-span-3 filter mx-auto">
@@ -157,8 +158,8 @@ class CreateItinerary extends React.Component {
                     <div className="text-purple-400 font-light font-l">
                       {itinerary.name}
                       <p className="font-xs">
-                        {this.dateFormat(itinerary.startDate)} -
-                        {this.dateFormat(itinerary.endDate)}
+                        {dateFormat(itinerary.startDate)} -{" "}
+                        {dateFormat(itinerary.endDate)}
                       </p>
                     </div>
 
@@ -190,22 +191,21 @@ class CreateItinerary extends React.Component {
                   </div>
                   <footer className="flex  text-gray-400">
                     <form id={itinerary.id} onSubmit={inviteHandler}>
-                      <label
-                        htmlFor="invite"
-                        className="text-s p-2 text-gray-500"
-                      >
-                        Invite a friend:
-                      </label>
-                      <div className="flex justify-between space-x-3">
+                      <div className="flex">
+                        <label
+                          htmlFor="invite"
+                          className="text-s py-1 pr-2 text-gray-500"
+                        >
+                          Invite a friend:
+                        </label>
                         <input
                           className="p-1 border border-2 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                           type="text"
                           name="invite"
-                          value={invite}
                           placeholder="Username"
                           onChange={handleChange}
                         ></input>
-                        <button className="text-purple-400" type="submit">
+                        <button className="text-purple-400 px-1" type="submit">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             className="h-6 w-6"
