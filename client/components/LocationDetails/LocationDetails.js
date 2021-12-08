@@ -41,7 +41,7 @@ const LocationDetails = ({place}) => {
         name="itineraries"
         value={itineraryId}
         onChange={(e) =>
-        setItinerary(e.target.value)}
+        setItineraryId(e.target.value)}
       >
         <option hidden value="">Itinerary List</option>
         {itinerariesList}

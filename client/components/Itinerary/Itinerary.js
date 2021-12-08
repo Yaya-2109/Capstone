@@ -7,12 +7,13 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchItinerary, reorderItinerary } from '../../store/itinerary';
+import ChatHome from '../ChatHome/ChatHome'
 
 
 const Itinerary = (props) => {
   const user = useSelector((state) => state.auth);
   const itinerary = useSelector((state) => state.itinerary);
-  
+
   let [currentDay, updateDay] = useState(1);
   const dispatch = useDispatch();
 
@@ -78,13 +79,13 @@ const Itinerary = (props) => {
           if (item.itineraryEvents.position < result.source.index &&
               item.itineraryEvents.position >= result.destination.index) {
           // item position = +1 its position
-                 item.itineraryEvents.position = item.itineraryEvents.position + 1;
+                item.itineraryEvents.position = item.itineraryEvents.position + 1;
           }
-       }
+      }
     })
    // Finally, update the moving events position to the updated position
-   dayMap[currentDay][result.source.index - 1].itineraryEvents.position =
-   result.destination.index;
+    dayMap[currentDay][result.source.index - 1].itineraryEvents.position =
+    result.destination.index;
   } // Moving objects to unassigned
       if(result.source.droppableId === 'unassignedTasks' && result.destination.droppableId === 'unassignedTasks') {
         return
@@ -124,19 +125,19 @@ const Itinerary = (props) => {
     dayMap[currentDay].map((event) => {
       return event.itineraryEvents;
     });
-    const massgedData = () => { 
-    if(dayMap[0]) {
-    const updatedDay0Events = 
-      dayMap[0] &&
-      dayMap[0].map((event) => {
-        return event.itineraryEvents;
-      })
-      return ([
-      ...updatedItineraryEvents, ...updatedDay0Events
-     ])
+    const massgedData = () => {
+      if(dayMap[0]) {
+      const updatedDay0Events =
+        dayMap[0] &&
+        dayMap[0].map((event) => {
+          return event.itineraryEvents;
+        })
+        return ([
+        ...updatedItineraryEvents, ...updatedDay0Events
+      ])
+      }
+      return updatedItineraryEvents
     }
-    return updatedItineraryEvents
-   }
     // Pass it to the backend for updating
     updatedItineraryEvents.sort((a, b) => {
       return a.position - b.position
@@ -259,6 +260,8 @@ const Itinerary = (props) => {
           </div>
         </div>
       </DragDropContext>
+
+      <ChatHome />
     </>
   );
 };

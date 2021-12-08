@@ -2,12 +2,13 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { Login, Signup } from './components/AuthForm';
-import Home from './components/Home';
 import SearchView from './components/SearchView/SearchView';
 import CreateItinerary from './components/CreateItinerary/CreateItinerary';
 import { me } from './store';
 
 import Itinerary from './components/Itinerary/Itinerary';
+import LiveChat from './components/LiveChat/LiveChat';
+import ChatHome from './components/ChatHome/ChatHome';
 
 /**
  * COMPONENT
@@ -35,6 +36,8 @@ class Routes extends Component {
               component={Itinerary}
             />
             <Route path='/search' component={SearchView} />
+            <Route path='/livechat' component={ChatHome} exact />
+            <Route path='/livechat/:chatId' component={LiveChat} />
             <Redirect exact to={`/users/${userId}`} />
           </Switch>
         ) : (
