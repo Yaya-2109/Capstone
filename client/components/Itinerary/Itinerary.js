@@ -173,11 +173,10 @@ const Itinerary = (props) => {
           <div className={classes.itineraryDnD}>
 
               <Droppable droppableId='assignedTasks'>
-                {(provided) => (
-                  <ul {...provided.droppableProps} ref={provided.innerRef}>
+                {(provided, snapshot) => (
+                  <ul {...provided.droppableProps} ref={provided.innerRef} style={{background: snapshot.isDraggingOver ? 'lightgreen' : 'lightgrey'}}>
                     {dayMap[currentDay]
                       ? dayMap[currentDay].map((trip, index) => {
-                        // console.log(trip.name, trip.itineraryEvents.position)
                         if(trip.itineraryEvents.position !== null)
                           return (
                             <Draggable
@@ -231,11 +230,12 @@ const Itinerary = (props) => {
           <div className='flex col-span-12'>
           <h2 className='font-semibold underline'>Unassigned:</h2>
               <Droppable droppableId='unassignedTasks'>
-                {(provided) => (
+                {(provided, snapshot) => (
                   <div
                     {...provided.droppableProps}
                     ref={provided.innerRef}
                     className='flex flex-row space-even'
+                     style={{background: snapshot.isDraggingOver ? 'lightgreen' : 'lightgrey'}}
                   >
                     {dayMap[0]
                       ? dayMap[0].map((trip, index) => {
