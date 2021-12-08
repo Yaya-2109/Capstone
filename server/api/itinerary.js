@@ -88,7 +88,7 @@ router.delete('/delete/:itineraryId/:eventId', async (req, res, next) => {
       }
     })
     events.forEach( async event => {
-      if(event.position !== null && event.position > deletedEventPosition.position) {
+      if(event.position !== null && event.position > deletedEventPosition.position && event.day === deletedEventPosition.day) {
       await event.update({position: event.position - 1})
       }
     })
@@ -117,7 +117,7 @@ router.put('/edit/:itineraryId', async (req, res, next) => {
             event.itineraryId === foundEvent.itineraryId
           );
         })
-        foundEvent.update(singleEvent)
+        return foundEvent.update(singleEvent)
       })
     }))
     next();
