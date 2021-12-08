@@ -7,7 +7,7 @@ const DELETE_EVENT = "DELETE_EVENT";
 const UPDATE_ITINERARY = "UPDATE_ITINERARY";
 const ADD_TO_ITINERARY = "ADD_TO_ITINERARY";
 const ADD_USER = "ADD_USER";
-const DELETE_ITINERARY = "DELETE_ITINERARY";
+// const DELETE_ITINERARY = "DELETE_ITINERARY";
 
 //action creators
 export const getItineraries = (itineraries) => {
@@ -32,9 +32,9 @@ export const addUser = (itinerary) => {
   return { type: ADD_USER, itinerary };
 };
 
-export const destroyItinerary = (itinerary) => {
-  return { type: DELETE_ITINERARY, itinerary };
-};
+// export const destroyItinerary = (itinerary) => {
+//   return { type: DELETE_ITINERARY, itinerary };
+// };
 
 //thunk creators
 
@@ -116,15 +116,15 @@ export const inviteUser = (userName, itineraryId) =>
     }
   };
 
-export const deleteItinerary = (itineraryId) =>
-  async function (dispatch) {
-    try {
-      const { data } = await axios.delete(`/api/itinerary/${itineraryId}`);
-      dispatch(getItineraries(data));
-    } catch (err) {
-      return err;
-    }
-  };
+// export const deleteItinerary = (itineraryId) =>
+//   async function (dispatch) {
+//     try {
+//       const { data } = await axios.delete(`/api/itinerary/${itineraryId}`);
+//       dispatch(destroyItinerary(data));
+//     } catch (err) {
+//       return err;
+//     }
+//   };
 
 //reducer
 let initialState = {};
@@ -132,7 +132,6 @@ let initialState = {};
 export default function (state = initialState, action) {
   switch (action.type) {
     case GET_ITINERARY: {
-      console.log("ACTION: ", action);
       const sorted = action.itinerary.events.sort((a, b) => {
         return a.itineraryEvents.position - b.itineraryEvents.position;
       });
@@ -148,12 +147,12 @@ export default function (state = initialState, action) {
       const sorted = action.events.sort((a, b) => {
         return a.itineraryEvents.position - b.itineraryEvents.position;
       });
-      console.log(sorted);
       return { ...state, events: sorted };
     }
     case ADD_USER: {
       return action.itinerary;
     }
+
     default:
       return state;
   }

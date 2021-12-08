@@ -155,11 +155,12 @@ router.put(`/invite/:itineraryId`, async (req, res, next) => {
 // Delete an Itinerary
 router.delete(`/:itineraryId`, async (req, res, next) => {
   try {
+    let itinerary = await Itinerary.findByPk(req.params.itineraryId);
     await Itinerary.destroy({
       where: { id: req.params.itineraryId },
     });
-    let itineraries = await Itinerary.findAll();
-    res.send(itineraries);
+
+    res.send(itinerary);
   } catch (err) {
     next(err);
   }

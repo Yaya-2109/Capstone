@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchItineraries } from "../../store/itineraries";
-import { inviteUser, deleteItinerary } from "../../store/itinerary";
+import { fetchItineraries, deleteItinerary } from "../../store/itineraries";
+import { inviteUser } from "../../store/itinerary";
 import { Itinerary } from "../Itinerary/Itinerary";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import {
@@ -83,9 +83,6 @@ class CreateItinerary extends React.Component {
       "December",
     ];
     const dateFormat = (date) => {
-      //takes in YYYY-MM-DD and outputs Jan 1, 2021
-
-      // let formattedDate = new Date(date).toLocaleFormat("%d-%b-%Y");
       let year = date.slice(0, 4);
       let month = Number(date.slice(5, 7));
       let day = date.slice(8, 10);
@@ -167,7 +164,7 @@ class CreateItinerary extends React.Component {
                     </Link>
                     <div
                       onClick={() => {
-                        this.deleteItinerary(itinerary.id);
+                        this.props.deleteItinerary(itinerary.id);
                       }}
                     >
                       <svg
@@ -258,6 +255,7 @@ const mapDispatchToProps = (dispatch) => ({
   fetchItineraries: (userId) => dispatch(fetchItineraries(userId)),
   inviteUser: (userName, itineraryId) =>
     dispatch(inviteUser(userName, itineraryId)),
+  deleteItinerary: (itineraryId) => dispatch(deleteItinerary(itineraryId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateItinerary);
