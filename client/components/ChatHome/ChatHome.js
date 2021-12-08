@@ -17,8 +17,6 @@ const ChatHome = () => {
     )
   })
 
-  console.log(toggle)
-
   return (
     <div className='w-1/6 flex flex-col'>
       {
