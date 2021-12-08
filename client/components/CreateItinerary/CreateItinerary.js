@@ -164,7 +164,10 @@ class CreateItinerary extends React.Component {
                     </Link>
                     <div
                       onClick={() => {
-                        this.props.deleteItinerary(itinerary.id);
+                        this.props.deleteItinerary(
+                          this.props.userId,
+                          itinerary.id
+                        );
                       }}
                     >
                       <svg
@@ -255,7 +258,8 @@ const mapDispatchToProps = (dispatch) => ({
   fetchItineraries: (userId) => dispatch(fetchItineraries(userId)),
   inviteUser: (userName, itineraryId) =>
     dispatch(inviteUser(userName, itineraryId)),
-  deleteItinerary: (itineraryId) => dispatch(deleteItinerary(itineraryId)),
+  deleteItinerary: (userId, itineraryId) =>
+    dispatch(deleteItinerary(userId, itineraryId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateItinerary);

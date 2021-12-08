@@ -22,11 +22,12 @@ export const fetchItineraries = (userId) =>
     }
   };
 
-export const deleteItinerary = (itineraryId) =>
+export const deleteItinerary = (userId, itineraryId) =>
   async function (dispatch) {
     try {
       const { data } = await axios.delete(`/api/itinerary/${itineraryId}`);
       dispatch(destroyItinerary(data));
+      dispatch(getItineraries(userId));
     } catch (err) {
       return err;
     }
