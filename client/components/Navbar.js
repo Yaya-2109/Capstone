@@ -17,13 +17,16 @@ const Navbar = ({ handleClick, isLoggedIn, person }) => (
         <div>
           {/* The navbar will show these links after you log in */}
           <Link className="px-2" to="/home">
-            {" "}
-            Itineraries{" "}
+            Itineraries
           </Link>
-          <Link to="/home"> Home </Link>
-          <Link to="/search"> Search </Link>
-          <Link to="/livechat"> Live Chat </Link>
-          <a href="#" onClick={handleClick}>
+
+          <Link to="/search" className="px-2">
+            Search
+          </Link>
+          <Link to="/livechat" className="px-2">
+            Live Chat
+          </Link>
+          <a href="#" className="px-2" onClick={handleClick}>
             Logout
           </a>
         </div>
