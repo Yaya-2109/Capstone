@@ -8,8 +8,6 @@ const ItineraryMap = ({ places, isLoading }) => {
 
   const [coords, setCoords] = useState({lat: 0, lng: 0})
 
-  console.log(places)
-
   useEffect(() => {
     if(places) {
       if(places.length > 0) {
