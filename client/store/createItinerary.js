@@ -57,6 +57,7 @@ export const deleteItinerary = (userId, itineraryId) =>
     try {
       const { data } = await axios.delete(`/api/itinerary/${itineraryId}`);
       dispatch(destroyItinerary(data));
+      dispatch(fetchItineraries(userId));
     } catch (err) {
       return err;
     }
