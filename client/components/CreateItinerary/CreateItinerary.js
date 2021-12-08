@@ -246,7 +246,7 @@ class CreateItinerary extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  itineraries: state.allItineraries.itineraries,
+  itineraries: state.itineraries,
   userId: state.auth.id,
   user: state.auth,
 });

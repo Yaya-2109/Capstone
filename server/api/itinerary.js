@@ -86,6 +86,7 @@ router.delete("/delete/:itineraryId/:eventId", async (req, res, next) => {
     });
     const events = await ItineraryEvents.findAll({
       where: {
+<<<<<<< HEAD
         itineraryId: req.params.itineraryId,
       },
     });
@@ -95,6 +96,14 @@ router.delete("/delete/:itineraryId/:eventId", async (req, res, next) => {
         event.position > deletedEventPosition.position
       ) {
         await event.update({ position: event.position - 1 });
+=======
+        itineraryId: req.params.itineraryId
+      }
+    })
+    events.forEach( async event => {
+      if(event.position !== null && event.position > deletedEventPosition.position && event.day === deletedEventPosition.day) {
+      await event.update({position: event.position - 1})
+>>>>>>> main
       }
     });
 

@@ -20,11 +20,10 @@ const Navbar = ({ handleClick, isLoggedIn, person }) => (
             {" "}
             Itineraries{" "}
           </Link>
-          <Link className="px-2" to="/search">
-            {" "}
-            Search{" "}
-          </Link>
-          <a href="#" onClick={handleClick} className="px-2">
+          <Link to="/home"> Home </Link>
+          <Link to="/search"> Search </Link>
+          <Link to="/livechat"> Live Chat </Link>
+          <a href="#" onClick={handleClick}>
             Logout
           </a>
         </div>
