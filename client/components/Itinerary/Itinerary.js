@@ -229,7 +229,7 @@ const Itinerary = (props) => {
         ) : null}
 
         <div className={classes.unassigned}>
-          <div className="flex w-full my-2 border-b border-purple-400 flex-row">
+          <div className="flex w-full my-2 border-b justify-between border-purple-400 flex-row">
             <div className="text-purple-400 font-light font-lg">Unassigned</div>
             <div className="text-purple-400 mx-2">
               <svg
