@@ -10,6 +10,7 @@ import { fetchItinerary, reorderItinerary } from '../../store/itinerary';
 import ChatHome from '../ChatHome/ChatHome';
 import ItineraryMap from '../ItineraryMap/ItineraryMap';
 import useStyles from './styles';
+import useInterval from 'react-useinterval';
 
 const Itinerary = (props) => {
   const classes = useStyles();
@@ -23,6 +24,8 @@ const Itinerary = (props) => {
   useEffect(() => {
     dispatch(fetchItinerary(props.match.params.itineraryId, user.id));
   }, []);
+
+  useInterval(() => { dispatch(fetchItinerary(props.match.params.itineraryId, user.id)) }, 1000);
 
   let dayInMillisecs =
     Date.parse(itinerary.endDate) - Date.parse(itinerary.startDate);
