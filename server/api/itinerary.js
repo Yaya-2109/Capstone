@@ -116,14 +116,14 @@ router.put(
               itineraryId: event.itineraryId,
               eventId: event.eventId,
             },
-          }).then((foundEvent) => {
+          }).then(async (foundEvent) => {
             const singleEvent = allEvents.find((event) => {
               return (
                 event.eventId === foundEvent.eventId &&
                 event.itineraryId === foundEvent.itineraryId
               );
             });
-            foundEvent.update(singleEvent);
+            await foundEvent.update(singleEvent);
           });
         })
       );
