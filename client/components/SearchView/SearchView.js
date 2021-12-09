@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Redirect } from "react-router-dom"
 
 import { setCoords, setUserCoords } from '../../store/map'
 import { getPlacesData } from '../../store/locationList'
@@ -28,12 +27,6 @@ const SearchView = () => {
   const bounds = useSelector((state) => state.map.bounds)
   const success = useSelector((state) => state.notification)
 
-  const checkBounds = (bounds) => {
-    if(bounds.ne.lng > 180 || bounds.sw.lng < -180) {
-      setError(true)
-    }
-  }
-
   useEffect(() => {
     setTimeout(() => {
       dispatch(setSuccess(false))
@@ -57,7 +50,6 @@ const SearchView = () => {
   useEffect(() => {
     if(bounds) {
       setIsLoading(true)
-      checkBounds(bounds)
       setPlaces([])
       if(error === false) {
         getPlacesData(type, bounds.sw, bounds.ne)

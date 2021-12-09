@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { fetchItineraries } from "../../store/itineraries";
 import { inviteUser } from "../../store/itinerary";
 import { Itinerary } from "../Itinerary/Itinerary";
-import { setSuccess } from "../../store/notification";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import {
   createItinerary,
@@ -268,8 +267,7 @@ const mapDispatchToProps = (dispatch) => ({
   inviteUser: (userName, itineraryId) =>
     dispatch(inviteUser(userName, itineraryId)),
   deleteItinerary: (userId, itineraryId) =>
-    dispatch(deleteItinerary(userId, itineraryId)),
-  setSuccess: (bool) => dispatch(setSuccess(bool))
+    dispatch(deleteItinerary(userId, itineraryId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateItinerary);

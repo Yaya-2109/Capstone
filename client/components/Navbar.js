@@ -20,7 +20,7 @@ const Navbar = ({ handleClick, isLoggedIn, person }) => (
             Itineraries
           </Link>
 
-          <Link to="/search " className="px-3 hover:bg-green-700">
+          <Link to="/search" className="px-3 hover:bg-green-700">
             Search
           </Link>
           <a href="#" className="px-3 hover:bg-green-700" onClick={handleClick}>
