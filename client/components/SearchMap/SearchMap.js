@@ -22,7 +22,7 @@ const SearchMap = ({ places, setChildClicked }) => {
         margin={[50, 50, 50, 50]}
         options={{ zoomControl: true }}
         onChange={(e) => {
-          // dispatch(setCoords({ lat: e.center.lat, lng: e.center.lng}))
+          dispatch(setCoords({ lat: e.center.lat, lng: e.center.lng}))
           dispatch(setBounds({ ne: e.marginBounds.ne, sw: e.marginBounds.sw }))
         }}
         onChildClick={(child) => setChildClicked(child)}

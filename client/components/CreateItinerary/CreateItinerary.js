@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { fetchItineraries } from "../../store/itineraries";
 import { inviteUser } from "../../store/itinerary";
 import { Itinerary } from "../Itinerary/Itinerary";
-import { setSuccess } from "../../store/notification";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import {
   createItinerary,
@@ -67,10 +66,7 @@ class CreateItinerary extends React.Component {
     const { name, startDate, endDate, invite } = this.state;
     const { handleSubmit, handleChange, inviteHandler } = this;
     const itineraries = this.props.itineraries || [];
-    // const capitalizeName = (name) => {
-    //   const capitalName = name[0].toUpperCase().concat(name.slice(1));
-    //   return capitalName;
-    // };
+
     let months = [
       "January",
       "February",
@@ -271,8 +267,7 @@ const mapDispatchToProps = (dispatch) => ({
   inviteUser: (userName, itineraryId) =>
     dispatch(inviteUser(userName, itineraryId)),
   deleteItinerary: (userId, itineraryId) =>
-    dispatch(deleteItinerary(userId, itineraryId)),
-  setSuccess: (bool) => dispatch(setSuccess(bool))
+    dispatch(deleteItinerary(userId, itineraryId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateItinerary);

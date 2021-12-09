@@ -57,6 +57,7 @@ export const deleteItinerary = (userId, itineraryId) =>
     try {
       const { data } = await axios.delete(`/api/itinerary/${itineraryId}`);
       dispatch(destroyItinerary(data));
+      dispatch(fetchItineraries(userId));
     } catch (err) {
       return err;
     }
@@ -75,11 +76,11 @@ export default function allItinerariesReducer(state = initialState, action) {
     case GET_ALL_ITINERARIES:
       return action.itineraries;
     case DELETE_ITINERARY: {
-      let newItinerary = state.itineraries.filter(
+      let newItineraries = state.itineraries.filter(
         (itinerary) => itinerary.id !== action.itinerary.id
       );
-
-      let newState = { ...state, itineraries: newItinerary };
+      let newState = state;
+      newState.itineraries = newItineraries;
       return newState;
     }
     default:
