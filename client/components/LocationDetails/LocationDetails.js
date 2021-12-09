@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { addEventToItinerary } from '../../store/itinerary'
 import useStyles from './styles'
 
-const LocationDetails = ({place}) => {
+const LocationDetails = ({ place, type, selected, refProp }) => {
 
   const classes = useStyles()
 
@@ -14,11 +14,15 @@ const LocationDetails = ({place}) => {
   const itineraries = useSelector(state => state.itineraries)
   const user = useSelector(state => state.auth)
 
-
-  const handleclick = () => {
-    dispatch(addEventToItinerary({itineraryId, user, place}))
+  if(refProp) {
+    if(selected && refProp.current) {
+      refProp.current.scrollIntoView({behavior: 'smooth', block: 'start'})
+    }
   }
 
+  const handleclick = () => {
+    dispatch(addEventToItinerary({itineraryId, user, place, type}))
+  }
 
   let itinerariesList = itineraries.length > 0 && itineraries.map((item, i) => {
     return (
@@ -28,14 +32,17 @@ const LocationDetails = ({place}) => {
     )
   })
 
-  console.log(place)
-
   return (
     <div className={classes.cardContainer}>
       <img
         className={classes.img}
-        src={place.photo.images.large.url}
-        alt='restaurant image'
+        src={
+          place.photo ?
+          place.photo.images.large.url
+          :
+          'https://www.foodserviceandhospitality.com/wp-content/uploads/2016/09/Restaurant-Placeholder-001.jpg'
+          }
+        alt='location image'
       />
         <p>Name: {place.name}</p>
         <p>Rating: {place.rating} out of 5</p>

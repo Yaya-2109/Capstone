@@ -3,12 +3,14 @@ import { connect } from "react-redux";
 import { fetchItineraries } from "../../store/itineraries";
 import { inviteUser } from "../../store/itinerary";
 import { Itinerary } from "../Itinerary/Itinerary";
+import { setSuccess } from "../../store/notification";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import {
   createItinerary,
   fetchAllItineraries,
   deleteItinerary,
 } from "../../store/createItinerary";
+import Success from "../Success/Success";
 
 class CreateItinerary extends React.Component {
   constructor() {
@@ -18,6 +20,7 @@ class CreateItinerary extends React.Component {
       startDate: "",
       endDate: "",
       invite: "",
+      success: false
     };
     //for date format helper function
 
@@ -53,7 +56,6 @@ class CreateItinerary extends React.Component {
 
   inviteHandler(evt) {
     evt.preventDefault();
-
     this.props.inviteUser(this.state.invite, evt.target.id);
     evt.target.value = "";
     this.setState({
@@ -96,6 +98,13 @@ class CreateItinerary extends React.Component {
       return `${month} ${day}, ${year}`;
     };
     return (
+      <div>
+
+      {
+        this.props.success ?
+        <Success /> : null
+      }
+
       <div className="grid gap-4 p-4 grid-rows-12">
         <div className="flex flex-row row-span-3 filter mx-auto">
           <form onSubmit={handleSubmit}>
@@ -239,6 +248,7 @@ class CreateItinerary extends React.Component {
           )}
         </div>
       </div>
+    </div>
     );
   }
 }
@@ -247,6 +257,7 @@ const mapStateToProps = (state) => ({
   itineraries: state.itineraries,
   userId: state.auth.id,
   user: state.auth,
+  success: state.notification
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -258,6 +269,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(inviteUser(userName, itineraryId)),
   deleteItinerary: (userId, itineraryId) =>
     dispatch(deleteItinerary(userId, itineraryId)),
+  setSuccess: (bool) => dispatch(setSuccess(bool))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateItinerary);

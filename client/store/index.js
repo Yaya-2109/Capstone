@@ -7,6 +7,7 @@ import allItinerariesReducer from './createItinerary';
 import map from './map';
 import itineraries from "./itineraries";
 import itinerary from './itinerary';
+import notification from './notification';
 
 const reducer = combineReducers({
   auth,
@@ -14,6 +15,7 @@ const reducer = combineReducers({
   itineraries,
   itinerary,
   allItineraries: allItinerariesReducer,
+  notification
 });
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))

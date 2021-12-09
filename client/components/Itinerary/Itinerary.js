@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
-import Day from '../Day/Day';
 import EventCard from '../EventCard/EventCard';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { useState, useEffect } from 'react';
@@ -52,18 +51,9 @@ const Itinerary = (props) => {
       dayMap[event.itineraryEvents.day].push(event);
     });
 
-  // console.log(dayMap);
-  // useEffect(() => {
-  //   updateTripList(itinerary)
-  // }, [itinerary]);
-  // const assignedEvents = itinerary.events && itinerary.events.map((event) => {
-  //     if(event.itineraryEvents.day !== 0) {
-  //       return event
-  //     }
   function handleOnDragEnd(result) {
     if (!result.destination) return;
     // droppableId = name of container column
-    // console.log(tripObj);
     if (
       result.destination.droppableId === 'assignedTasks' &&
       result.source.droppableId === 'assignedTasks'
@@ -74,7 +64,6 @@ const Itinerary = (props) => {
           dayMap[currentDay][result.source.index - 1].itineraryEvents.position <
           result.destination.index + 1
         ) {
-          console.log(dayMap[currentDay][result.source.index - 1]);
           // item position < updated position and item position > starting position
           if (
             item.itineraryEvents.position <= result.destination.index &&
@@ -143,12 +132,7 @@ const Itinerary = (props) => {
         null;
       dayMap[currentDay][result.source.index - 1].itineraryEvents.day = 0;
     }
-    // console.log(tripObj);
-    // const changingEvent = tripObj.day1.events[result.source.index];
-    // console.log("eventToUpdate:", changingEvent);
-    // console.log(result);
-    // console.log('result.source: ', result.source);
-    // console.log('result.destination: ', result.destination);
+    
     const updatedItineraryEvents =
       dayMap[currentDay] &&
       dayMap[currentDay].map((event) => {

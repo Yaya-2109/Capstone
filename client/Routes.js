@@ -7,8 +7,7 @@ import CreateItinerary from './components/CreateItinerary/CreateItinerary';
 import { me } from './store';
 
 import Itinerary from './components/Itinerary/Itinerary';
-import LiveChat from './components/LiveChat/LiveChat';
-import ChatHome from './components/ChatHome/ChatHome';
+import Error from './components/Error/Error';
 
 /**
  * COMPONENT
@@ -36,6 +35,7 @@ class Routes extends Component {
               component={Itinerary}
             />
             <Route path='/search' component={SearchView} />
+            <Route path='/error' component={Error} />
             <Redirect exact to={`/users/${userId}`} />
           </Switch>
         ) : (

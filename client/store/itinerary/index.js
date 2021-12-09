@@ -1,7 +1,7 @@
 import axios from "axios";
+import { setSuccess } from '../notification'
 
 //action types
-const GET_ITINERARIES = "GET_ITINERARIES";
 const GET_ITINERARY = "GET_ITINERARY";
 const DELETE_EVENT = "DELETE_EVENT";
 const UPDATE_ITINERARY = "UPDATE_ITINERARY";
@@ -10,9 +10,6 @@ const ADD_USER = "ADD_USER";
 // const DELETE_ITINERARY = "DELETE_ITINERARY";
 
 //action creators
-export const getItineraries = (itineraries) => {
-  return { type: GET_ITINERARIES, itineraries };
-};
 export const getItinerary = (itinerary) => {
   return { type: GET_ITINERARY, itinerary };
 };
@@ -39,13 +36,16 @@ export const addUser = (itinerary) => {
 //thunk creators
 
 export const addEventToItinerary =
-  ({ itineraryId, user, place }) =>
+  ({ itineraryId, user, place, type }) =>
   async (dispatch) => {
     try {
-      await axios.post(
+      const res = await axios.post(
         `/api/itinerary/addEvent/${itineraryId}/${user.id}`,
-        place
+        {...place, type}
       );
+      if(res.status === 200) {
+        dispatch(setSuccess(true))
+      }
     } catch (err) {
       console.log(err);
     }
@@ -110,7 +110,16 @@ export const inviteUser = (userName, itineraryId) =>
         `/api/itinerary/invite/${itineraryId}`,
         userData
       );
+      
+      if(data.userId) {
+        dispatch(setSuccess(true))
+        setTimeout(() => {
+          dispatch(setSuccess(false))
+        }, 3000)
+      }
+
       dispatch(addUser(data));
+
     } catch (err) {
       return err;
     }
@@ -141,7 +150,7 @@ export default function (state = initialState, action) {
       let newState = state.events.filter(
         (event) => event.id !== action.event.id
       );
-      return newState;
+      return {...state, events: newState }
     }
     case UPDATE_ITINERARY: {
       const sorted = action.events.sort((a, b) => {

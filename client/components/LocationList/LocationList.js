@@ -1,18 +1,26 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, createRef } from 'react'
 import { useDispatch } from 'react-redux'
 import { Autocomplete } from '@react-google-maps/api'
 
+import ListLoading from '../ListLoading/ListLoading'
 import LocationDetails from '../LocationDetails/LocationDetails'
 import { setCoords } from '../../store/map'
 
 import useStyles from './styles'
 
-const LocationList = ({ places, rating, setRating, type, setType }) => {
+const LocationList = ({ places, rating, setRating, type, setType, isLoading, childClicked }) => {
 
   const classes = useStyles()
   const dispatch = useDispatch()
 
   const [autocomplete, setAutocomplete] = useState(null)
+  const [elRefs, setElRefs] = useState([])
+
+  useEffect(() => {
+    const refs = Array(places.length).fill().map((_, i) => elRefs[i] || createRef())
+
+    setElRefs(refs)
+  }, [places])
 
   const onLoad = autocomplete => setAutocomplete(autocomplete)
 
@@ -24,11 +32,14 @@ const LocationList = ({ places, rating, setRating, type, setType }) => {
 
   return (
     <div className={classes.locationListContainer}>
-      <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
+      <Autocomplete
+        onLoad={onLoad}
+        onPlaceChanged={onPlaceChanged}
+      >
         <div className={classes.searchFieldContainer}>
           <label
             className={classes.searchFieldLabel}
-            for='location-search'
+            htmlFor='location-search'
           >
             Search
           </label>
@@ -42,7 +53,7 @@ const LocationList = ({ places, rating, setRating, type, setType }) => {
         </div>
       </Autocomplete>
 
-      <form>
+      <form className={classes.filterform}>
         <label>Type</label>
         <select name="type" value={type} onChange={(e) => setType(e.target.value)}>
           <option value="restaurants">Restaurants</option>
@@ -58,14 +69,22 @@ const LocationList = ({ places, rating, setRating, type, setType }) => {
         </select>
       </form>
 
-      <ul>
-
         {
+          isLoading || places === undefined ?
+          <ListLoading />
+          :
           places.map((place, i) => (
-          <LocationDetails key={place.location_id} place={place} />
+          <div ref={elRefs[i]} key={place.location_id}>
+            <LocationDetails
+              key={place.location_id}
+              place={place}
+              selected={Number(childClicked) === i}
+              refProp={elRefs[i]}
+              type={type}
+            />
+          </div>
           ))
         }
-      </ul>
     </div>
   )
 }
