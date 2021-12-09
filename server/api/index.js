@@ -4,7 +4,6 @@ module.exports = router;
 router.use('/users', require('./users'));
 router.use('/locations', require('./locations'));
 router.use('/itinerary', require('./itinerary'));
-router.use('/chat', require('./chat'))
 
 router.use((req, res, next) => {
   const error = new Error('Not Found');

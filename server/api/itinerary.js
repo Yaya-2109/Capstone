@@ -53,7 +53,6 @@ router.post("/addEvent/:itineraryId/:userId", async (req, res, next) => {
       imageUrl: req.body.photo.images.large.url,
       eventType: req.body.type,
       itineraryId: req.params.itineraryId,
-      eventReponse: req.body,
     });
     res.status(200).send('ok')
   } catch (error) {
@@ -143,9 +142,7 @@ router.put(`/invite/:itineraryId`, async (req, res, next) => {
     let user = await User.findOne({ where: { username: req.body.userName } });
     await itinerary.addUser(user.dataValues.id);
     itinerary.save();
-    // let users = await itinerary.getUsers();
-    // let userObjs = users.map((user) => user.dataValues);
-    // console.log("USERS", userObjs);
+
     res.send(itinerary);
   } catch (err) {
     next(err);

@@ -7,7 +7,7 @@ const EventCard = (props) => {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.auth);
-  console.log(props.trip);
+
   return (
     <div className="border-t-0 border-r-2 border-l-2 border-b-2 my-1 grid grid-cols-12 bg-white filter drop-shadow-md">
       <div className="col-span-2">

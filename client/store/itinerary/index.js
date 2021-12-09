@@ -1,4 +1,5 @@
 import axios from "axios";
+import { setSuccess } from '../notification'
 
 //action types
 const GET_ITINERARY = "GET_ITINERARY";
@@ -38,10 +39,13 @@ export const addEventToItinerary =
   ({ itineraryId, user, place, type }) =>
   async (dispatch) => {
     try {
-      await axios.post(
+      const res = await axios.post(
         `/api/itinerary/addEvent/${itineraryId}/${user.id}`,
         {...place, type}
       );
+      if(res.status === 200) {
+        dispatch(setSuccess(true))
+      }
     } catch (err) {
       console.log(err);
     }
@@ -106,7 +110,16 @@ export const inviteUser = (userName, itineraryId) =>
         `/api/itinerary/invite/${itineraryId}`,
         userData
       );
+      
+      if(data.userId) {
+        dispatch(setSuccess(true))
+        setTimeout(() => {
+          dispatch(setSuccess(false))
+        }, 3000)
+      }
+
       dispatch(addUser(data));
+
     } catch (err) {
       return err;
     }

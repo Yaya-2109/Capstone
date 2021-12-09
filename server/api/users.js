@@ -44,14 +44,6 @@ router.get('/:userId', async (req, res, next) => {
       avatar: user.dataValues.avatar,
     };
 
-    // const itineraries = await user.getItineraries();
-
-    // user = {
-    //   ...safeUserData,
-    //   itineraries: itineraries,
-    // };
-
-    // console.log('USER INFO: ', user);
     res.send(user);
   } catch (error) {
     next(error);
@@ -77,7 +69,6 @@ router.get('/:userId/itineraries', async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.userId);
     const itineraries = await user.getItineraries();
-    console.log('Itineraries: ', itineraries);
     res.send(itineraries);
   } catch (error) {
     next(error);

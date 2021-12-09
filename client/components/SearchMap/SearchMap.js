@@ -11,19 +11,18 @@ const SearchMap = ({ places, setChildClicked }) => {
   const dispatch = useDispatch()
 
   const coords = useSelector((state) => state.map.coords)
-  const userCoords = useSelector((state) => state.map.userCoords)
 
   return (
     <div className={classes.mapContainer}>
       <GoogleMapReact
         bootstrapURLKeys={{ key: 'AIzaSyCtqFzsxrosfX7Zz2x1MEZrel9n8AN2HNo' }}
-        defaultCenter={userCoords}
+        defaultCenter={coords}
         center={coords}
         defaultZoom={14}
         margin={[50, 50, 50, 50]}
         options={{ zoomControl: true }}
         onChange={(e) => {
-          dispatch(setCoords({ lat: e.center.lat, lng: e.center.lng}))
+          // dispatch(setCoords({ lat: e.center.lat, lng: e.center.lng}))
           dispatch(setBounds({ ne: e.marginBounds.ne, sw: e.marginBounds.sw }))
         }}
         onChildClick={(child) => setChildClicked(child)}
@@ -40,7 +39,6 @@ const SearchMap = ({ places, setChildClicked }) => {
           ))
         }
       </GoogleMapReact>
-
     </div>
   )
 }
