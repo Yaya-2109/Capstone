@@ -1,77 +1,52 @@
-# FS-App-Template
+# Booya Travel
+The React/Redux app is designed and developed to help travelers organize their itineraries. A FullStack Academy capstone project with four contributors. Features include drag and dropping activities/itineraries while planning an itinerary, realtime chat with collaborators, autocomplete for simple and quick searching, and markers rendering on the map depending on the list of locations.
 
-## Setup
+# Tech Stack
+This web app employs the following technologies(not inclusive):
 
-To use this as boilerplate, you'll need to take the following steps:
+* Express - 4.16.4
+* Axios - 0.21.1
+* React(Components and Routes)
+* Redux(state management)
+* React Beautiful DnD
+* PostgresQL - Database
+* Bcrypt and JWT for authentication and authorization
+* Socket.IO - Realtime Chat
+* Google Maps API, Places Library
+* Travel Advisor API
 
-* Don't fork or clone this repo! Instead, create a new, empty
-  directory on your machine and `git init` (or create an empty repo on
-  Github and clone it to your local machine)
-
-* Now you will have to add the fs-app-template as a remote and merge it into your own repository.
-
-```
-git remote add boilermaker git@github.com:FullstackAcademy/fs-app-template.git
-git fetch boilermaker
-git merge boilermaker/main
-git branch -m master main
-```
-
-## Customize
-
-Now that you've got the code, follow these steps to get acclimated:
-
-* Update project name and description in `package.json`
-* `npm install`
-* Create two postgres databases (`MY_APP_NAME` should match the `name`
-  parameter in `package.json`):
-* These commands will create both your **development** and **test** databases
-
-```
-createdb <YOUR APP NAME HERE FROM package.json>
-createdb <YOUR APP NAME HERE FROM package.json>-test
-```
-
-* By default, running `npm test` will use your test database, while
-  regular development uses development database
-
-## Start
-
-Sync and seed your database by running `npm run seed`. Running `npm run start:dev` will make great things happen!
-
+# Set-Up
+1. clone this repo to your local environment -- git clone < git repository >
+2. cd(change directory) into the repo
+3. $run 'npm install' into your command line
+4. $run 'npm run seed' into your command line
+5. $run 'npm start:dev' into your command line
+6. Sync and seed your database by running `npm run seed`. Running `npm run start:dev` will make great things happen!
+# Other options
 - start:dev will both start your server and build your client side files using webpack
 - start:dev:logger is the same as start:dev, but you will see your SQL queries (can be helpful for debugging)
 - start:dev:seed will start your server and also seed your database (this is useful when you are making schema changes and you don't want to run your seed script separately)
 
+# What's Next?
 
-### Heroku
+Database schema will need to be updated with more tables to add more features. Frontend styling and accessibility will also be greatly improved, and will be revisited in the near future. We will be taking in recommendations and tracking the features in the Nice-To-Have section below.
 
-1.  Set up the [Heroku command line tools][heroku-cli]
-2.  `heroku login`
-3.  Add a git remote for heroku:
+# Nice to have features(not final):
 
-[heroku-cli]: https://devcenter.heroku.com/articles/heroku-cli
+* Adding prompts and validations
+* Allowing a user to delete their account
+* Allowing a user to to edit their account info, emails, passwords, avatars, and etc... 
 
-* **If you are creating a new app...**
+# Known Issues so far:
+* 
 
-  1.  `heroku create` or `heroku create your-app-name` if you have a
-      name in mind.
-  2.  `heroku config:set JWT=<your secret here!>` to set a secret for JWT signing
+# Sample Images/Gifs: 
 
-Database Setup
+### Filtering by Type and Rating
+![filtering](https://github.com/Yaya-2109/Capstone/blob/main/public/typerating.gif)
 
-  3.  `heroku addons:create heroku-postgresql:hobby-dev` to add
-      ("provision") a postgres database to your heroku dyno (This creates your production database)
+### Map Drag and fetching new places
+![mapdrag](https://github.com/Yaya-2109/Capstone/blob/main/public/mapdrag.gif)
 
-  4.  `heroku config:set SEED=true` to get heroku to sync and seed your database
-
-  5.   note everytime your app restarts, the database tables will be dropped and re-created. To avoid this you can `config:unset SEED`
-
-
-* **If you already have a Heroku app...**
-
-  1.  `heroku git:remote your-app-name` You'll need to be a
-      collaborator on the app.
-
-
-Now, you should be deployed!
+### Autocomplete
+![autocomplete](https://github.com/Yaya-2109/Capstone/blob/main/public/autocomplete.gif)
